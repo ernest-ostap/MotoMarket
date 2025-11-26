@@ -1,122 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\repos\\MotoMarket\\MotoMarket\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{FD6E5935-EF1F-4EA0-8274-66F877F26D3E}|MotoMarket.Domain\\MotoMarket.Domain.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.domain\\entities\\listings\\listing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD6E5935-EF1F-4EA0-8274-66F877F26D3E}|MotoMarket.Domain\\MotoMarket.Domain.csproj|solutionrelative:motomarket.domain\\entities\\listings\\listing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FD6E5935-EF1F-4EA0-8274-66F877F26D3E}|MotoMarket.Domain\\MotoMarket.Domain.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.domain\\entities\\listings\\listingview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD6E5935-EF1F-4EA0-8274-66F877F26D3E}|MotoMarket.Domain\\MotoMarket.Domain.csproj|solutionrelative:motomarket.domain\\entities\\listings\\listingview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FD6E5935-EF1F-4EA0-8274-66F877F26D3E}|MotoMarket.Domain\\MotoMarket.Domain.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.domain\\entities\\listings\\listingparameter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD6E5935-EF1F-4EA0-8274-66F877F26D3E}|MotoMarket.Domain\\MotoMarket.Domain.csproj|solutionrelative:motomarket.domain\\entities\\listings\\listingparameter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FD6E5935-EF1F-4EA0-8274-66F877F26D3E}|MotoMarket.Domain\\MotoMarket.Domain.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.domain\\entities\\listings\\listingfeature.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD6E5935-EF1F-4EA0-8274-66F877F26D3E}|MotoMarket.Domain\\MotoMarket.Domain.csproj|solutionrelative:motomarket.domain\\entities\\listings\\listingfeature.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FD6E5935-EF1F-4EA0-8274-66F877F26D3E}|MotoMarket.Domain\\MotoMarket.Domain.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.domain\\entities\\listings\\listingphoto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD6E5935-EF1F-4EA0-8274-66F877F26D3E}|MotoMarket.Domain\\MotoMarket.Domain.csproj|solutionrelative:motomarket.domain\\entities\\listings\\listingphoto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FD6E5935-EF1F-4EA0-8274-66F877F26D3E}|MotoMarket.Domain\\MotoMarket.Domain.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.domain\\entities\\vehicles\\drivetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD6E5935-EF1F-4EA0-8274-66F877F26D3E}|MotoMarket.Domain\\MotoMarket.Domain.csproj|solutionrelative:motomarket.domain\\entities\\vehicles\\drivetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 5,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ListingView.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Domain\\Entities\\Listings\\ListingView.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Domain\\Entities\\Listings\\ListingView.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Domain\\Entities\\Listings\\ListingView.cs",
-              "RelativeToolTip": "MotoMarket.Domain\\Entities\\Listings\\ListingView.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T16:25:55.236Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ListingParameter.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Domain\\Entities\\Listings\\ListingParameter.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Domain\\Entities\\Listings\\ListingParameter.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Domain\\Entities\\Listings\\ListingParameter.cs",
-              "RelativeToolTip": "MotoMarket.Domain\\Entities\\Listings\\ListingParameter.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T16:15:26.47Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ListingFeature.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Domain\\Entities\\Listings\\ListingFeature.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Domain\\Entities\\Listings\\ListingFeature.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Domain\\Entities\\Listings\\ListingFeature.cs",
-              "RelativeToolTip": "MotoMarket.Domain\\Entities\\Listings\\ListingFeature.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T16:14:31.795Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ListingPhoto.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Domain\\Entities\\Listings\\ListingPhoto.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Domain\\Entities\\Listings\\ListingPhoto.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Domain\\Entities\\Listings\\ListingPhoto.cs",
-              "RelativeToolTip": "MotoMarket.Domain\\Entities\\Listings\\ListingPhoto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T16:03:12.652Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "DriveType.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Domain\\Entities\\Vehicles\\DriveType.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Domain\\Entities\\Vehicles\\DriveType.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Domain\\Entities\\Vehicles\\DriveType.cs",
-              "RelativeToolTip": "MotoMarket.Domain\\Entities\\Vehicles\\DriveType.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T15:59:07.111Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Listing.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Domain\\Entities\\Listings\\Listing.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Domain\\Entities\\Listings\\Listing.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Domain\\Entities\\Listings\\Listing.cs",
-              "RelativeToolTip": "MotoMarket.Domain\\Entities\\Listings\\Listing.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T15:43:06.42Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

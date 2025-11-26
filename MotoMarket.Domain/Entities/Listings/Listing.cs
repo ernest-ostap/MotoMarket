@@ -51,9 +51,9 @@ namespace MotoMarket.Domain.Entities.Listings
         public DateTime ExpiresAt { get; set; }
 
         //kolekcje
-        /*
+        
         public ICollection<ListingPhoto> Photos { get; set; } = new List<ListingPhoto>();
-        public ICollection<ListingFeature> Features { get; set; } = new List<ListingFeature>();*/
+        public ICollection<ListingFeature> Features { get; set; } = new List<ListingFeature>();
     }
 
     public enum ListingStatus
