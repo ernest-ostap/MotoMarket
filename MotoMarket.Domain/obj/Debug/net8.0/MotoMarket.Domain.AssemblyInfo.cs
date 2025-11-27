@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MotoMarket.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cc7684ba654a4f4f737f2a492c71f8d4776786ff")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b76a65ce360c0fd302900b9a5879f84658ba9244")]
 [assembly: System.Reflection.AssemblyProductAttribute("MotoMarket.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MotoMarket.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -11,11 +11,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DriveType = MotoMarket.Domain.Entities.Vehicles.DriveType;
+using MotoMarket.Application.Common.Interfaces;
 
 namespace MotoMarket.Infrastructure.Persistence
 {
-    // Dziedziczymy po IdentityDbContext, żeby mieć gotowe tabele Users, Roles, Logins itp.
-    public class ApplicationDbContext : IdentityDbContext <ApplicationUser>
+    // dziedziczymy po IdentityDbContext, żeby mieć gotowe tabele Users, Roles, Logins itp.
+    // dziedziczymy też po IApplicationDbContext, żeby wstrzykiwać kontekst przez interfejs - rozwiązanie na cykliczne zależności ;)
+    public class ApplicationDbContext : IdentityDbContext <ApplicationUser>, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

@@ -10,7 +10,7 @@ namespace MotoMarket.Domain.Entities.Listings
 {
     public class Listing : Common.BaseEntity
     {
-        public string UserId { get; set; } = string.Empty; //bedzie do dorobienia po dodaniu identity
+        public string UserId { get; set; } = string.Empty; //z identity, trzymany jako string
         
         //Dane ogloszenia, szczegoly, lokalizacja, status
         public string Title { get; set; } = string.Empty;

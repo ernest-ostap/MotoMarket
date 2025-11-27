@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore; 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MotoMarket.Application.Common.Interfaces;
 using MotoMarket.Domain.Entities;
 using MotoMarket.Infrastructure.Persistence;
 
@@ -19,6 +20,8 @@ namespace MotoMarket.Infrastructure
             services.AddIdentity<ApplicationUser, IdentityRole>() 
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
             return services;
         }
