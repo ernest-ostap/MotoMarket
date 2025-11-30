@@ -23,6 +23,8 @@ namespace MotoMarket.Infrastructure
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
+            services.AddScoped<ApplicationDbContextSeeder>();
+
             return services;
         }
     }

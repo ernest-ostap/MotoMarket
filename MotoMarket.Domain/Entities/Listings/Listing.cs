@@ -54,6 +54,7 @@ namespace MotoMarket.Domain.Entities.Listings
         
         public ICollection<ListingPhoto> Photos { get; set; } = new List<ListingPhoto>();
         public ICollection<ListingFeature> Features { get; set; } = new List<ListingFeature>();
+        public ICollection<ListingParameter> ListingParameters { get; set; } = new List<ListingParameter>();
     }
 
     public enum ListingStatus

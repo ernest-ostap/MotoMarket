@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MediatR;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Application.Listings.Commands.CreateListing;
+using MotoMarket.Application.Listings.Commands.DeleteListing;
+using MotoMarket.Application.Listings.Commands.UpdateListing;
+using MotoMarket.Application.Listings.Queries.GetAllListings;
+using MotoMarket.Application.Listings.Queries.GetListingDetail;
 
 namespace MotoMarket.Api.Controllers
 {
@@ -15,6 +19,27 @@ namespace MotoMarket.Api.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ListingDto>>> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllListingsQuery());
+            return Ok(result);
+        }
+
+        // GET api/listings/id
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ListingDetailDto>> Get(int id)
+        {
+            var result = await _mediator.Send(new GetListingDetailQuery(id));
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
         //POST api/listings
         [HttpPost]
         public async Task<ActionResult<int>> Create(CreateListingCommand command)
@@ -25,6 +50,29 @@ namespace MotoMarket.Api.Controllers
 
             //zwracamy z id nowo utworzonego ogłoszenia
             return Ok(id);
+        }
+
+        // PUT api/listings/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update(int id, UpdateListingCommand command)
+        {
+            // Security check: Czy ID w URL zgadza się z ID w ciele obiektu?
+            if (id != command.Id)
+            {
+                return BadRequest();
+            }
+
+            await _mediator.Send(command);
+
+            return NoContent(); // Standardowy kod 204 dla Update
+        }
+
+        // DELETE api/listings
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await _mediator.Send(new DeleteListingCommand(id));
+            return NoContent(); // 204 No Content 
         }
     }
 }

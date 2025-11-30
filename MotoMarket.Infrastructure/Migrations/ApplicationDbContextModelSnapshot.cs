@@ -233,11 +233,11 @@ namespace MotoMarket.Infrastructure.Migrations
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Configuration.AdminSetting", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -253,18 +253,18 @@ namespace MotoMarket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("AdminSettings");
                 });
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Configuration.PageContent", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -280,18 +280,18 @@ namespace MotoMarket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("PageContents");
                 });
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Listings.Listing", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BodyTypeId")
                         .HasColumnType("int");
@@ -359,7 +359,7 @@ namespace MotoMarket.Infrastructure.Migrations
                     b.Property<int>("VehicleCategoryId")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("BodyTypeId");
 
@@ -380,11 +380,11 @@ namespace MotoMarket.Infrastructure.Migrations
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Listings.ListingFeature", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("FeatureId")
                         .HasColumnType("int");
@@ -392,7 +392,7 @@ namespace MotoMarket.Infrastructure.Migrations
                     b.Property<int>("ListingId")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("FeatureId");
 
@@ -403,11 +403,11 @@ namespace MotoMarket.Infrastructure.Migrations
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Listings.ListingParameter", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ListingId")
                         .HasColumnType("int");
@@ -419,7 +419,7 @@ namespace MotoMarket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("ListingId");
 
@@ -430,11 +430,11 @@ namespace MotoMarket.Infrastructure.Migrations
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Listings.ListingPhoto", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsMain")
                         .HasColumnType("bit");
@@ -452,7 +452,7 @@ namespace MotoMarket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("ListingId");
 
@@ -461,11 +461,11 @@ namespace MotoMarket.Infrastructure.Migrations
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Listings.ListingView", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("IpAddress")
                         .IsRequired()
@@ -484,7 +484,7 @@ namespace MotoMarket.Infrastructure.Migrations
                     b.Property<DateTime>("ViewedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("ListingId");
 
@@ -493,11 +493,11 @@ namespace MotoMarket.Infrastructure.Migrations
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.System.AuditLog", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ActionType")
                         .IsRequired()
@@ -532,18 +532,18 @@ namespace MotoMarket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("AuditLogs");
                 });
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.System.ErrorLog", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -580,18 +580,18 @@ namespace MotoMarket.Infrastructure.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("ErrorLogs");
                 });
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Vehicles.BodyType", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -603,18 +603,18 @@ namespace MotoMarket.Infrastructure.Migrations
                     b.Property<int>("SortOrder")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("BodyTypes");
                 });
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Vehicles.DriveType", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -623,18 +623,18 @@ namespace MotoMarket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("DriveTypes");
                 });
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Vehicles.FuelType", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -643,18 +643,18 @@ namespace MotoMarket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("FuelTypes");
                 });
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Vehicles.GearboxType", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -663,18 +663,18 @@ namespace MotoMarket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("GearboxTypes");
                 });
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Vehicles.VehicleBrand", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -683,18 +683,18 @@ namespace MotoMarket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("VehicleBrands");
                 });
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Vehicles.VehicleCategory", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -703,18 +703,18 @@ namespace MotoMarket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("VehicleCategories");
                 });
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Vehicles.VehicleFeature", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("GroupName")
                         .IsRequired()
@@ -734,18 +734,18 @@ namespace MotoMarket.Infrastructure.Migrations
                     b.Property<int>("SortOrder")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("VehicleFeatures");
                 });
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Vehicles.VehicleModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -757,7 +757,7 @@ namespace MotoMarket.Infrastructure.Migrations
                     b.Property<int>("VehicleBrandId")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("VehicleBrandId");
 
@@ -766,11 +766,11 @@ namespace MotoMarket.Infrastructure.Migrations
 
             modelBuilder.Entity("MotoMarket.Domain.Entities.Vehicles.VehicleParameterType", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -794,7 +794,7 @@ namespace MotoMarket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("VehicleParameterTypes");
                 });
@@ -931,7 +931,7 @@ namespace MotoMarket.Infrastructure.Migrations
             modelBuilder.Entity("MotoMarket.Domain.Entities.Listings.ListingParameter", b =>
                 {
                     b.HasOne("MotoMarket.Domain.Entities.Listings.Listing", "Listing")
-                        .WithMany()
+                        .WithMany("ListingParameters")
                         .HasForeignKey("ListingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -983,6 +983,8 @@ namespace MotoMarket.Infrastructure.Migrations
             modelBuilder.Entity("MotoMarket.Domain.Entities.Listings.Listing", b =>
                 {
                     b.Navigation("Features");
+
+                    b.Navigation("ListingParameters");
 
                     b.Navigation("Photos");
                 });
