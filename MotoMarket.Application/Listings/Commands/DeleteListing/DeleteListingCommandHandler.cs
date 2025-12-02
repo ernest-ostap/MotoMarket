@@ -29,8 +29,8 @@ namespace MotoMarket.Application.Listings.Commands.DeleteListing
                 throw new NotFoundException(nameof(Listing), request.Id);
             }
 
-            // Fizyczne usunięcie (lub zmiana statusu na Archived - zależnie od wymogów)
-            // Zróbmy fizyczne usunięcie dla uproszczenia
+            // fizyczne usiniecie, zamiast zmiany statusu - nie będzie to uzywane w "codziennym uzyciu"
+            //do zmiany statusu bede uzywal update command
             _context.Listings.Remove(entity);
 
             await _context.SaveChangesAsync(cancellationToken);

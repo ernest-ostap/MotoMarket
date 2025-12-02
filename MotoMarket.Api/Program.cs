@@ -33,6 +33,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication(); // 1. Sprawdü kim jestem (czy mam token)
+app.UseAuthorization();  // 2. Sprawdü czy mam dostÍp
+
 app.UseAuthorization();
 
 app.MapControllers();
