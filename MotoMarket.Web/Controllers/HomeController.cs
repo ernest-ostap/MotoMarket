@@ -1,32 +1,28 @@
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Web.Models;
+using MotoMarket.Web.Services;
 using System.Diagnostics;
 
 namespace MotoMarket.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IVehicleService _vehicleService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IVehicleService vehicleService)
         {
-            _logger = logger;
+            _vehicleService = vehicleService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            // Pobieramy auta z API
+            var listings = await _vehicleService.GetAllListings();
+
+            // Przekazujemy do widoku
+            return View(listings);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        // ... Error() itp.
     }
 }

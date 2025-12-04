@@ -3,6 +3,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHttpClient(); // Rejestrujemy fabrykê klienta HTTP
+builder.Services.AddScoped<MotoMarket.Web.Services.IVehicleService, MotoMarket.Web.Services.VehicleService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
