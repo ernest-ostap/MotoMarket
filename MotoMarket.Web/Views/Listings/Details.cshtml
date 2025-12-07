@@ -1,0 +1,128 @@
+﻿@using MotoMarket.Web.Models.DTOs
+@model ListingDetailDto
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Strona główna</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.BrandName @Model.ModelName</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                @if (!string.IsNullOrEmpty(Model.MainPhotoUrl))
+                {
+                    <img src="@Model.MainPhotoUrl" class="card-img-top" alt="Główne zdjęcie" style="max-height: 500px; object-fit: cover;">
+                }
+                else
+                {
+                    <div class="p-5 text-center bg-light text-muted">Brak zdjęć</div>
+                }
+
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Opis pojazdu</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text" style="white-space: pre-line">@Model.Description</p>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Dane techniczne</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-muted">Rok produkcji</span>
+                                    <strong>@Model.ProductionYear</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-muted">Przebieg</span>
+                                    <strong>@Model.Mileage km</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-muted">Paliwo</span>
+                                    <strong>@Model.FuelTypeName</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-muted">Skrzynia</span>
+                                    <strong>@Model.GearboxTypeName</strong>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group list-group-flush">
+                                @foreach (var param in Model.Parameters)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span class="text-muted">@param.Name</span>
+                                        <strong>@param.Value @param.Unit</strong>
+                                    </li>
+                                }
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-muted">VIN</span>
+                                    <strong>@Model.VIN</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.Features.Any())
+            {
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Wyposażenie</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap gap-2">
+                            @foreach (var feature in Model.Features)
+                            {
+                                <span class="badge bg-secondary">@feature</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm sticky-top" style="top: 2rem;">
+                <div class="card-body">
+                    <h2 class="card-title text-primary mb-3">@Model.Price.ToString("C0")</h2>
+                    <h5 class="card-subtitle mb-3">@Model.BrandName @Model.ModelName</h5>
+
+                    <hr />
+
+                    <div class="mb-3">
+                        <i class="bi bi-geo-alt-fill text-danger"></i>
+                        <strong>@Model.LocationCity</strong>, @Model.LocationRegion
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary btn-lg">Wyświetl numer</button>
+                        <button class="btn btn-outline-dark btn-lg">Napisz wiadomość</button>
+                    </div>
+
+                    <div class="mt-3 text-muted small text-center">
+                        ID Ogłoszenia: @Model.Id <br />
+                        Dodano: @Model.CreatedAt.ToShortDateString()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

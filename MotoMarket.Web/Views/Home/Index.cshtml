@@ -1,42 +1,5 @@
-﻿@using MotoMarket.Web.Models.DTOs
-@model IEnumerable<ListingDto>
-
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
 @{
-    ViewData["Title"] = "Strona Główna";
 }
-
-<div class="text-center mb-5">
-    <h1 class="display-4">Najnowsze ogłoszenia</h1>
-</div>
-
-<div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                @if (!string.IsNullOrEmpty(item.MainPhotoUrl))
-                {
-                    <img src="@item.MainPhotoUrl" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
-                }
-                else
-                {
-                    <img src="https://via.placeholder.com/300x200?text=Brak+Zdjecia" class="card-img-top" alt="No image">
-                }
-
-                <div class="card-body">
-                    <h5 class="card-title">@item.BrandName @item.ModelName</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">@item.Title</h6>
-                    <p class="card-text text-truncate">@item.Description</p>
-
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="h5 text-primary mb-0">@item.Price.ToString("C0")</span>
-                        <small class="text-muted">@item.LocationCity</small>
-                    </div>
-                </div>
-                <div class="card-footer bg-white border-top-0">
-                    <a href="#" class="btn btn-outline-primary w-100">Zobacz szczegóły</a>
-                </div>
-            </div>
-        </div>
-    }
-</div>

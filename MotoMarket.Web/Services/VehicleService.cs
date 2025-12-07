@@ -32,5 +32,21 @@ namespace MotoMarket.Web.Services
 
             return new List<ListingDto>(); // Lub obsługa błędów
         }
+
+        public async Task<ListingDetailDto?> GetListingDetail(int id)
+        {
+            // Strzelamy do API: /api/Listings/5
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Listings/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+                return JsonSerializer.Deserialize<ListingDetailDto>(json, options);
+            }
+
+            return null; // Jeśli API zwróci 404 lub błąd
+        }
     }
 }

@@ -7,20 +7,9 @@ namespace MotoMarket.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IVehicleService _vehicleService;
-
-        public HomeController(IVehicleService vehicleService)
+        public IActionResult Index()
         {
-            _vehicleService = vehicleService;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            // Pobieramy auta z API
-            var listings = await _vehicleService.GetAllListings();
-
-            // Przekazujemy do widoku
-            return View(listings);
+            return View();
         }
 
         // ... Error() itp.
