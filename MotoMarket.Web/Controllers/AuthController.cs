@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Web.Models.ViewModels;
-using MotoMarket.Web.Services;
+using MotoMarket.Web.Services.Auth;
 
 namespace MotoMarket.Web.Controllers
 {

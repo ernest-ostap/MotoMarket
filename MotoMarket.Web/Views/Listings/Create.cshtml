@@ -1,0 +1,162 @@
+﻿@model MotoMarket.Web.Models.ViewModels.CreateListingViewModel
+
+@{
+    ViewData["Title"] = "Dodaj ogłoszenie";
+}
+
+<h2>Nowe ogłoszenie</h2>
+
+<form asp-action="Create" method="post">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="BrandId" class="form-label"></label>
+            <select asp-for="BrandId" asp-items="Model.Brands" class="form-select" id="BrandDropdown">
+                <option value="">-- Wybierz Markę --</option>
+            </select>
+            <span asp-validation-for="BrandId" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="ModelId" class="form-label"></label>
+            <select asp-for="ModelId" class="form-select" id="ModelDropdown" disabled>
+                <option value="">-- Najpierw wybierz Markę --</option>
+            </select>
+            <span asp-validation-for="ModelId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label asp-for="FuelTypeId" class="form-label"></label>
+            <select asp-for="FuelTypeId" asp-items="Model.FuelTypes" class="form-select">
+                <option value="">-- Wybierz --</option>
+            </select>
+            <span asp-validation-for="FuelTypeId" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="GearboxTypeId" class="form-label"></label>
+            <select asp-for="GearboxTypeId" asp-items="Model.GearboxTypes" class="form-select">
+                <option value="">-- Wybierz --</option>
+            </select>
+            <span asp-validation-for="GearboxTypeId" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="DriveTypeId" class="form-label"></label>
+            <select asp-for="DriveTypeId" asp-items="Model.DriveTypes" class="form-select">
+                <option value="">-- Wybierz --</option>
+            </select>
+            <span asp-validation-for="DriveTypeId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="BodyTypeId" class="form-label"></label>
+            <select asp-for="BodyTypeId" asp-items="Model.BodyTypes" class="form-select">
+                <option value="">-- Wybierz --</option>
+            </select>
+            <span asp-validation-for="BodyTypeId" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="VehicleCategoryId" class="form-label"></label>
+            <select asp-for="VehicleCategoryId" asp-items="Model.VehicleCategories" class="form-select">
+                <option value="">-- Wybierz --</option>
+            </select>
+            <span asp-validation-for="VehicleCategoryId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">Tytuł ogłoszenia</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Opis</label>
+        <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label">Cena</label>
+        <input asp-for="Price" class="form-control" type="number" step="0.01" min="0" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="VIN" class="form-label">VIN</label>
+            <input asp-for="VIN" class="form-control" />
+            <span asp-validation-for="VIN" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="ProductionYear" class="form-label">Rok produkcji</label>
+            <input asp-for="ProductionYear" class="form-control" type="number" min="1900" max="@DateTime.Now.Year" />
+            <span asp-validation-for="ProductionYear" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="Mileage" class="form-label">Przebieg (km)</label>
+            <input asp-for="Mileage" class="form-control" type="number" min="0" />
+            <span asp-validation-for="Mileage" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="LocationCity" class="form-label">Miasto</label>
+            <input asp-for="LocationCity" class="form-control" />
+            <span asp-validation-for="LocationCity" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="LocationRegion" class="form-label">Województwo</label>
+            <input asp-for="LocationRegion" class="form-control" />
+            <span asp-validation-for="LocationRegion" class="text-danger"></span>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-lg mt-3">Dodaj ogłoszenie</button>
+</form>
+
+@section Scripts {
+    <script>
+        // Skrypt do kaskadowych dropdownów
+        $(document).ready(function () {
+            $('#BrandDropdown').change(function () {
+                var brandId = $(this).val();
+                var modelDropdown = $('#ModelDropdown');
+
+                // Reset
+                modelDropdown.empty();
+                modelDropdown.append('<option value="">-- Ładowanie... --</option>');
+                modelDropdown.prop('disabled', true);
+
+                if (brandId) {
+                    // Strzał AJAX do Twojego API (pośrednio przez kontroler lub bezpośrednio)
+                    // Tutaj dla uproszczenia strzelimy bezpośrednio do metody w Web Controllerze,
+                    // którą zaraz dopiszemy (pomocniczy endpoint JSON)
+                    $.getJSON('/Listings/GetModelsJson?brandId=' + brandId, function (data) {
+                        modelDropdown.empty();
+                        modelDropdown.append('<option value="">-- Wybierz Model --</option>');
+
+                        $.each(data, function (index, item) {
+                            modelDropdown.append($('<option>', {
+                                value: item.id,
+                                text: item.name
+                            }));
+                        });
+                        modelDropdown.prop('disabled', false);
+                    });
+                } else {
+                    modelDropdown.append('<option value="">-- Najpierw wybierz Markę --</option>');
+                }
+            });
+        });
+    </script>
+}

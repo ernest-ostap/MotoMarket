@@ -1,6 +1,6 @@
 ﻿using MotoMarket.Web.Models.ViewModels;
 
-namespace MotoMarket.Web.Services
+namespace MotoMarket.Web.Services.Auth
 {
     public interface IAuthService
     {

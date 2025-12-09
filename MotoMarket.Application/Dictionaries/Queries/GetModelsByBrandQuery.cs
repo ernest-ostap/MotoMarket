@@ -19,7 +19,7 @@ namespace MotoMarket.Application.Dictionaries.Queries
         {
             return await _context.VehicleModels
                 .AsNoTracking()
-                .Where(x => x.Id == request.BrandId && x.IsActive) // Filtrujemy po id marki
+                .Where(x => x.VehicleBrandId == request.BrandId && x.IsActive) // Filtrujemy po VehicleBrandId marki
                 .OrderBy(x => x.Name)
                 .Select(x => new DictionaryDto { Id = x.Id, Name = x.Name })
                 .ToListAsync(cancellationToken);

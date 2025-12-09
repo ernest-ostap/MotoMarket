@@ -27,9 +27,34 @@ namespace MotoMarket.Api.Controllers
             return Ok(await _mediator.Send(new GetModelsByBrandQuery(brandId)));
         }
 
-        // ... Tutaj dopisz metody dla paliw, skrzyń itp., jak dorobisz handlery
-        // [HttpGet("fuel-types")] ...
+        [HttpGet("body-types")]
+        public async Task<ActionResult<IEnumerable<DictionaryDto>>> GetBodyTypes()
+        {
+            return Ok(await _mediator.Send(new GetBodyTypesQuery()));
+        }
 
-        
+        [HttpGet("drive-types")]
+        public async Task<ActionResult<IEnumerable<DictionaryDto>>> GetDriveTypes()
+        {
+            return Ok(await _mediator.Send(new GetDriveTypesQuery()));
+        }
+
+        [HttpGet("fuel-types")]
+        public async Task<ActionResult<IEnumerable<DictionaryDto>>> GetFuelTypes()
+        {
+            return Ok(await _mediator.Send(new GetFuelTypesQuery()));
+        }
+
+        [HttpGet("gearbox-types")]
+        public async Task<ActionResult<IEnumerable<DictionaryDto>>> GetGearboxTypes()
+        {
+            return Ok(await _mediator.Send(new GetGearboxTypesQuery()));
+        }
+
+        [HttpGet("vehicle-categories")]
+        public async Task<ActionResult<IEnumerable<DictionaryDto>>> GetVehicleCategories()
+        {
+            return Ok(await _mediator.Send(new GetVehicleCategoriesQuery()));
+        }
     }
 }

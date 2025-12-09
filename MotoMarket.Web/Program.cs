@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using MotoMarket.Web.Services.Auth;
+using MotoMarket.Web.Services.Listings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpContextAccessor(); // Rejestrujemy dostêp do HttpContext
-builder.Services.AddScoped<MotoMarket.Web.Services.IAuthService, MotoMarket.Web.Services.AuthService>(); // Rejestrujemy serwis uwierzytelniania
+builder.Services.AddScoped<IAuthService, AuthService>(); // Rejestrujemy serwis uwierzytelniania
 //konfiguracja uwierzytelniania za pomoc¹ ciasteczek
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -16,7 +18,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddHttpClient(); // Rejestrujemy fabrykê klienta HTTP
-builder.Services.AddScoped<MotoMarket.Web.Services.IVehicleService, MotoMarket.Web.Services.VehicleService>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
+builder.Services.AddScoped<IDictionaryService, DictionaryService>();
 
 var app = builder.Build();
 

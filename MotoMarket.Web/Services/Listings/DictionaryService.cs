@@ -1,0 +1,79 @@
+﻿using MotoMarket.Web.Models.DTOs;
+using System.Text.Json;
+
+namespace MotoMarket.Web.Services.Listings
+{
+    public class DictionaryService : IDictionaryService
+    {
+        private readonly HttpClient _httpClient;
+        private readonly string _apiBaseUrl;
+
+        public DictionaryService(HttpClient httpClient, IConfiguration configuration)
+        {
+            _httpClient = httpClient;
+            _apiBaseUrl = configuration["ApiUrl"] ?? "https://localhost:7072";
+        }
+
+        public async Task<IEnumerable<SelectListItemDto>> GetBrands()
+        {
+            return await GetList("/api/Dictionaries/brands");
+        }
+
+        public async Task<IEnumerable<SelectListItemDto>> GetModels(int brandId)
+        {
+            return await GetList($"/api/Dictionaries/models/{brandId}");
+        }
+
+        public async Task<IEnumerable<SelectListItemDto>> GetBodyTypes()
+        {
+            return await GetList("/api/Dictionaries/body-types");
+        }
+        public async Task<IEnumerable<SelectListItemDto>> GetDriveTypes()
+        {
+            return await GetList("/api/Dictionaries/drive-types");
+        }
+        public async Task<IEnumerable<SelectListItemDto>> GetFuelTypes()
+        {
+            return await GetList("/api/Dictionaries/fuel-types");
+        }
+        public async Task<IEnumerable<SelectListItemDto>> GetGearboxTypes()
+        {
+            return await GetList("/api/Dictionaries/gearbox-types");
+        }
+        public async Task<IEnumerable<SelectListItemDto>> GetVehicleCategories()
+        {
+            return await GetList("/api/Dictionaries/vehicle-categories");
+        }
+
+        // Pomocnicza metoda generic, żeby nie kopiować kodu
+        private async Task<IEnumerable<SelectListItemDto>> GetList(string endpoint)
+        {
+            var response = await _httpClient.GetAsync(_apiBaseUrl + endpoint);
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                // API zwraca {id, name}, my mapujemy to na SelectListItemDto
+                var list = JsonSerializer.Deserialize<IEnumerable<dynamic>>(json, options);
+
+                // Parsowanie dynamiczne JSONa na szybko (lub użyj klasy DictionaryDto z API)
+                // Tu zakładam, że API zwraca [{"id":1, "name":"BMW"}, ...]
+
+                var result = new List<SelectListItemDto>();
+                using (JsonDocument doc = JsonDocument.Parse(json))
+                {
+                    foreach (var element in doc.RootElement.EnumerateArray())
+                    {
+                        result.Add(new SelectListItemDto
+                        {
+                            Id = element.GetProperty("id").GetInt32().ToString(),
+                            Name = element.GetProperty("name").GetString()!
+                        });
+                    }
+                }
+                return result;
+            }
+            return new List<SelectListItemDto>();
+        }
+    }
+}

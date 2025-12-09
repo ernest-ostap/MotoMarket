@@ -6,7 +6,7 @@ using System.Text;
 using MotoMarket.Web.Models.DTOs; // Tu musi być Twój AuthDto (skopiowany z API lub stworzony)
 using MotoMarket.Web.Models.ViewModels;
 
-namespace MotoMarket.Web.Services
+namespace MotoMarket.Web.Services.Auth
 {
     public class AuthService : IAuthService
     {
