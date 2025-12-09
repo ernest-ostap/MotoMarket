@@ -1,4 +1,5 @@
 using MotoMarket.Application;
+using MotoMarket.Application.Common.Interfaces.Identity;
 using MotoMarket.Infrastructure;
 using MotoMarket.Infrastructure.Persistence;
 
@@ -13,6 +14,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHttpContextAccessor(); // Rejestrujemy dostêp do HttpContext
+builder.Services.AddScoped<ICurrentUserService, MotoMarket.Api.Services.CurrentUserService>(); // Rejestracja serwisu aktualnego u¿ytkownika
 
 var app = builder.Build();
 

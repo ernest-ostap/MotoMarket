@@ -1,22 +1,25 @@
 ﻿using MediatR;
 using MotoMarket.Domain.Entities;
 using MotoMarket.Domain.Entities.Listings;
-using MotoMarket.Application.Common.Interfaces; // tu mamy IApplicationDbContext - obejscie na cykliczne zaleznosci
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MotoMarket.Application.Common.Interfaces.Persistence;
+using MotoMarket.Application.Common.Interfaces.Identity;
 
 namespace MotoMarket.Application.Listings.Commands.CreateListing
 {
     public class CreateListingCommandHandler : IRequestHandler<CreateListingCommand, int>
     {
         private readonly IApplicationDbContext _context;
+        private readonly ICurrentUserService _currentUserService; 
 
-        public CreateListingCommandHandler(IApplicationDbContext context)
+        public CreateListingCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
         {
             _context = context;
+            _currentUserService = currentUserService;
         }
 
         public async Task<int> Handle(CreateListingCommand request, CancellationToken cancellationToken)
@@ -42,18 +45,18 @@ namespace MotoMarket.Application.Listings.Commands.CreateListing
                 LocationCity = request.LocationCity,
                 LocationRegion = request.LocationRegion,
 
+                // Pobieramy ID z tokena. Jeśli tokena brak (co nie powinno się zdarzyć przez [Authorize]), dajemy fallback.
+                UserId = _currentUserService.UserId ?? "Anonymous-User",
+
                 Status = ListingStatus.Active, // Domyślnie aktywne
                 CreatedAt = DateTime.UtcNow,
                 ExpiresAt = DateTime.UtcNow.AddDays(30), // Ważne przez 30 dni
-
-                // UWAGA: Tutaj w przyszłości wstawimy prawdziwe ID zalogowanego użytkownika
-                UserId = "SYSTEM-TEMP-USER"
             };
 
             // 2. Dodajemy do bazy
             _context.Listings.Add(entity);
 
-            // 3. Zapisujemy zmiany (to tutaj leci INSERT do SQL)
+            // 3. Zapisujemy zmiany (leci INSERT do SQL)
             await _context.SaveChangesAsync(cancellationToken);
 
             // 4. Zwracamy ID nowego ogłoszenia

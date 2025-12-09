@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using MotoMarket.Application.Common.Exceptions;
-using MotoMarket.Application.Common.Interfaces;
+using MotoMarket.Application.Common.Interfaces.Persistence;
 using MotoMarket.Domain.Entities.Listings;
 using System;
 using System.Collections.Generic;

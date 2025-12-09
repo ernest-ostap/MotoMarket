@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MotoMarket.Domain.Entities;
 
-namespace MotoMarket.Application.Common.Interfaces
+namespace MotoMarket.Application.Common.Interfaces.Identity
 {
     public interface ITokenService
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MotoMarket.Application.Common.Interfaces;
+using MotoMarket.Application.Common.Interfaces.Persistence;
 
 namespace MotoMarket.Application.Listings.Queries.GetAllListings
 {

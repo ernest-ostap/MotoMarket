@@ -6,7 +6,7 @@ using MotoMarket.Domain.Entities.System;
 using MotoMarket.Domain.Entities.Vehicles;
 using DriveType = MotoMarket.Domain.Entities.Vehicles.DriveType;
 
-namespace MotoMarket.Application.Common.Interfaces
+namespace MotoMarket.Application.Common.Interfaces.Persistence
 {
     public interface IApplicationDbContext
     {

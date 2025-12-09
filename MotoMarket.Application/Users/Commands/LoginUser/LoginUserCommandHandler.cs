@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
-using MotoMarket.Application.Common.Interfaces;
+using MotoMarket.Application.Common.Interfaces.Identity;
 using MotoMarket.Application.Users.Queries;
 using MotoMarket.Domain.Entities;
 

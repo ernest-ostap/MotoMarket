@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DriveType = MotoMarket.Domain.Entities.Vehicles.DriveType;
-using MotoMarket.Application.Common.Interfaces;
+using MotoMarket.Application.Common.Interfaces.Persistence;
 
 namespace MotoMarket.Infrastructure.Persistence
 {

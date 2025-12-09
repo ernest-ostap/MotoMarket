@@ -8,8 +8,8 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using MotoMarket.Application.Common.Interfaces;
 using MotoMarket.Domain.Entities;
+using MotoMarket.Application.Common.Interfaces.Identity;
 
 namespace MotoMarket.Infrastructure.Identity
 {

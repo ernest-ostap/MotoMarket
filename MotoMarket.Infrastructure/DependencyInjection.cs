@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MotoMarket.Application.Common.Interfaces;
 using MotoMarket.Domain.Entities;
 using MotoMarket.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using MotoMarket.Infrastructure.Identity; 
+using MotoMarket.Infrastructure.Identity;
+using MotoMarket.Application.Common.Interfaces.Identity;
+using MotoMarket.Application.Common.Interfaces.Persistence;
 
 namespace MotoMarket.Infrastructure
 {
