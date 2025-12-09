@@ -6,6 +6,8 @@ namespace MotoMarket.Web.Models.ViewModels
 {
     public class CreateListingViewModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Tytuł jest wymagany")]
         [Display(Name = "Tytuł ogłoszenia")]
         public string Title { get; set; } = string.Empty;

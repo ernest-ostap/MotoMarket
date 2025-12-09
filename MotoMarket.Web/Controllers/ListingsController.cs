@@ -45,25 +45,7 @@ namespace MotoMarket.Web.Controllers
         public async Task<IActionResult> Create()
         {
             var viewModel = new CreateListingViewModel();
-
-            // pobieranie wszystkiego rownocześnie
-            var brandsTask = _dictionaryService.GetBrands();
-            var fuelsTask = _dictionaryService.GetFuelTypes();
-            var gearboxesTask = _dictionaryService.GetGearboxTypes();
-            var bodiesTask = _dictionaryService.GetBodyTypes();
-            var drivesTask = _dictionaryService.GetDriveTypes();
-            var categoriesTask = _dictionaryService.GetVehicleCategories();
-
-            await Task.WhenAll(brandsTask, fuelsTask, gearboxesTask, bodiesTask, drivesTask, categoriesTask);
-
-            // mapowanie na SelectListItem
-            viewModel.Brands = brandsTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
-            viewModel.FuelTypes = fuelsTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
-            viewModel.GearboxTypes = gearboxesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
-            viewModel.BodyTypes = bodiesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
-            viewModel.DriveTypes = drivesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
-            viewModel.VehicleCategories = categoriesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
-
+            await PopulateDictionaries(viewModel);
             return View(viewModel);
         }
 
@@ -74,31 +56,7 @@ namespace MotoMarket.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // Pobieramy wszystko równolegle (tak jak w GET)
-                var brandsTask = _dictionaryService.GetBrands();
-                var fuelsTask = _dictionaryService.GetFuelTypes();
-                var gearboxesTask = _dictionaryService.GetGearboxTypes();
-                var bodiesTask = _dictionaryService.GetBodyTypes();
-                var drivesTask = _dictionaryService.GetDriveTypes();
-                var categoriesTask = _dictionaryService.GetVehicleCategories();
-
-                await Task.WhenAll(brandsTask, fuelsTask, gearboxesTask, bodiesTask, drivesTask, categoriesTask);
-
-                // Przypisujemy do modelu
-                model.Brands = brandsTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
-                model.FuelTypes = fuelsTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
-                model.GearboxTypes = gearboxesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
-                model.BodyTypes = bodiesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
-                model.DriveTypes = drivesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
-                model.VehicleCategories = categoriesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
-
-                // Dodatkowo: Modele (kaskada)
-                if (model.BrandId > 0)
-                {
-                    var models = await _dictionaryService.GetModels(model.BrandId);
-                    model.Models = models.Select(x => new SelectListItem(x.Name, x.Id));
-                }
-
+                await PopulateDictionaries(model);
                 return View(model);
             }
 
@@ -114,6 +72,79 @@ namespace MotoMarket.Web.Controllers
         {
             var listings = await _vehicleService.GetMyListings();
             return View(listings);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            // 1. Pobierz dane ogłoszenia
+            var listing = await _vehicleService.GetListingDetail(id);
+            if (listing == null) return NotFound();
+
+            // 2. SECURITY CHECK (Ważne!)
+            // Sprawdź, czy to ogłoszenie należy do zalogowanego użytkownika
+            // (Możesz tu użyć User.FindFirst(ClaimTypes.NameIdentifier) albo w serwise, 
+            // na razie załóżmy optymistycznie, że user kliknął ze swojej listy, 
+            // ale profesjonalnie trzeba to sprawdzić).
+
+            // 3. Mapowanie DTO -> ViewModel (Wypełniamy formularz danymi z bazy)
+            var viewModel = new CreateListingViewModel
+            {
+                Id = listing.Id,
+                Title = listing.Title,
+                Description = listing.Description,
+                Price = listing.Price,
+                VIN = listing.VIN,
+                ProductionYear = listing.ProductionYear,
+                Mileage = listing.Mileage,
+                LocationCity = listing.LocationCity,
+                LocationRegion = listing.LocationRegion,
+
+                // Ustawiamy wybrane wartości
+                BrandId = listing.BrandId,
+                ModelId = listing.ModelId,
+                FuelTypeId = listing.FuelTypeId, // Tu uwaga: ListingDetailDto musi mieć te IDki (BrandId, FuelTypeId)!
+                GearboxTypeId = listing.GearboxTypeId,
+                BodyTypeId = listing.BodyTypeId,
+                DriveTypeId = listing.DriveTypeId,
+                VehicleCategoryId = listing.VehicleCategoryId
+            };
+
+            // 4. Pobierz słowniki (Brands, Fuels...) - tak jak w Create
+            await PopulateDictionaries(viewModel);
+
+            return View(viewModel);
+        }
+
+        [Authorize] // Pamiętaj o tym!
+        [HttpPost]
+        [ValidateAntiForgeryToken] // Dobra praktyka bezpieczeństwa dla formularzy
+        public async Task<IActionResult> Edit(int id, CreateListingViewModel model)
+        {
+            // Security check
+            if (id != model.Id) return BadRequest();
+
+            // Walidacja
+            if (!ModelState.IsValid)
+            {
+                await PopulateDictionaries(model);
+                return View(model); 
+            }
+
+            // wysyłamy do API
+            try
+            {
+                await _vehicleService.UpdateListing(model);
+                return RedirectToAction(nameof(MyListings));
+            }
+            catch (Exception ex)
+            {
+                // Opcjonalnie: obsługa błędu, np. API nie działa
+                ModelState.AddModelError("", "Wystąpił błąd podczas zapisywania zmian.");
+                await PopulateDictionaries(model);
+                return View(model);
+            }
         }
 
         // POST: Listings/Delete/5
@@ -140,6 +171,32 @@ namespace MotoMarket.Web.Controllers
         {
             var models = await _dictionaryService.GetModels(brandId);
             return Json(models);
+        }
+
+        private async Task PopulateDictionaries(CreateListingViewModel model)
+        {
+            var brandsTask = _dictionaryService.GetBrands();
+            var fuelsTask = _dictionaryService.GetFuelTypes();
+            var gearboxesTask = _dictionaryService.GetGearboxTypes();
+            var bodiesTask = _dictionaryService.GetBodyTypes();
+            var drivesTask = _dictionaryService.GetDriveTypes();
+            var categoriesTask = _dictionaryService.GetVehicleCategories();
+
+            await Task.WhenAll(brandsTask, fuelsTask, gearboxesTask, bodiesTask, drivesTask, categoriesTask);
+
+            model.Brands = brandsTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
+            model.FuelTypes = fuelsTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
+            model.GearboxTypes = gearboxesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
+            model.BodyTypes = bodiesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
+            model.DriveTypes = drivesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
+            model.VehicleCategories = categoriesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
+
+            // Dodatkowo: Modele (kaskada) - tylko jeśli BrandId > 0
+            if (model.BrandId > 0)
+            {
+                var models = await _dictionaryService.GetModels(model.BrandId);
+                model.Models = models.Select(x => new SelectListItem(x.Name, x.Id));
+            }
         }
     }
 }

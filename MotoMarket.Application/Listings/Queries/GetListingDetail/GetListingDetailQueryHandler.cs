@@ -68,6 +68,15 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
                 DriveTypeName = entity.DriveType.Name,
                 BodyTypeName = entity.BodyType.Name,
 
+                // ID właściwości dla edycji
+                BrandId = entity.BrandId,
+                ModelId = entity.ModelId,
+                FuelTypeId = entity.FuelTypeId,
+                GearboxTypeId = entity.GearboxTypeId,
+                BodyTypeId = entity.BodyTypeId,
+                DriveTypeId = entity.DriveTypeId,
+                VehicleCategoryId = entity.VehicleCategoryId,
+
                 MainPhotoUrl = entity.Photos.FirstOrDefault(p => p.IsMain)?.Url ?? "",
 
                 // --- To są te nowe detale ---

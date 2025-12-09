@@ -9,6 +9,15 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
 {
     public class ListingDetailDto : ListingDto
     {
+        // ID właściwości potrzebne do edycji
+        public int BrandId { get; set; }
+        public int ModelId { get; set; }
+        public int FuelTypeId { get; set; }
+        public int GearboxTypeId { get; set; }
+        public int BodyTypeId { get; set; }
+        public int DriveTypeId { get; set; }
+        public int VehicleCategoryId { get; set; }
+
         // Dodatkowe pola, których nie ma na liście
         public IEnumerable<string> PhotoUrls { get; set; } = new List<string>();
         public IEnumerable<string> Features { get; set; } = new List<string>(); 

@@ -1,12 +1,13 @@
-@model MotoMarket.Web.Models.ViewModels.CreateListingViewModel
+﻿@model MotoMarket.Web.Models.ViewModels.CreateListingViewModel
 
 @{
-    ViewData["Title"] = "Dodaj ogłoszenie";
+    ViewData["Title"] = "Edytuj ogłoszenie";
 }
 
-<h2>Nowe ogłoszenie</h2>
+<h2>Edytuj ogłoszenie</h2>
 
-<form asp-action="Create" method="post">
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
     <div class="row">
         <div class="col-md-6 mb-3">
             <label asp-for="BrandId" class="form-label"></label>
@@ -130,7 +131,7 @@
         </div>
     </div>
 
-    <button type="submit" class="btn btn-success btn-lg mt-3">Dodaj ogłoszenie</button>
+    <button type="submit" class="btn btn-success btn-lg mt-3">Zapisz zmiany</button>
 </form>
 
 @section Scripts {
@@ -185,7 +186,7 @@
             var initialBrandId = brandDropdown.val();
             var initialModelId = modelDropdown.val();
 
-            // Jeśli na początku mamy już wybraną markę (np. po błędzie walidacji),
+            // Jeśli na początku mamy już wybraną markę (np. po błędzie walidacji lub w Edit),
             // załaduj modele automatycznie
             if (initialBrandId && initialBrandId > 0) {
                 loadModels(initialBrandId, initialModelId);

@@ -114,7 +114,46 @@ namespace MotoMarket.Web.Services.Listings
             // 4. Rzucamy błąd, jeśli API zwróci np. 400 lub 500
             response.EnsureSuccessStatusCode();
         }
-        
+
+        public async Task UpdateListing(CreateListingViewModel model)
+        {
+            // Budujemy obiekt zgodny z UpdateListingCommand w API
+            var command = new
+            {
+                Id = model.Id, // <--- Ważne!
+                Title = model.Title,
+                Description = model.Description,
+                Price = model.Price,
+
+                BrandId = model.BrandId,
+                ModelId = model.ModelId,
+                VehicleCategoryId = model.VehicleCategoryId,
+                FuelTypeId = model.FuelTypeId,
+                GearboxTypeId = model.GearboxTypeId,
+                DriveTypeId = model.DriveTypeId,
+                BodyTypeId = model.BodyTypeId,
+
+                VIN = model.VIN,
+                ProductionYear = model.ProductionYear,
+                Mileage = model.Mileage,
+                LocationCity = model.LocationCity,
+                LocationRegion = model.LocationRegion
+            };
+
+            var json = JsonSerializer.Serialize(command);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Token
+            var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            // PUT
+            var response = await _httpClient.PutAsync($"{_apiBaseUrl}/api/Listings/{model.Id}", content);
+            response.EnsureSuccessStatusCode();
+        }
 
         public async Task DeleteListing(int id)
         {
