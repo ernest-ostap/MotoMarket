@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Application.Listings.Commands.CreateListing;
 using MotoMarket.Application.Listings.Commands.DeleteListing;
 using MotoMarket.Application.Listings.Commands.UpdateListing;
 using MotoMarket.Application.Listings.Queries.GetAllListings;
 using MotoMarket.Application.Listings.Queries.GetListingDetail;
+using MotoMarket.Application.Listings.Queries.GetMyListings;
 
 namespace MotoMarket.Api.Controllers
 {
@@ -73,6 +75,13 @@ namespace MotoMarket.Api.Controllers
         {
             await _mediator.Send(new DeleteListingCommand(id));
             return NoContent(); // 204 No Content 
+        }
+
+        [Authorize] // Tylko dla zalogowanych!
+        [HttpGet("mine")]
+        public async Task<ActionResult<IEnumerable<ListingDto>>> GetMyListings()
+        {
+            return Ok(await _mediator.Send(new GetMyListingsQuery()));
         }
     }
 }

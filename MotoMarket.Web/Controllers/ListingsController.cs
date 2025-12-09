@@ -108,6 +108,33 @@ namespace MotoMarket.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Listings/MyListings
+        [Authorize]
+        public async Task<IActionResult> MyListings()
+        {
+            var listings = await _vehicleService.GetMyListings();
+            return View(listings);
+        }
+
+        // POST: Listings/Delete/5
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken] // Zabezpieczenie formularza
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _vehicleService.DeleteListing(id);
+                TempData["Success"] = "Ogłoszenie zostało usunięte."; // Opcjonalnie komunikat
+            }
+            catch
+            {
+                TempData["Error"] = "Nie udało się usunąć ogłoszenia.";
+            }
+
+            return RedirectToAction(nameof(MyListings)); // Wracamy do tabelki
+        }
+
         [HttpGet]
         public async Task<JsonResult> GetModelsJson(int brandId)
         {

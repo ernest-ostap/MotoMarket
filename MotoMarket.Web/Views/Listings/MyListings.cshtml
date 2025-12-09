@@ -1,0 +1,74 @@
+﻿@using MotoMarket.Web.Models.DTOs
+@model IEnumerable<ListingDto>
+
+@{
+    ViewData["Title"] = "Moje ogłoszenia";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Zarządzaj ogłoszeniami</h2>
+        <a asp-action="Create" class="btn btn-primary">+ Dodaj nowe</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            Nie masz jeszcze żadnych ogłoszeń. <a asp-action="Create">Dodaj pierwsze!</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 100px;">Zdjęcie</th>
+                        <th>Tytuł</th>
+                        <th>Cena</th>
+                        <th>Data dodania</th>
+                        <th class="text-end">Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.MainPhotoUrl))
+                                {
+                                    <img src="@item.MainPhotoUrl" alt="Thumb" class="img-thumbnail" style="width: 80px; height: 60px; object-fit: cover;">
+                                }
+                                else
+                                {
+                                    <div class="bg-light text-muted d-flex align-items-center justify-content-center" style="width: 80px; height: 60px; font-size: 0.7rem;">Brak</div>
+                                }
+                            </td>
+                            <td>
+                                <strong>@item.BrandName @item.ModelName</strong><br />
+                                <small class="text-muted">@item.Title</small>
+                            </td>
+                            <td class="fw-bold text-success">@item.Price.ToString("C0")</td>
+                            <td>@item.CreatedAt.ToShortDateString()</td>
+                            <td class="text-end">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info" title="Podgląd">
+                                    👁️
+                                </a>
+
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning" title="Edytuj">
+                                    ✏️
+                                </a>
+
+                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Czy na pewno chcesz usunąć to ogłoszenie?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Usuń">
+                                        🗑️
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

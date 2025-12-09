@@ -42,6 +42,9 @@
                                 <span class="nav-link text-dark">Witaj, <b>@User.FindFirst("FirstName")?.Value</b>!</span>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Listings" asp-action="MyListings">Moje ogłoszenia</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link btn btn-link text-danger" asp-controller="Auth" asp-action="Logout">Wyloguj</a>
                             </li>
                         }

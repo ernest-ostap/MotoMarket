@@ -8,6 +8,7 @@ namespace MotoMarket.Web.Services.Listings
         Task<IEnumerable<ListingDto>> GetAllListings();
         Task<ListingDetailDto?> GetListingDetail(int id);
         Task CreateListing(CreateListingViewModel model);
-
+        Task<IEnumerable<ListingDto>> GetMyListings();
+        Task DeleteListing(int id);
     }
 }

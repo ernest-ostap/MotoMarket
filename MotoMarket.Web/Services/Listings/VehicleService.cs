@@ -8,6 +8,7 @@ namespace MotoMarket.Web.Services.Listings
 {
     public class VehicleService : IVehicleService
     {
+        #region Pola i konstruktor
         private readonly HttpClient _httpClient;
         private readonly string _apiBaseUrl;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -18,7 +19,9 @@ namespace MotoMarket.Web.Services.Listings
             _apiBaseUrl = configuration["ApiUrl"] ?? "https://localhost:7072";
             _httpContextAccessor = httpContextAccessor;
         }
+        #endregion
 
+        #region GetAllListings
         public async Task<IEnumerable<ListingDto>> GetAllListings()
         {
             // Wywołujemy GET /api/Listings
@@ -52,6 +55,23 @@ namespace MotoMarket.Web.Services.Listings
 
             return null; // Jeśli API zwróci 404 lub błąd
         }
+
+        public async Task<IEnumerable<ListingDto>> GetMyListings()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value);
+
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Listings/mine");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                return JsonSerializer.Deserialize<IEnumerable<ListingDto>>(json, options) ?? new List<ListingDto>();
+            }
+            return new List<ListingDto>();
+        }
+        #endregion
 
         public async Task CreateListing(CreateListingViewModel model)
         {
@@ -92,6 +112,18 @@ namespace MotoMarket.Web.Services.Listings
             var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Listings", content);
 
             // 4. Rzucamy błąd, jeśli API zwróci np. 400 lub 500
+            response.EnsureSuccessStatusCode();
+        }
+        
+
+        public async Task DeleteListing(int id)
+        {
+            // Doklejamy token (ważne, bo API sprawdzi czy to Twoje ogłoszenie... 
+            // chociaż API delete na razie nie sprawdza ownera, ale [Authorize] jest wymagane)
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value);
+
+            var response = await _httpClient.DeleteAsync($"{_apiBaseUrl}/api/Listings/{id}");
             response.EnsureSuccessStatusCode();
         }
     }
