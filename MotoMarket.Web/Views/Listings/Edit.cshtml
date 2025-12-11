@@ -6,7 +6,7 @@
 
 <h2>Edytuj ogłoszenie</h2>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
     <div class="row">
         <div class="col-md-6 mb-3">
@@ -131,6 +131,16 @@
         </div>
     </div>
 
+    <div class="mb-3">
+        <label asp-for="Photos" class="form-label">Zdjęcia (opcjonalnie podmień)</label>
+        <input asp-for="Photos" class="form-control" type="file" multiple accept="image/*" id="PhotoInput" />
+        <span class="form-text">Jeśli dodasz nowe zdjęcia, stare zostaną zastąpione. Możesz ustawić kolejność i zdjęcie główne.</span>
+        <span asp-validation-for="Photos" class="text-danger"></span>
+    </div>
+
+    <div id="PhotoPreviewContainer" class="d-flex flex-wrap gap-2 mt-2"></div>
+    <div id="PhotoMetaContainer"></div>
+
     <button type="submit" class="btn btn-success btn-lg mt-3">Zapisz zmiany</button>
 </form>
 
@@ -197,6 +207,171 @@
                 var brandId = $(this).val();
                 loadModels(brandId, null);
             });
+        });
+    </script>
+
+    <script>
+        // SKRYPT: przycinanie, podgląd, usuwanie, kolejność i zdjęcie główne przed wysłaniem (Edit)
+        $(document).ready(function () {
+            const targetWidth = 1200;
+            const targetHeight = 800;
+            let processedFiles = [];
+            let mainIndex = 0;
+
+            const photoInput = document.getElementById('PhotoInput');
+            if (!photoInput) return;
+
+            const previewContainer = $('#PhotoPreviewContainer');
+            const metaContainer = $('#PhotoMetaContainer');
+            const form = photoInput.closest('form');
+
+            photoInput.addEventListener('change', async function () {
+                processedFiles = [];
+                mainIndex = 0;
+                previewContainer.empty();
+
+                const files = Array.from(photoInput.files || []);
+                for (let idx = 0; idx < files.length; idx++) {
+                    const file = files[idx];
+                    const resized = await resizeImage(file, targetWidth, targetHeight);
+                    processedFiles.push({
+                        file: resized,
+                        sortOrder: idx,
+                        isMain: idx === 0
+                    });
+                }
+
+                renderPreviews();
+                syncInputFiles();
+            });
+
+            form.addEventListener('submit', function () {
+                syncInputFiles();
+            });
+
+            function renderPreviews() {
+                previewContainer.empty();
+                processedFiles.forEach((item, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const wrapper = $('<div class="position-relative border rounded p-1">').css({
+                            width: '170px'
+                        });
+
+                        const img = $('<img>').attr('src', e.target.result)
+                            .addClass('img-thumbnail mb-1')
+                            .css({
+                                width: '150px',
+                                height: '100px',
+                                objectFit: 'cover'
+                            });
+
+                        const btnGroup = $('<div class="btn-group btn-group-sm w-100 mb-1" role="group"></div>');
+                        const upBtn = $('<button type="button" class="btn btn-light" title="Do góry">⬆️</button>').on('click', function () {
+                            if (index > 0) {
+                                swap(index, index - 1);
+                            }
+                        });
+                        const downBtn = $('<button type="button" class="btn btn-light" title="W dół">⬇️</button>').on('click', function () {
+                            if (index < processedFiles.length - 1) {
+                                swap(index, index + 1);
+                            }
+                        });
+                        btnGroup.append(upBtn, downBtn);
+
+                        const mainToggle = $('<div class="form-check form-check-inline mb-1"></div>');
+                        const mainRadio = $('<input class="form-check-input" type="radio" name="mainPhotoRadio">')
+                            .prop('checked', item.isMain)
+                            .on('change', function () {
+                                setMain(index);
+                            });
+                        const mainLabel = $('<label class="form-check-label small">Główne</label>');
+                        mainToggle.append(mainRadio, mainLabel);
+
+                        const removeBtn = $('<button type="button" class="btn btn-outline-danger btn-sm w-100">Usuń</button>').on('click', function () {
+                            processedFiles.splice(index, 1);
+                            if (mainIndex === index) {
+                                mainIndex = 0;
+                            } else if (index < mainIndex) {
+                                mainIndex -= 1;
+                            }
+                            if (processedFiles.length === 0) {
+                                mainIndex = 0;
+                            } else {
+                                setMain(Math.min(mainIndex, processedFiles.length - 1));
+                            }
+                            renderPreviews();
+                            syncInputFiles();
+                        });
+
+                        wrapper.append(img, btnGroup, mainToggle, removeBtn);
+                        previewContainer.append(wrapper);
+                    };
+                    reader.readAsDataURL(item.file);
+                });
+            }
+
+            function syncInputFiles() {
+                const dt = new DataTransfer();
+                processedFiles.forEach(f => dt.items.add(f.file));
+                photoInput.files = dt.files;
+
+                metaContainer.empty();
+                metaContainer.append($('<input type="hidden" name="MainPhotoIndex">').val(mainIndex));
+                processedFiles.forEach((f, idx) => {
+                    metaContainer.append($('<input type="hidden" name="PhotoSortOrders">').val(f.sortOrder));
+                });
+            }
+
+            function setMain(idx) {
+                processedFiles = processedFiles.map((p, i) => ({ ...p, isMain: i === idx }));
+                mainIndex = idx;
+                renderPreviews();
+                syncInputFiles();
+            }
+
+            function swap(i, j) {
+                const temp = processedFiles[i];
+                processedFiles[i] = processedFiles[j];
+                processedFiles[j] = temp;
+                processedFiles = processedFiles.map((p, idx) => ({ ...p, sortOrder: idx }));
+                if (mainIndex === i) mainIndex = j;
+                else if (mainIndex === j) mainIndex = i;
+                renderPreviews();
+                syncInputFiles();
+            }
+
+            function resizeImage(file, width, height) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const img = new Image();
+                        img.onload = function () {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+
+                            const scale = Math.max(width / img.width, height / img.height);
+                            const sw = width / scale;
+                            const sh = height / scale;
+                            const sx = (img.width - sw) / 2;
+                            const sy = (img.height - sh) / 2;
+
+                            ctx.drawImage(img, sx, sy, sw, sh, 0, 0, width, height);
+                            canvas.toBlob(blob => {
+                                if (!blob) return reject(new Error('Blob null'));
+                                const resizedFile = new File([blob], file.name, { type: file.type, lastModified: Date.now() });
+                                resolve(resizedFile);
+                            }, file.type || 'image/jpeg', 0.9);
+                        };
+                        img.onerror = reject;
+                        img.src = e.target.result;
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }
         });
     </script>
 }

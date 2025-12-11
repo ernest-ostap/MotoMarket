@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
+using MotoMarket.Application.Listings.Commands.CreateListing;
 using MotoMarket.Domain.Entities;
 
 namespace MotoMarket.Application.Listings.Commands.UpdateListing
@@ -31,5 +32,9 @@ namespace MotoMarket.Application.Listings.Commands.UpdateListing
         public int Mileage { get; set; }
         public string LocationCity { get; set; } = string.Empty;
         public string LocationRegion { get; set; } = string.Empty;
+
+        // Zdjęcia (opcjonalnie przy update)
+        public List<ListingPhotoInput> Photos { get; set; } = new();
+        public List<string> PhotoUrls { get; set; } = new(); // fallback legacy
     }
 }

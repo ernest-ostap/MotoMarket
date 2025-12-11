@@ -2,6 +2,7 @@
 using MotoMarket.Application.Common.Exceptions;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 using MotoMarket.Domain.Entities.Listings;
+using MotoMarket.Application.Listings.Commands.CreateListing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,11 +53,49 @@ namespace MotoMarket.Application.Listings.Commands.UpdateListing
             entity.LocationCity = request.LocationCity;
             entity.LocationRegion = request.LocationRegion;
 
+            // Zdjęcia: jeśli dostaliśmy nowe, zastępujemy istniejące
+            if (request.Photos.Any() || request.PhotoUrls.Any())
+            {
+                _context.ListingPhotos.RemoveRange(_context.ListingPhotos.Where(p => p.ListingId == entity.Id));
+
+                var newPhotos = BuildPhotos(request);
+                foreach (var photo in newPhotos)
+                {
+                    photo.ListingId = entity.Id;
+                }
+                await _context.ListingPhotos.AddRangeAsync(newPhotos, cancellationToken);
+            }
+
             // aktualizacja daty modyfikacji
             entity.UpdatedAt = DateTime.UtcNow;
 
             // 4. zapis zmian w bazie
             await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        private List<ListingPhoto> BuildPhotos(UpdateListingCommand request)
+        {
+            if (request.Photos.Any())
+            {
+                return request.Photos
+                    .OrderBy(p => p.SortOrder)
+                    .Select(p => new ListingPhoto
+                    {
+                        Url = p.Url,
+                        IsMain = p.IsMain,
+                        SortOrder = p.SortOrder
+                    })
+                    .ToList();
+            }
+
+            return request.PhotoUrls
+                .Select((url, idx) => new ListingPhoto
+                {
+                    Url = url,
+                    IsMain = idx == 0,
+                    SortOrder = idx
+                })
+                .ToList();
         }
     }
 }

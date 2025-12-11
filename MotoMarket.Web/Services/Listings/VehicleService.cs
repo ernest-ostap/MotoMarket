@@ -171,40 +171,49 @@ namespace MotoMarket.Web.Services.Listings
         }
         public async Task UpdateListing(CreateListingViewModel model)
         {
-            // Budujemy obiekt zgodny z UpdateListingCommand w API
-            var command = new
+            using var content = new MultipartFormDataContent();
+
+            content.Add(new StringContent(model.Id.ToString()), "Id");
+            content.Add(new StringContent(model.Title ?? ""), "Title");
+            content.Add(new StringContent(model.Description ?? ""), "Description");
+            content.Add(new StringContent(model.Price.ToString()), "Price");
+            content.Add(new StringContent(model.BrandId.ToString()), "BrandId");
+            content.Add(new StringContent(model.ModelId.ToString()), "ModelId");
+            content.Add(new StringContent(model.VehicleCategoryId.ToString()), "VehicleCategoryId");
+            content.Add(new StringContent(model.FuelTypeId.ToString()), "FuelTypeId");
+            content.Add(new StringContent(model.GearboxTypeId.ToString()), "GearboxTypeId");
+            content.Add(new StringContent(model.DriveTypeId.ToString()), "DriveTypeId");
+            content.Add(new StringContent(model.BodyTypeId.ToString()), "BodyTypeId");
+            content.Add(new StringContent(model.VIN ?? ""), "VIN");
+            content.Add(new StringContent(model.ProductionYear.ToString()), "ProductionYear");
+            content.Add(new StringContent(model.Mileage.ToString()), "Mileage");
+            content.Add(new StringContent(model.LocationCity ?? ""), "LocationCity");
+            content.Add(new StringContent(model.LocationRegion ?? ""), "LocationRegion");
+            content.Add(new StringContent(model.MainPhotoIndex.ToString()), "MainPhotoIndex");
+
+            if (model.Photos != null)
             {
-                Id = model.Id, // <--- Ważne!
-                Title = model.Title,
-                Description = model.Description,
-                Price = model.Price,
+                var photoList = model.Photos.ToList();
+                for (int i = 0; i < photoList.Count; i++)
+                {
+                    var file = photoList[i];
+                    var fileContent = new StreamContent(file.OpenReadStream());
+                    fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+                    content.Add(fileContent, "Photos", file.FileName);
 
-                BrandId = model.BrandId,
-                ModelId = model.ModelId,
-                VehicleCategoryId = model.VehicleCategoryId,
-                FuelTypeId = model.FuelTypeId,
-                GearboxTypeId = model.GearboxTypeId,
-                DriveTypeId = model.DriveTypeId,
-                BodyTypeId = model.BodyTypeId,
+                    var sortOrder = (model.PhotoSortOrders != null && model.PhotoSortOrders.Count > i)
+                        ? model.PhotoSortOrders[i]
+                        : i;
+                    content.Add(new StringContent(sortOrder.ToString()), "PhotoSortOrders");
+                }
+            }
 
-                VIN = model.VIN,
-                ProductionYear = model.ProductionYear,
-                Mileage = model.Mileage,
-                LocationCity = model.LocationCity,
-                LocationRegion = model.LocationRegion
-            };
-
-            var json = JsonSerializer.Serialize(command);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            // Token
             var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
             if (!string.IsNullOrEmpty(token))
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
 
-            // PUT
             var response = await _httpClient.PutAsync($"{_apiBaseUrl}/api/Listings/{model.Id}", content);
             response.EnsureSuccessStatusCode();
         }

@@ -130,13 +130,73 @@ namespace MotoMarket.Api.Controllers
 
         // PUT api/listings/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, UpdateListingCommand command)
+        public async Task<ActionResult> Update(int id, [FromForm] UpdateListingApiRequest request)
         {
             // Security check: Czy ID w URL zgadza się z ID w ciele obiektu?
-            if (id != command.Id)
+            if (id != request.Id)
             {
                 return BadRequest();
             }
+
+            var photoUrls = new List<string>();
+            var photoInputs = new List<ListingPhotoInput>();
+
+            if (request.Photos != null && request.Photos.Count > 0)
+            {
+                var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "listings");
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                for (int i = 0; i < request.Photos.Count; i++)
+                {
+                    var file = request.Photos[i];
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    var url = $"/uploads/listings/{uniqueFileName}";
+                    photoUrls.Add(url);
+
+                    var sortOrder = request.PhotoSortOrders != null && i < request.PhotoSortOrders.Count
+                        ? request.PhotoSortOrders[i]
+                        : i;
+
+                    var isMain = request.MainPhotoIndex == i;
+
+                    photoInputs.Add(new ListingPhotoInput
+                    {
+                        Url = url,
+                        SortOrder = sortOrder,
+                        IsMain = isMain
+                    });
+                }
+            }
+
+            var command = new UpdateListingCommand
+            {
+                Id = request.Id,
+                Title = request.Title,
+                Description = request.Description,
+                Price = request.Price,
+                BrandId = request.BrandId,
+                ModelId = request.ModelId,
+                VehicleCategoryId = request.VehicleCategoryId,
+                FuelTypeId = request.FuelTypeId,
+                GearboxTypeId = request.GearboxTypeId,
+                DriveTypeId = request.DriveTypeId,
+                BodyTypeId = request.BodyTypeId,
+                VIN = request.VIN,
+                ProductionYear = request.ProductionYear,
+                Mileage = request.Mileage,
+                LocationCity = request.LocationCity,
+                LocationRegion = request.LocationRegion,
+                Photos = photoInputs,
+                PhotoUrls = photoUrls
+            };
 
             await _mediator.Send(command);
 
