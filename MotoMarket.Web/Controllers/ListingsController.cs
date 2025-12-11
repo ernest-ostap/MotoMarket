@@ -8,6 +8,11 @@ namespace MotoMarket.Web.Controllers
 {
     public class ListingsController : Controller
     {
+        // Lokalne stałe statusów, żeby nie referencjonować warstwy domenowej
+        private const int StatusActive = 1;
+        private const int StatusSold = 2;
+        private const int StatusArchived = 3;
+
         private readonly IVehicleService _vehicleService;
         private readonly IDictionaryService _dictionaryService; 
 
@@ -155,15 +160,51 @@ namespace MotoMarket.Web.Controllers
         {
             try
             {
-                await _vehicleService.DeleteListing(id);
-                TempData["Success"] = "Ogłoszenie zostało usunięte."; // Opcjonalnie komunikat
+                await _vehicleService.UpdateListingStatus(id, StatusArchived);
+                TempData["Success"] = "Ogłoszenie zostało zarchiwizowane.";
             }
             catch
             {
-                TempData["Error"] = "Nie udało się usunąć ogłoszenia.";
+                TempData["Error"] = "Nie udało się zarchiwizować ogłoszenia.";
             }
 
             return RedirectToAction(nameof(MyListings)); // Wracamy do tabelki
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Restore(int id)
+        {
+            try
+            {
+                await _vehicleService.UpdateListingStatus(id, StatusActive);
+                TempData["Success"] = "Ogłoszenie zostało przywrócone.";
+            }
+            catch
+            {
+                TempData["Error"] = "Nie udało się przywrócić ogłoszenia.";
+            }
+
+            return RedirectToAction(nameof(MyListings));
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MarkSold(int id)
+        {
+            try
+            {
+                await _vehicleService.UpdateListingStatus(id, StatusSold);
+                TempData["Success"] = "Ogłoszenie oznaczone jako sprzedane.";
+            }
+            catch
+            {
+                TempData["Error"] = "Nie udało się oznaczyć jako sprzedane.";
+            }
+
+            return RedirectToAction(nameof(MyListings));
         }
 
         [HttpGet]

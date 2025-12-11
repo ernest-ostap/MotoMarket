@@ -208,5 +208,27 @@ namespace MotoMarket.Web.Services.Listings
             var response = await _httpClient.DeleteAsync($"{_apiBaseUrl}/api/Listings/{id}");
             response.EnsureSuccessStatusCode();
         }
+
+        public async Task RestoreListing(int id)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value);
+
+            var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Listings/{id}/restore", null);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task UpdateListingStatus(int id, int status)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value);
+
+            var payload = new { Id = id, Status = status };
+            var json = JsonSerializer.Serialize(payload);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Listings/{id}/status", content);
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

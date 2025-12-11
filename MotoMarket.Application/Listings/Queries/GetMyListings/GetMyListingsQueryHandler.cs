@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces.Identity;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 using MotoMarket.Application.Listings.Queries.GetAllListings;
+using MotoMarket.Domain.Entities.Listings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,9 +47,12 @@ namespace MotoMarket.Application.Listings.Queries.GetMyListings
                     LocationCity = x.LocationCity,
                     ProductionYear = x.ProductionYear,
                     Mileage = x.Mileage,
+                    Status = (int)x.Status,
+                    CreatedAt = x.CreatedAt,
+                    ExpiresAt = x.ExpiresAt,
                     BrandName = x.Brand.Name,
                     ModelName = x.Model.Name,
-                    MainPhotoUrl = x.Photos.FirstOrDefault(p => p.IsMain).Url ?? ""
+                    MainPhotoUrl = x.Photos.Where(p => p.IsMain).Select(p => p.Url).FirstOrDefault() ?? string.Empty,
                     // Reszta pól opcjonalna na liście
                 })
                 .ToListAsync(cancellationToken);

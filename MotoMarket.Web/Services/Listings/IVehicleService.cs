@@ -11,5 +11,7 @@ namespace MotoMarket.Web.Services.Listings
         Task<IEnumerable<ListingDto>> GetMyListings();
         Task UpdateListing(CreateListingViewModel model);
         Task DeleteListing(int id);
+        Task RestoreListing(int id);
+        Task UpdateListingStatus(int id, int status);
     }
 }

@@ -16,7 +16,35 @@
     <div class="row">
         <div class="col-lg-8">
             <div class="card mb-4">
-                @if (!string.IsNullOrEmpty(Model.MainPhotoUrl))
+                @if (Model.PhotoUrls != null && Model.PhotoUrls.Any())
+                {
+                    var carouselId = "listingCarousel";
+                    <div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            @for (int i = 0; i < Model.PhotoUrls.Count(); i++)
+                            {
+                                <button type="button" data-bs-target="#@carouselId" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")" aria-label="Slide @(i + 1)"></button>
+                            }
+                        </div>
+                        <div class="carousel-inner">
+                            @foreach (var photo in Model.PhotoUrls.Select((url, index) => new { url, index }))
+                            {
+                                <div class="carousel-item @(photo.index == 0 ? "active" : "")">
+                                    <img src="@photo.url" class="d-block w-100" alt="Zdjęcie @photo.index" style="max-height: 500px; object-fit: cover;">
+                                </div>
+                            }
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                }
+                else if (!string.IsNullOrEmpty(Model.MainPhotoUrl))
                 {
                     <img src="@Model.MainPhotoUrl" class="card-img-top" alt="Główne zdjęcie" style="max-height: 500px; object-fit: cover;">
                 }
@@ -24,7 +52,6 @@
                 {
                     <div class="p-5 text-center bg-light text-muted">Brak zdjęć</div>
                 }
-
             </div>
 
             <div class="card mb-4">

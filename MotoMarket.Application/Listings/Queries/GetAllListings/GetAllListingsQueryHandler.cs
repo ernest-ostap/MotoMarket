@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces.Persistence;
+using MotoMarket.Domain.Entities.Listings;
 
 namespace MotoMarket.Application.Listings.Queries.GetAllListings
 {
@@ -22,6 +23,7 @@ namespace MotoMarket.Application.Listings.Queries.GetAllListings
         {
             return await _context.Listings
                 .AsNoTracking()
+                .Where(x => x.Status != ListingStatus.Archived)
                 // Przy uzyciu .select() zazwyczaj EF sam robi sobie joiny,
                 // dla jasnosci i przejrzystosci zostawiam include'y
                 .Include(x => x.Brand)

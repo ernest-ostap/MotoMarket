@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Application.Listings.Commands.CreateListing;
 using MotoMarket.Application.Listings.Commands.DeleteListing;
+using MotoMarket.Application.Listings.Commands.RestoreListing;
+using MotoMarket.Application.Listings.Commands.UpdateListingStatus;
 using MotoMarket.Application.Listings.Commands.UpdateListing;
 using MotoMarket.Application.Listings.Queries.GetAllListings;
 using MotoMarket.Application.Listings.Queries.GetListingDetail;
@@ -130,6 +132,27 @@ namespace MotoMarket.Api.Controllers
         {
             await _mediator.Send(new DeleteListingCommand(id));
             return NoContent(); // 204 No Content 
+        }
+
+        [Authorize]
+        [HttpPost("{id}/restore")]
+        public async Task<ActionResult> Restore(int id)
+        {
+            await _mediator.Send(new RestoreListingCommand(id));
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpPost("{id}/status")]
+        public async Task<ActionResult> UpdateStatus(int id, [FromBody] UpdateListingStatusCommand command)
+        {
+            if (id != command.Id)
+            {
+                return BadRequest();
+            }
+
+            await _mediator.Send(command);
+            return NoContent();
         }
 
         [Authorize] // Tylko dla zalogowanych!
