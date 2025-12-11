@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Azure.Core;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Application.Listings.Commands.CreateListing;
@@ -7,6 +8,8 @@ using MotoMarket.Application.Listings.Commands.UpdateListing;
 using MotoMarket.Application.Listings.Queries.GetAllListings;
 using MotoMarket.Application.Listings.Queries.GetListingDetail;
 using MotoMarket.Application.Listings.Queries.GetMyListings;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace MotoMarket.Api.Controllers
 {
@@ -15,10 +18,12 @@ namespace MotoMarket.Api.Controllers
     public class ListingsController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IWebHostEnvironment _environment;
 
-        public ListingsController(IMediator mediator)
+        public ListingsController(IMediator mediator, IWebHostEnvironment environment)
         {
             _mediator = mediator;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -44,10 +49,60 @@ namespace MotoMarket.Api.Controllers
 
         //POST api/listings
         [HttpPost]
-        public async Task<ActionResult<int>> Create(CreateListingCommand command)
+        public async Task<ActionResult<int>> Create([FromForm] CreateListingApiRequest request) 
         {
-            //dzięki CQRS i MediatR nie musimy pisać logiki tworzenia ogłoszenia w kontrolerze
-            //a wysyłamy polecenie do odpowiedniego handlera
+            // 1. Logika zapisu zdjęć
+            var photoUrls = new List<string>();
+
+            if (request.Photos != null && request.Photos.Count > 0)
+            {
+                // Ścieżka do folderu: wwwroot/uploads/listings
+                var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "listings");
+
+                // Upewnij się, że folder istnieje
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                foreach (var file in request.Photos)
+                {
+                    // Generujemy unikalną nazwę pliku (żeby nie nadpisać innego)
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    // Fizyczny zapis na dysk
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    // Dodajemy URL dostępny publicznie (np. https://localhost:7072/uploads/listings/xyz.jpg)
+                    // W bazie trzymamy ścieżkę względną
+                    photoUrls.Add($"/uploads/listings/{uniqueFileName}");
+                }
+            }
+
+            // 2. Tworzymy właściwą Komendę dla Mediatora
+            var command = new CreateListingCommand
+            {
+                Title = request.Title,
+                Description = request.Description,
+                Price = request.Price,
+                BrandId = request.BrandId,
+                ModelId = request.ModelId,
+                VehicleCategoryId = request.VehicleCategoryId,
+                FuelTypeId = request.FuelTypeId,
+                GearboxTypeId = request.GearboxTypeId,
+                DriveTypeId = request.DriveTypeId,
+                BodyTypeId = request.BodyTypeId,
+                VIN = request.VIN,
+                ProductionYear = request.ProductionYear,
+                Mileage = request.Mileage,
+                LocationCity = request.LocationCity,
+                LocationRegion = request.LocationRegion,
+
+                // Przekazujemy listę wygenerowanych URL-i
+                PhotoUrls = photoUrls
+            };
             var id = await _mediator.Send(command);
 
             //zwracamy z id nowo utworzonego ogłoszenia

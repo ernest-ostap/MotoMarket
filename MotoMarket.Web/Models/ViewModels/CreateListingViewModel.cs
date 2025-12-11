@@ -69,12 +69,14 @@ namespace MotoMarket.Web.Models.ViewModels
 
         // --- Listy do Dropdownów ---
         public IEnumerable<SelectListItem> Brands { get; set; } = new List<SelectListItem>();
-        public IEnumerable<SelectListItem> Models { get; set; } = new List<SelectListItem>(); // Na starcie puste!
+        public IEnumerable<SelectListItem> Models { get; set; } = new List<SelectListItem>(); // Na starcie puste
         public IEnumerable<SelectListItem> BodyTypes { get; set; } = new List<SelectListItem>();
         public IEnumerable<SelectListItem> DriveTypes { get; set; } = new List<SelectListItem>();
         public IEnumerable<SelectListItem> FuelTypes { get; set; } = new List<SelectListItem>();
         public IEnumerable<SelectListItem> GearboxTypes { get; set; } = new List<SelectListItem>();
         public IEnumerable<SelectListItem> VehicleCategories { get; set; } = new List<SelectListItem>();
 
+        [Display(Name = "Zdjęcia")]
+        public IEnumerable<IFormFile>? Photos { get; set; }
     }
 }

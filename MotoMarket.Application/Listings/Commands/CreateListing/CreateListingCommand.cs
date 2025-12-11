@@ -30,5 +30,7 @@ namespace MotoMarket.Application.Listings.Commands.CreateListing
         public int Mileage { get; set; }
         public string LocationCity { get; set; } = string.Empty;
         public string LocationRegion { get; set; } = string.Empty;
+
+        public List<string> PhotoUrls { get; set; } = new List<string>();
     }
 }

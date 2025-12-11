@@ -6,7 +6,7 @@
 
 <h2>Nowe ogłoszenie</h2>
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-6 mb-3">
             <label asp-for="BrandId" class="form-label"></label>
@@ -88,6 +88,12 @@
         <label asp-for="Description" class="form-label">Opis</label>
         <textarea asp-for="Description" class="form-control" rows="5"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Photos" class="form-label"></label>
+        <input asp-for="Photos" class="form-control" type="file" multiple accept="image/*" />
+        <span asp-validation-for="Photos" class="text-danger"></span>
     </div>
 
     <div class="mb-3">

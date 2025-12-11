@@ -51,6 +51,12 @@ namespace MotoMarket.Application.Listings.Commands.CreateListing
                 Status = ListingStatus.Active, // Domyślnie aktywne
                 CreatedAt = DateTime.UtcNow,
                 ExpiresAt = DateTime.UtcNow.AddDays(30), // Ważne przez 30 dni
+
+                Photos = request.PhotoUrls.Select(url => new ListingPhoto
+                {
+                    Url = url,
+                    IsMain = request.PhotoUrls.First() == url // Pierwsze zdjęcie jest główne
+                }).ToList()
             };
 
             // 2. Dodajemy do bazy

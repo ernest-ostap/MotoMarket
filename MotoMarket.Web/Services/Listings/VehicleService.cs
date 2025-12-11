@@ -3,6 +3,7 @@ using MotoMarket.Web.Models.ViewModels;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.IO;
 
 namespace MotoMarket.Web.Services.Listings
 {
@@ -30,11 +31,18 @@ namespace MotoMarket.Web.Services.Listings
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; //deserializacja nie zważająca na wielkość liter
+                var listings = JsonSerializer.Deserialize<IEnumerable<ListingDto>>(json, options) ?? new List<ListingDto>();
 
-                // Opcje deserializacji (żeby wielkość liter nie miała znaczenia: id vs Id)
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
-                return JsonSerializer.Deserialize<IEnumerable<ListingDto>>(json, options) ?? new List<ListingDto>();
+                foreach (var item in listings)
+                {
+                    if (!string.IsNullOrEmpty(item.MainPhotoUrl))
+                    {
+                        // Doklejamy adres API (np. https://localhost:7072) do ścieżki (/uploads/...)
+                        item.MainPhotoUrl = _apiBaseUrl + item.MainPhotoUrl;
+                    }
+                }
+                return listings;
             }
 
             return new List<ListingDto>(); // Lub obsługa błędów
@@ -42,18 +50,35 @@ namespace MotoMarket.Web.Services.Listings
 
         public async Task<ListingDetailDto?> GetListingDetail(int id)
         {
-            // Strzelamy do API: /api/Listings/5
             var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Listings/{id}");
 
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var listing = JsonSerializer.Deserialize<ListingDetailDto>(json, options);
 
-                return JsonSerializer.Deserialize<ListingDetailDto>(json, options);
+                if (listing != null)
+                {
+                    // --- POPRAWKA GŁÓWNEGO ZDJĘCIA ---
+                    if (!string.IsNullOrEmpty(listing.MainPhotoUrl))
+                    {
+                        listing.MainPhotoUrl = _apiBaseUrl + listing.MainPhotoUrl;
+                    }
+
+                    // --- POPRAWKA GALERII (Jeśli masz listę URL-i) ---
+                    if (listing.PhotoUrls != null)
+                    {
+                        // Tworzymy nową listę z poprawionymi adresami
+                        listing.PhotoUrls = listing.PhotoUrls
+                            .Select(url => _apiBaseUrl + url)
+                            .ToList();
+                    }
+                }
+
+                return listing;
             }
-
-            return null; // Jeśli API zwróci 404 lub błąd
+            return null;
         }
 
         public async Task<IEnumerable<ListingDto>> GetMyListings()
@@ -67,7 +92,20 @@ namespace MotoMarket.Web.Services.Listings
             {
                 var json = await response.Content.ReadAsStringAsync();
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                return JsonSerializer.Deserialize<IEnumerable<ListingDto>>(json, options) ?? new List<ListingDto>();
+                var listings = JsonSerializer.Deserialize<IEnumerable<ListingDto>>(json, options) ?? new List<ListingDto>();
+
+                // --- POPRAWKA URL ---
+                foreach (var item in listings)
+                {
+                    if (!string.IsNullOrEmpty(item.MainPhotoUrl))
+                    {
+                        // Doklejamy adres API (np. https://localhost:7072) do ścieżki (/uploads/...)
+                        item.MainPhotoUrl = _apiBaseUrl + item.MainPhotoUrl;
+                    }
+                }
+                // --------------------
+
+                return listings;
             }
             return new List<ListingDto>();
         }
@@ -75,46 +113,51 @@ namespace MotoMarket.Web.Services.Listings
 
         public async Task CreateListing(CreateListingViewModel model)
         {
-            var command = new
+            // Używamy MultipartFormDataContent zamiast JSON
+            using var content = new MultipartFormDataContent();
+
+            // Dodajemy zwykłe pola tekstowe
+            content.Add(new StringContent(model.Title ?? ""), "Title");
+            content.Add(new StringContent(model.Description ?? ""), "Description");
+            content.Add(new StringContent(model.Price.ToString()), "Price");
+            content.Add(new StringContent(model.BrandId.ToString()), "BrandId");
+            content.Add(new StringContent(model.ModelId.ToString()), "ModelId");
+            content.Add(new StringContent(model.VehicleCategoryId.ToString()), "VehicleCategoryId");
+            content.Add(new StringContent(model.FuelTypeId.ToString()), "FuelTypeId");
+            content.Add(new StringContent(model.GearboxTypeId.ToString()), "GearboxTypeId");
+            content.Add(new StringContent(model.DriveTypeId.ToString()), "DriveTypeId");
+            content.Add(new StringContent(model.BodyTypeId.ToString()), "BodyTypeId");
+            content.Add(new StringContent(model.VIN ?? ""), "VIN");
+            content.Add(new StringContent(model.ProductionYear.ToString()), "ProductionYear");
+            content.Add(new StringContent(model.Mileage.ToString()), "Mileage");
+            content.Add(new StringContent(model.LocationCity ?? ""), "LocationCity");
+            content.Add(new StringContent(model.LocationRegion ?? ""), "LocationRegion");
+
+            // Dodajemy PLIKI
+            if (model.Photos != null)
             {
-                model.Title,
-                model.Description,
-                model.Price,
-                model.BrandId,
-                model.ModelId,
-                model.FuelTypeId,
-                model.GearboxTypeId,
-                model.DriveTypeId,
-                model.BodyTypeId,
-                model.VehicleCategoryId,
-                model.VIN,
-                model.ProductionYear,
-                model.Mileage,
-                model.LocationCity,
-                model.LocationRegion,
-            };
+                foreach (var file in model.Photos)
+                {
+                    // Konwertujemy plik na strumień i dodajemy do requestu
+                    var fileContent = new StreamContent(file.OpenReadStream());
+                    fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
 
-            // Serializacja i wysyłka
-            var json = JsonSerializer.Serialize(command);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            // doklejenie tokena JWT do nagłówka Authorization
-            // token bierzemy z ciasteczka 
-            var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
-
-            if (!string.IsNullOrEmpty(token))
-            {
-                _httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", token);
+                    // "Photos" to musi być ta sama nazwa co w API (CreateListingApiRequest.Photos)
+                    content.Add(fileContent, "Photos", file.FileName);
+                }
             }
 
-            // 3. Wysyłamy
-            var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Listings", content);
+            // Dodajemy Token JWT
+            var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
 
-            // 4. Rzucamy błąd, jeśli API zwróci np. 400 lub 500
+            // Wysyłamy!
+            var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Listings", content);
             response.EnsureSuccessStatusCode();
         }
-
         public async Task UpdateListing(CreateListingViewModel model)
         {
             // Budujemy obiekt zgodny z UpdateListingCommand w API
