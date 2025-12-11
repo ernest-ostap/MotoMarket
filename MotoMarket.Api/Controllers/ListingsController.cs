@@ -55,6 +55,7 @@ namespace MotoMarket.Api.Controllers
         {
             // 1. Logika zapisu zdjęć
             var photoUrls = new List<string>();
+            var photoInputs = new List<ListingPhotoInput>();
 
             if (request.Photos != null && request.Photos.Count > 0)
             {
@@ -65,8 +66,9 @@ namespace MotoMarket.Api.Controllers
                 if (!Directory.Exists(uploadsFolder))
                     Directory.CreateDirectory(uploadsFolder);
 
-                foreach (var file in request.Photos)
+                for (int i = 0; i < request.Photos.Count; i++)
                 {
+                    var file = request.Photos[i];
                     // Generujemy unikalną nazwę pliku (żeby nie nadpisać innego)
                     var uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
                     var filePath = Path.Combine(uploadsFolder, uniqueFileName);
@@ -79,7 +81,21 @@ namespace MotoMarket.Api.Controllers
 
                     // Dodajemy URL dostępny publicznie (np. https://localhost:7072/uploads/listings/xyz.jpg)
                     // W bazie trzymamy ścieżkę względną
-                    photoUrls.Add($"/uploads/listings/{uniqueFileName}");
+                    var url = $"/uploads/listings/{uniqueFileName}";
+                    photoUrls.Add(url);
+
+                    var sortOrder = request.PhotoSortOrders != null && i < request.PhotoSortOrders.Count
+                        ? request.PhotoSortOrders[i]
+                        : i;
+
+                    var isMain = request.MainPhotoIndex == i;
+
+                    photoInputs.Add(new ListingPhotoInput
+                    {
+                        Url = url,
+                        SortOrder = sortOrder,
+                        IsMain = isMain
+                    });
                 }
             }
 
@@ -103,7 +119,8 @@ namespace MotoMarket.Api.Controllers
                 LocationRegion = request.LocationRegion,
 
                 // Przekazujemy listę wygenerowanych URL-i
-                PhotoUrls = photoUrls
+                PhotoUrls = photoUrls,
+                Photos = photoInputs
             };
             var id = await _mediator.Send(command);
 

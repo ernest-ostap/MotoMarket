@@ -78,5 +78,9 @@ namespace MotoMarket.Web.Models.ViewModels
 
         [Display(Name = "Zdjęcia")]
         public IEnumerable<IFormFile>? Photos { get; set; }
+
+        // Metadane zdjęć (kolejność i główne)
+        public List<int> PhotoSortOrders { get; set; } = new();
+        public int MainPhotoIndex { get; set; } = 0;
     }
 }

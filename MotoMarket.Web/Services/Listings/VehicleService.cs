@@ -133,17 +133,28 @@ namespace MotoMarket.Web.Services.Listings
             content.Add(new StringContent(model.LocationCity ?? ""), "LocationCity");
             content.Add(new StringContent(model.LocationRegion ?? ""), "LocationRegion");
 
+            // Metadane zdjęć
+            content.Add(new StringContent(model.MainPhotoIndex.ToString()), "MainPhotoIndex");
+
             // Dodajemy PLIKI
             if (model.Photos != null)
             {
-                foreach (var file in model.Photos)
+                var photoList = model.Photos.ToList();
+                for (int i = 0; i < photoList.Count; i++)
                 {
+                    var file = photoList[i];
                     // Konwertujemy plik na strumień i dodajemy do requestu
                     var fileContent = new StreamContent(file.OpenReadStream());
                     fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
 
                     // "Photos" to musi być ta sama nazwa co w API (CreateListingApiRequest.Photos)
                     content.Add(fileContent, "Photos", file.FileName);
+
+                    // Sort order jako powtarzalne pola
+                    var sortOrder = (model.PhotoSortOrders != null && model.PhotoSortOrders.Count > i)
+                        ? model.PhotoSortOrders[i]
+                        : i;
+                    content.Add(new StringContent(sortOrder.ToString()), "PhotoSortOrders");
                 }
             }
 

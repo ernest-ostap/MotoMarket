@@ -31,6 +31,14 @@ namespace MotoMarket.Application.Listings.Commands.CreateListing
         public string LocationCity { get; set; } = string.Empty;
         public string LocationRegion { get; set; } = string.Empty;
 
-        public List<string> PhotoUrls { get; set; } = new List<string>();
+        public List<ListingPhotoInput> Photos { get; set; } = new();
+        public List<string> PhotoUrls { get; set; } = new List<string>(); // backward compatibility (not used if Photos filled)
+    }
+
+    public class ListingPhotoInput
+    {
+        public string Url { get; set; } = string.Empty;
+        public bool IsMain { get; set; }
+        public int SortOrder { get; set; }
     }
 }

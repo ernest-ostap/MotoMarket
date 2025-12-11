@@ -52,11 +52,7 @@ namespace MotoMarket.Application.Listings.Commands.CreateListing
                 CreatedAt = DateTime.UtcNow,
                 ExpiresAt = DateTime.UtcNow.AddDays(30), // Ważne przez 30 dni
 
-                Photos = request.PhotoUrls.Select(url => new ListingPhoto
-                {
-                    Url = url,
-                    IsMain = request.PhotoUrls.First() == url // Pierwsze zdjęcie jest główne
-                }).ToList()
+                Photos = BuildPhotos(request)
             };
 
             // 2. Dodajemy do bazy
@@ -67,6 +63,32 @@ namespace MotoMarket.Application.Listings.Commands.CreateListing
 
             // 4. Zwracamy ID nowego ogłoszenia
             return entity.Id;
+        }
+
+        private List<ListingPhoto> BuildPhotos(CreateListingCommand request)
+        {
+            if (request.Photos.Any())
+            {
+                return request.Photos
+                    .OrderBy(p => p.SortOrder)
+                    .Select(p => new ListingPhoto
+                    {
+                        Url = p.Url,
+                        IsMain = p.IsMain,
+                        SortOrder = p.SortOrder
+                    })
+                    .ToList();
+            }
+
+            // Fallback: stara ścieżka bez metadanych
+            return request.PhotoUrls
+                .Select((url, idx) => new ListingPhoto
+                {
+                    Url = url,
+                    IsMain = idx == 0,
+                    SortOrder = idx
+                })
+                .ToList();
         }
     }
 }
