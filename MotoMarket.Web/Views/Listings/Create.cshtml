@@ -126,6 +126,63 @@
         </div>
     </div>
 
+    <hr class="my-4" />
+    <h4 class="mb-3">Szczegółowe dane techniczne</h4>
+
+    <div class="row">
+        @foreach (var param in Model.AvailableParameters)
+        {
+            <div class="col-md-4 mb-3">
+                <label class="form-label">@param.Name</label>
+                <div class="input-group">
+                    <input type="@(param.InputType == "number" ? "number" : "text")"
+                           class="form-control"
+                           /* To jest magia bindowania słowników: * /
+                           name="Parameters[@param.Id]"
+                           /* Jeśli user już coś wpisał (np. przed błędem walidacji), przywróć to: * /
+                           value="@(Model.Parameters != null && Model.Parameters.ContainsKey(param.Id) ? Model.Parameters[param.Id] : "")"
+                           placeholder="@param.Name" />
+
+                    @if (!string.IsNullOrEmpty(param.Unit))
+                    {
+                        <span class="input-group-text">@param.Unit</span>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <hr class="my-4" />
+    <h4 class="mb-3">Wyposażenie pojazdu</h4>
+
+    <div class="row">
+        @foreach (var group in Model.AvailableFeatures.GroupBy(x => x.GroupName))
+        {
+            <div class="col-12 mt-2 mb-2">
+                <h6 class="text-primary border-bottom pb-1">@group.Key</h6>
+            </div>
+
+            @foreach (var feature in group)
+            {
+                <div class="col-md-3 col-sm-6 mb-2">
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="SelectedFeatureIds"
+                               value="@feature.Id"
+                               id="feat_@feature.Id"
+                               @(Model.SelectedFeatureIds.Contains(feature.Id) ? "checked" : "")>
+
+                        <label class="form-check-label" for="feat_@feature.Id">
+                            @feature.Name
+                        </label>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+
     <div class="row">
         <div class="col-md-6 mb-3">
             <label asp-for="LocationCity" class="form-label">Miasto</label>

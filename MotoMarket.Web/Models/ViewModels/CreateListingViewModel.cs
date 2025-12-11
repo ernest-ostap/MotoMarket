@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering; // Do SelectListItem
+using MotoMarket.Web.Models.DTOs;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -82,5 +83,22 @@ namespace MotoMarket.Web.Models.ViewModels
         // Metadane zdjęć (kolejność i główne)
         public List<int> PhotoSortOrders { get; set; } = new();
         public int MainPhotoIndex { get; set; } = 0;
+
+        // --- SEKCJA PARAMETRÓW (Inputy, np. Pojemność: 1900) ---
+
+        // To co wpisał user. Klucz = ID parametru, Wartość = to co wpisał (string)
+        public Dictionary<int, string> Parameters { get; set; } = new Dictionary<int, string>();
+
+        // Lista definicji pobrana z API (żeby wiedzieć jakie inputy narysować)
+        public IEnumerable<ParameterTypeDto> AvailableParameters { get; set; } = new List<ParameterTypeDto>();
+
+
+        // --- SEKCJA CECH (Checkboxy, np. [x] Klimatyzacja) ---
+
+        // To co zaznaczył user (lista ID-ków)
+        public List<int> SelectedFeatureIds { get; set; } = new List<int>();
+
+        // Lista definicji pobrana z API (żeby wiedzieć jakie checkboxy narysować)
+        public IEnumerable<FeatureDto> AvailableFeatures { get; set; } = new List<FeatureDto>();
     }
 }

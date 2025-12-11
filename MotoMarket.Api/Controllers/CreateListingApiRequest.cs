@@ -22,5 +22,8 @@
         // Metadane zdjęć
         public List<int>? PhotoSortOrders { get; set; }
         public int MainPhotoIndex { get; set; } = 0;
+
+        public Dictionary<int, string> Parameters { get; set; } = new Dictionary<int, string>();
+        public List<int> SelectedFeatureIds { get; set; } = new List<int>();
     }
 }

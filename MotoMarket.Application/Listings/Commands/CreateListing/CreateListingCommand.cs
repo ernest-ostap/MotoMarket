@@ -33,6 +33,8 @@ namespace MotoMarket.Application.Listings.Commands.CreateListing
 
         public List<ListingPhotoInput> Photos { get; set; } = new();
         public List<string> PhotoUrls { get; set; } = new List<string>(); // backward compatibility (not used if Photos filled)
+        public Dictionary<int, string> Parameters { get; set; } = new Dictionary<int, string>();
+        public List<int> SelectedFeatureIds { get; set; } = new List<int>();
     }
 
     public class ListingPhotoInput

@@ -121,6 +121,45 @@ namespace MotoMarket.Infrastructure.Persistence
                 });
             }
 
+            if (!_context.VehicleFeatures.Any())
+            {
+                var features = new List<VehicleFeature>
+                {
+                    // Bezpieczeństwo
+                    new() { Name = "ABS", GroupName = "Bezpieczeństwo", SortOrder = 1, IsActive = true },
+                    new() { Name = "ESP", GroupName = "Bezpieczeństwo", SortOrder = 2, IsActive = true },
+                    new() { Name = "Poduszka powietrzna kierowcy", GroupName = "Bezpieczeństwo", SortOrder = 3, IsActive = true },
+            
+                    // Komfort
+                    new() { Name = "Klimatyzacja automatyczna", GroupName = "Komfort", SortOrder = 10, IsActive = true },
+                    new() { Name = "Podgrzewane fotele", GroupName = "Komfort", SortOrder = 11, IsActive = true },
+                    new() { Name = "Tempomat", GroupName = "Komfort", SortOrder = 12, IsActive = true },
+            
+                    // Multimedia
+                    new() { Name = "Bluetooth", GroupName = "Multimedia", SortOrder = 20, IsActive = true },
+                    new() { Name = "Nawigacja GPS", GroupName = "Multimedia", SortOrder = 21, IsActive = true },
+            
+                    // Wygląd
+                    new() { Name = "Alufelgi", GroupName = "Wygląd", SortOrder = 30, IsActive = true },
+                    new() { Name = "Światła LED", GroupName = "Wygląd", SortOrder = 31, IsActive = true }
+                };
+                _context.VehicleFeatures.AddRange(features);
+            }
+
+            // 2. PARAMETRY TECHNICZNE (Pola do wpisania wartości) - ParameterTypes
+            if (!_context.VehicleParameterTypes.Any())
+            {
+                var paramsTypes = new List<VehicleParameterType>
+                {
+                    new() { Name = "Pojemność skokowa", Unit = "cm3", InputType = "number", Category = "Silnik", IsRequired = true, IsActive = true },
+                    new() { Name = "Moc", Unit = "KM", InputType = "number", Category = "Silnik", IsRequired = true, IsActive = true },
+                    new() { Name = "Liczba drzwi", Unit = "", InputType = "number", Category = "Nadwozie", IsRequired = false, IsActive = true },
+                    new() { Name = "Liczba miejsc", Unit = "", InputType = "number", Category = "Nadwozie", IsRequired = false, IsActive = true },
+                    new() { Name = "Kolor", Unit = "", InputType = "text", Category = "Ogólne", IsRequired = true, IsActive = true }
+                };
+                _context.VehicleParameterTypes.AddRange(paramsTypes);
+            }
+
             await _context.SaveChangesAsync();
         }
     }

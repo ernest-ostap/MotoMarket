@@ -108,7 +108,7 @@
                 </div>
             </div>
 
-            @if (Model.Features.Any())
+            @if (Model.Features != null && Model.Features.Any())
             {
                 <div class="card mb-4">
                     <div class="card-header bg-white">
@@ -118,7 +118,7 @@
                         <div class="d-flex flex-wrap gap-2">
                             @foreach (var feature in Model.Features)
                             {
-                                <span class="badge bg-secondary">@feature</span>
+                                <span class="badge bg-secondary p-2">@feature</span>
                             }
                         </div>
                     </div>

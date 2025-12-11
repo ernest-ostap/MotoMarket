@@ -120,7 +120,10 @@ namespace MotoMarket.Api.Controllers
 
                 // Przekazujemy listę wygenerowanych URL-i
                 PhotoUrls = photoUrls,
-                Photos = photoInputs
+                Photos = photoInputs,
+
+                Parameters = request.Parameters,
+                SelectedFeatureIds = request.SelectedFeatureIds
             };
             var id = await _mediator.Send(command);
 

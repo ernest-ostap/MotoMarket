@@ -223,7 +223,10 @@ namespace MotoMarket.Web.Controllers
             var drivesTask = _dictionaryService.GetDriveTypes();
             var categoriesTask = _dictionaryService.GetVehicleCategories();
 
-            await Task.WhenAll(brandsTask, fuelsTask, gearboxesTask, bodiesTask, drivesTask, categoriesTask);
+            var featuresTask = _dictionaryService.GetFeatures();
+            var paramsTask = _dictionaryService.GetParameters();
+
+            await Task.WhenAll(brandsTask, fuelsTask, gearboxesTask, bodiesTask, drivesTask, categoriesTask, featuresTask, paramsTask);
 
             model.Brands = brandsTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
             model.FuelTypes = fuelsTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
@@ -231,6 +234,9 @@ namespace MotoMarket.Web.Controllers
             model.BodyTypes = bodiesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
             model.DriveTypes = drivesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
             model.VehicleCategories = categoriesTask.Result.Select(x => new SelectListItem(x.Name, x.Id));
+
+            model.AvailableFeatures = featuresTask.Result;
+            model.AvailableParameters = paramsTask.Result;
 
             // Dodatkowo: Modele (kaskada) - tylko jeśli BrandId > 0
             if (model.BrandId > 0)

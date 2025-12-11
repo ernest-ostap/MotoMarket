@@ -11,7 +11,8 @@ namespace MotoMarket.Web.Services.Listings
         Task<IEnumerable<SelectListItemDto>> GetFuelTypes();
         Task<IEnumerable<SelectListItemDto>> GetGearboxTypes();
         Task<IEnumerable<SelectListItemDto>> GetVehicleCategories();
+        Task<IEnumerable<FeatureDto>> GetFeatures();
+        Task<IEnumerable<ParameterTypeDto>> GetParameters();
 
-        
     }
 }

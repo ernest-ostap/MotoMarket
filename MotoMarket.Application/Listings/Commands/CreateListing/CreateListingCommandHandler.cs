@@ -52,7 +52,21 @@ namespace MotoMarket.Application.Listings.Commands.CreateListing
                 CreatedAt = DateTime.UtcNow,
                 ExpiresAt = DateTime.UtcNow.AddDays(30), // Ważne przez 30 dni
 
+                Features = request.SelectedFeatureIds.Select(fid => new ListingFeature
+                {
+                    FeatureId = fid
+                }).ToList(),
+
+                ListingParameters = request.Parameters
+                    .Where(kvp => !string.IsNullOrEmpty(kvp.Value))
+                    .Select(kvp => new ListingParameter
+                    {
+                        ParameterTypeId = kvp.Key,
+                        Value = kvp.Value
+                    }).ToList(),
+
                 Photos = BuildPhotos(request)
+
             };
 
             // 2. Dodajemy do bazy

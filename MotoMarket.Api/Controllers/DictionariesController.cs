@@ -56,5 +56,13 @@ namespace MotoMarket.Api.Controllers
         {
             return Ok(await _mediator.Send(new GetVehicleCategoriesQuery()));
         }
+
+        [HttpGet("features")]
+        public async Task<ActionResult<IEnumerable<FeatureDto>>> GetFeatures()
+            => Ok(await _mediator.Send(new GetVehicleFeaturesQuery()));
+
+        [HttpGet("parameters")]
+        public async Task<ActionResult<IEnumerable<ParameterTypeDto>>> GetParameters()
+            => Ok(await _mediator.Send(new GetParametersQuery()));
     }
 }

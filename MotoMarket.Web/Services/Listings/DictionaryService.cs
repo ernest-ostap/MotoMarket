@@ -75,5 +75,29 @@ namespace MotoMarket.Web.Services.Listings
             }
             return new List<SelectListItemDto>();
         }
+
+        public async Task<IEnumerable<FeatureDto>> GetFeatures()
+        {
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Dictionaries/features");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                return JsonSerializer.Deserialize<IEnumerable<FeatureDto>>(json, options) ?? new List<FeatureDto>();
+            }
+            return new List<FeatureDto>();
+        }
+
+        public async Task<IEnumerable<ParameterTypeDto>> GetParameters()
+        {
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Dictionaries/parameters");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                return JsonSerializer.Deserialize<IEnumerable<ParameterTypeDto>>(json, options) ?? new List<ParameterTypeDto>();
+            }
+            return new List<ParameterTypeDto>();
+        }
     }
 }

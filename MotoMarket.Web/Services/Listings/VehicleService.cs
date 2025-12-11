@@ -111,6 +111,7 @@ namespace MotoMarket.Web.Services.Listings
         }
         #endregion
 
+        #region Create
         public async Task CreateListing(CreateListingViewModel model)
         {
             // Używamy MultipartFormDataContent zamiast JSON
@@ -158,6 +159,25 @@ namespace MotoMarket.Web.Services.Listings
                 }
             }
 
+            if (model.Parameters != null)
+            {
+                foreach (var kvp in model.Parameters)
+                {
+                    if (!string.IsNullOrEmpty(kvp.Value))
+                    {
+                        content.Add(new StringContent(kvp.Value), $"Parameters[{kvp.Key}]");
+                    }
+                }
+            }
+
+            if (model.SelectedFeatureIds != null)
+            {
+                foreach (var id in model.SelectedFeatureIds)
+                {
+                    content.Add(new StringContent(id.ToString()), "SelectedFeatureIds");
+                }
+            }
+
             // Dodajemy Token JWT
             var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
             if (!string.IsNullOrEmpty(token))
@@ -169,6 +189,9 @@ namespace MotoMarket.Web.Services.Listings
             var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Listings", content);
             response.EnsureSuccessStatusCode();
         }
+        #endregion
+
+        #region Update
         public async Task UpdateListing(CreateListingViewModel model)
         {
             using var content = new MultipartFormDataContent();
@@ -217,7 +240,9 @@ namespace MotoMarket.Web.Services.Listings
             var response = await _httpClient.PutAsync($"{_apiBaseUrl}/api/Listings/{model.Id}", content);
             response.EnsureSuccessStatusCode();
         }
+        #endregion
 
+        #region StatusUpdate
         public async Task DeleteListing(int id)
         {
             // Doklejamy token (ważne, bo API sprawdzi czy to Twoje ogłoszenie... 
@@ -250,5 +275,6 @@ namespace MotoMarket.Web.Services.Listings
             var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Listings/{id}/status", content);
             response.EnsureSuccessStatusCode();
         }
+        #endregion
     }
 }
