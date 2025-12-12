@@ -214,6 +214,24 @@ namespace MotoMarket.Web.Services.Listings
             content.Add(new StringContent(model.LocationRegion ?? ""), "LocationRegion");
             content.Add(new StringContent(model.MainPhotoIndex.ToString()), "MainPhotoIndex");
 
+            // Features
+            if (model.SelectedFeatureIds != null)
+            {
+                foreach (var fid in model.SelectedFeatureIds)
+                {
+                    content.Add(new StringContent(fid.ToString()), "SelectedFeatureIds");
+                }
+            }
+
+            // Parametry
+            if (model.Parameters != null)
+            {
+                foreach (var kvp in model.Parameters)
+                {
+                    content.Add(new StringContent(kvp.Value ?? string.Empty), $"Parameters[{kvp.Key}]");
+                }
+            }
+
             if (model.Photos != null)
             {
                 var photoList = model.Photos.ToList();

@@ -36,5 +36,9 @@ namespace MotoMarket.Application.Listings.Commands.UpdateListing
         // Zdjęcia (opcjonalnie przy update)
         public List<ListingPhotoInput> Photos { get; set; } = new();
         public List<string> PhotoUrls { get; set; } = new(); // fallback legacy
+
+        // Cechy i parametry
+        public Dictionary<int, string> Parameters { get; set; } = new();
+        public List<int> SelectedFeatureIds { get; set; } = new();
     }
 }

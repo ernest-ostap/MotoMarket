@@ -83,9 +83,11 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
                 PhotoUrls = entity.Photos.Select(p => p.Url).ToList(),
 
                 Features = entity.Features.Select(f => f.Feature.Name).ToList(),
+                FeatureIds = entity.Features.Select(f => f.FeatureId).ToList(),
 
                 Parameters = entity.ListingParameters.Select(p => new ListingParameterDto
                 {
+                    ParameterTypeId = p.ParameterTypeId,
                     Name = p.ParameterType.Name,
                     Value = p.Value,
                     Unit = p.ParameterType.Unit

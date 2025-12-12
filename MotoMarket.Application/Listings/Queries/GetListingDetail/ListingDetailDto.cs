@@ -20,12 +20,16 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
 
         // Dodatkowe pola, których nie ma na liście
         public IEnumerable<string> PhotoUrls { get; set; } = new List<string>();
-        public IEnumerable<string> Features { get; set; } = new List<string>(); 
+        public IEnumerable<string> Features { get; set; } = new List<string>();
+
+        // Na potrzeby edycji
+        public IEnumerable<int> FeatureIds { get; set; } = new List<int>();
         public IEnumerable<ListingParameterDto> Parameters { get; set; } = new List<ListingParameterDto>();
     }
 
     public class ListingParameterDto
     {
+        public int ParameterTypeId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Value { get; set; } = string.Empty;
         public string Unit { get; set; } = string.Empty;  // np. "kWh" (Warto to dodać!)

@@ -113,7 +113,11 @@ namespace MotoMarket.Web.Controllers
                 GearboxTypeId = listing.GearboxTypeId,
                 BodyTypeId = listing.BodyTypeId,
                 DriveTypeId = listing.DriveTypeId,
-                VehicleCategoryId = listing.VehicleCategoryId
+                VehicleCategoryId = listing.VehicleCategoryId,
+
+                // ListingParameters / Features
+                SelectedFeatureIds = listing.FeatureIds?.ToList() ?? new List<int>(),
+                Parameters = listing.Parameters?.ToDictionary(p => p.ParameterTypeId, p => p.Value) ?? new Dictionary<int, string>()
             };
 
             // 4. Pobierz słowniki (Brands, Fuels...) - tak jak w Create

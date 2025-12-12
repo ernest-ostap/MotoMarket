@@ -198,7 +198,9 @@ namespace MotoMarket.Api.Controllers
                 LocationCity = request.LocationCity,
                 LocationRegion = request.LocationRegion,
                 Photos = photoInputs,
-                PhotoUrls = photoUrls
+                PhotoUrls = photoUrls,
+                SelectedFeatureIds = request.SelectedFeatureIds ?? new List<int>(),
+                Parameters = request.Parameters ?? new Dictionary<int, string>()
             };
 
             await _mediator.Send(command);

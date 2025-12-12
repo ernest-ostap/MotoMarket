@@ -3,6 +3,7 @@ using MotoMarket.Application.Common.Exceptions;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 using MotoMarket.Domain.Entities.Listings;
 using MotoMarket.Application.Listings.Commands.CreateListing;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +65,32 @@ namespace MotoMarket.Application.Listings.Commands.UpdateListing
                     photo.ListingId = entity.Id;
                 }
                 await _context.ListingPhotos.AddRangeAsync(newPhotos, cancellationToken);
+            }
+
+            // Features: wyczyść i nadpisz
+            _context.ListingFeatures.RemoveRange(_context.ListingFeatures.Where(f => f.ListingId == entity.Id));
+            var newFeatures = request.SelectedFeatureIds
+                .Select(fid => new ListingFeature { ListingId = entity.Id, FeatureId = fid })
+                .ToList();
+            if (newFeatures.Any())
+            {
+                await _context.ListingFeatures.AddRangeAsync(newFeatures, cancellationToken);
+            }
+
+            // ListingParameters: wyczyść i nadpisz (tylko niepuste wartości)
+            _context.ListingParameters.RemoveRange(_context.ListingParameters.Where(p => p.ListingId == entity.Id));
+            var newParams = request.Parameters
+                .Where(kvp => !string.IsNullOrWhiteSpace(kvp.Value))
+                .Select(kvp => new ListingParameter
+                {
+                    ListingId = entity.Id,
+                    ParameterTypeId = kvp.Key,
+                    Value = kvp.Value
+                })
+                .ToList();
+            if (newParams.Any())
+            {
+                await _context.ListingParameters.AddRangeAsync(newParams, cancellationToken);
             }
 
             // aktualizacja daty modyfikacji

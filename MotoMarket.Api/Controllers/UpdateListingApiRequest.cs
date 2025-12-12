@@ -21,6 +21,8 @@ namespace MotoMarket.Api.Controllers
         public IFormFileCollection? Photos { get; set; }
         public List<int>? PhotoSortOrders { get; set; }
         public int MainPhotoIndex { get; set; } = 0;
+        public List<int>? SelectedFeatureIds { get; set; }
+        public Dictionary<int, string>? Parameters { get; set; }
     }
 }
 
