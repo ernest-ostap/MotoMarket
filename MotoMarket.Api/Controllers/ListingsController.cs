@@ -29,9 +29,9 @@ namespace MotoMarket.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ListingDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ListingDto>>> GetAll([FromQuery] GetAllListingsQuery query)
         {
-            var result = await _mediator.Send(new GetAllListingsQuery());
+            var result = await _mediator.Send(query);
             return Ok(result);
         }
 

@@ -5,7 +5,7 @@ namespace MotoMarket.Web.Services.Listings
 {
     public interface IVehicleService
     {
-        Task<IEnumerable<ListingDto>> GetAllListings();
+        Task<IEnumerable<ListingDto>> GetAllListings(ListingsFilterViewModel filter);
         Task<ListingDetailDto?> GetListingDetail(int id);
         Task CreateListing(CreateListingViewModel model);
         Task<IEnumerable<ListingDto>> GetMyListings();

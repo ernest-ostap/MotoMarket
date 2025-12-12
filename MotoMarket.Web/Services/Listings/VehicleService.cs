@@ -1,9 +1,10 @@
 ﻿using MotoMarket.Web.Models.DTOs;
 using MotoMarket.Web.Models.ViewModels;
+using System.IO;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.IO;
+using static System.Net.WebRequestMethods;
 
 namespace MotoMarket.Web.Services.Listings
 {
@@ -22,11 +23,23 @@ namespace MotoMarket.Web.Services.Listings
         }
         #endregion
 
-        #region GetAllListings
-        public async Task<IEnumerable<ListingDto>> GetAllListings()
+        #region Get...Listings
+        public async Task<IEnumerable<ListingDto>> GetAllListings(ListingsFilterViewModel filter)
         {
-            // Wywołujemy GET /api/Listings
-            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Listings");
+            // Budowanie Query String
+            var queryParams = new List<string>();
+
+            if (!string.IsNullOrEmpty(filter.Search)) queryParams.Add($"searchCallback={filter.Search}");
+            if (filter.BrandId.HasValue) queryParams.Add($"brandId={filter.BrandId}");
+            if (filter.ModelId.HasValue) queryParams.Add($"modelId={filter.ModelId}");
+            if (filter.PriceMin.HasValue) queryParams.Add($"priceMin={filter.PriceMin}");
+            if (filter.PriceMax.HasValue) queryParams.Add($"priceMax={filter.PriceMax}");
+            if (filter.YearMin.HasValue) queryParams.Add($"yearMin={filter.YearMin}");
+            if (!string.IsNullOrEmpty(filter.SortBy)) queryParams.Add($"sortBy={filter.SortBy}");
+
+            var queryString = queryParams.Any() ? "?" + string.Join("&", queryParams) : "";
+
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Listings{queryString}");
 
             if (response.IsSuccessStatusCode)
             {

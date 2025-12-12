@@ -23,13 +23,23 @@ namespace MotoMarket.Web.Controllers
         }
 
         // GET: Listings
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(ListingsFilterViewModel filter) // MVC samo zmapuje parametry z URL
         {
-            // Pobieramy auta z API
-            var listings = await _vehicleService.GetAllListings();
+            // 1. Pobierz słowniki do dropdownów w filtrach
+            var brands = await _dictionaryService.GetBrands();
+            filter.Brands = brands.Select(x => new SelectListItem(x.Name, x.Id));
 
-            // Przekazujemy do widoku
-            return View(listings);
+            // Jeśli wybrano markę, załaduj modele (żeby dropdown nie był pusty po przeładowaniu)
+            if (filter.BrandId.HasValue)
+            {
+                var models = await _dictionaryService.GetModels(filter.BrandId.Value);
+                filter.Models = models.Select(x => new SelectListItem(x.Name, x.Id));
+            }
+
+            // 2. Pobierz przefiltrowane auta
+            filter.Listings = await _vehicleService.GetAllListings(filter);
+
+            return View(filter);
         }
 
         // GET: Listings/Details/5
@@ -79,6 +89,7 @@ namespace MotoMarket.Web.Controllers
             return View(listings);
         }
 
+        #region Edit
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
@@ -155,7 +166,9 @@ namespace MotoMarket.Web.Controllers
                 return View(model);
             }
         }
+        #endregion
 
+        #region ListingStatus
         // POST: Listings/Delete/5
         [HttpPost]
         [Authorize]
@@ -210,6 +223,7 @@ namespace MotoMarket.Web.Controllers
 
             return RedirectToAction(nameof(MyListings));
         }
+        #endregion
 
         [HttpGet]
         public async Task<JsonResult> GetModelsJson(int brandId)

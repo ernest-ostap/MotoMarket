@@ -21,46 +21,69 @@ namespace MotoMarket.Application.Listings.Queries.GetAllListings
 
         public async Task<IEnumerable<ListingDto>> Handle(GetAllListingsQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Listings
+            // 1. Zaczynamy budować zapytanie (JESZCZE NIE WYSŁANE DO BAZY)
+            var query = _context.Listings
                 .AsNoTracking()
-                .Where(x => x.Status != ListingStatus.Archived)
-                // Przy uzyciu .select() zazwyczaj EF sam robi sobie joiny,
-                // dla jasnosci i przejrzystosci zostawiam include'y
+                .Where(x => x.Status == Domain.Entities.Listings.ListingStatus.Active) // Tylko aktywne
                 .Include(x => x.Brand)
                 .Include(x => x.Model)
-                .Include(x => x.VehicleCategory)
-                .Include(x => x.FuelType)
-                .Include(x => x.GearboxType)
-                .Include(x => x.DriveType)
-                .Include(x => x.BodyType)
                 .Include(x => x.Photos)
-                .OrderByDescending(x => x.CreatedAt)
+                .AsQueryable(); // Ważne: rzutujemy na IQueryable, żeby doklejać warunki
+
+            // 2. Doklejamy filtry dynamicznie
+            if (!string.IsNullOrWhiteSpace(request.SearchCallback))
+            {
+                query = query.Where(x => x.Title.Contains(request.SearchCallback));
+            }
+
+            if (request.BrandId.HasValue)
+            {
+                query = query.Where(x => x.BrandId == request.BrandId.Value);
+            }
+
+            if (request.ModelId.HasValue)
+            {
+                query = query.Where(x => x.ModelId == request.ModelId.Value);
+            }
+
+            if (request.PriceMin.HasValue)
+            {
+                query = query.Where(x => x.Price >= request.PriceMin.Value);
+            }
+
+            if (request.PriceMax.HasValue)
+            {
+                query = query.Where(x => x.Price <= request.PriceMax.Value);
+            }
+
+            if (request.YearMin.HasValue)
+            {
+                query = query.Where(x => x.ProductionYear >= request.YearMin.Value);
+            }
+
+            // 3. Sortowanie (prosta implementacja)
+            query = request.SortBy switch
+            {
+                "price_asc" => query.OrderBy(x => x.Price),
+                "price_desc" => query.OrderByDescending(x => x.Price),
+                "mileage_asc" => query.OrderBy(x => x.Mileage),
+                "mileage_desc" => query.OrderByDescending(x => x.Mileage),
+                "oldest" => query.OrderBy(x => x.ProductionYear),
+                _ => query.OrderByDescending(x => x.CreatedAt) // Domyślne: najnowsze
+            };
+
+            // 4. Projekcja i Wykonanie (Dopiero tu leci SQL do bazy)
+            return await query
                 .Select(x => new ListingDto
                 {
-                    // Mapowanie 1:1
                     Id = x.Id,
-                    UserId = x.UserId,
                     Title = x.Title,
-                    Description = x.Description,
                     Price = x.Price,
-                    VIN = x.VIN,
+                    LocationCity = x.LocationCity,
                     ProductionYear = x.ProductionYear,
                     Mileage = x.Mileage,
-                    LocationCity = x.LocationCity,
-                    LocationRegion = x.LocationRegion,
-                    Status = (int)x.Status, // Rzutowanie enuma na int
-                    CreatedAt = x.CreatedAt,
-                    ExpiresAt = x.ExpiresAt,
-
-                    // Wyciąganie nazw ze słowników
                     BrandName = x.Brand.Name,
                     ModelName = x.Model.Name,
-                    VehicleCategoryName = x.VehicleCategory.Name,
-                    FuelTypeName = x.FuelType.Name,
-                    GearboxTypeName = x.GearboxType.Name,
-                    DriveTypeName = x.DriveType.Name,
-                    BodyTypeName = x.BodyType.Name,
-
                     // Zdjęcie główne
                     MainPhotoUrl = x.Photos
                         .Where(p => p.IsMain)

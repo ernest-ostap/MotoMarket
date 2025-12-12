@@ -1,48 +1,168 @@
 ﻿@using MotoMarket.Web.Models.DTOs
-@model IEnumerable<ListingDto>
+@model MotoMarket.Web.Models.ViewModels.ListingsFilterViewModel
 
 @{
-    ViewData["Title"] = "Strona Główna";
+    ViewData["Title"] = "Ogłoszenia";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="display-4">Wszystkie ogłoszenia</h1>
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card p-3 shadow-sm sticky-top" style="top: 1rem; z-index: 100;">
+                <h4 class="mb-3">Filtrowanie</h4>
 
-    <a asp-action="Create" class="btn btn-success btn-lg">
-        Sprzedaj swój samochód
-    </a>
-</div>
+                <form asp-action="Index" method="get" id="filterForm">
 
-<div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                @if (!string.IsNullOrEmpty(item.MainPhotoUrl))
-                {
-                    <img src="@item.MainPhotoUrl" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
-                }
-                else
-                {
-                    <img src="https://via.placeholder.com/300x200?text=Brak+Zdjecia" class="card-img-top" alt="No image">
-                }
-
-                <div class="card-body">
-                    <h5 class="card-title">@item.BrandName @item.ModelName</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">@item.Title</h6>
-                    <p class="card-text text-truncate">@item.Description</p>
-
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="h5 text-primary mb-0">@item.Price.ToString("C0")</span>
-                        <small class="text-muted">@item.LocationCity</small>
+                    <div class="mb-3">
+                        <input asp-for="Search" class="form-control" placeholder="Szukaj (np. tytuł)..." />
                     </div>
-                </div>
-                <div class="card-footer bg-white border-top-0">
-                    <a asp-controller="Listings" asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary w-100">
-                        Zobacz szczegóły
-                    </a>
-                </div>
+
+                    <div class="mb-3">
+                        <label asp-for="BrandId" class="form-label">Marka</label>
+                        <select asp-for="BrandId" asp-items="Model.Brands" class="form-select" id="BrandFilter">
+                            <option value="">Wszystkie marki</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ModelId" class="form-label">Model</label>
+                        <select asp-for="ModelId"
+                                asp-items="Model.Models"
+                                class="form-select"
+                                id="ModelFilter"
+                                disabled="@(Model.BrandId == null ? "disabled" : null)">
+                            <option value="">Wszystkie modele</option>
+                        </select>
+                    </div>
+
+                    <label class="form-label">Cena (PLN)</label>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <input asp-for="PriceMin" class="form-control" placeholder="Od" type="number" />
+                        </div>
+                        <div class="col-6">
+                            <input asp-for="PriceMax" class="form-control" placeholder="Do" type="number" />
+                        </div>
+                    </div>
+
+                    <label class="form-label">Rok produkcji</label>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <input asp-for="YearMin" class="form-control" placeholder="Od" type="number" />
+                        </div>
+                        <div class="col-6">
+                            <input asp-for="YearMax" class="form-control" placeholder="Do" type="number" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="SortBy" class="form-label">Sortuj</label>
+                        <select asp-for="SortBy" class="form-select">
+                            <option value="newest">Najnowsze</option>
+                            <option value="price_asc">Cena: rosnąco</option>
+                            <option value="price_desc">Cena: malejąco</option>
+                            <option value="oldest">Najstarsze</option>
+                        </select>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Filtruj</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Wyczyść filtry</a>
+                    </div>
+                </form>
             </div>
         </div>
-    }
+
+        <div class="col-md-9">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="display-5">Ogłoszenia</h1>
+                    <small class="text-muted">Znaleziono: @Model.Listings.Count() ofert</small>
+                </div>
+
+                <a asp-action="Create" class="btn btn-success btn-lg shadow">
+                    <i class="bi bi-plus-circle"></i> Sprzedaj auto
+                </a>
+            </div>
+
+            <div class="row">
+                @foreach (var item in Model.Listings)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm hover-shadow transition">
+                            <div style="position: relative;">
+                                @if (!string.IsNullOrEmpty(item.MainPhotoUrl))
+                                {
+                                    <img src="@item.MainPhotoUrl" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                                }
+                                else
+                                {
+                                    <img src="https://via.placeholder.com/300x200?text=Brak+Zdjecia" class="card-img-top" alt="No image" style="height: 200px; object-fit: cover;">
+                                }
+                                <span class="badge bg-dark position-absolute bottom-0 end-0 m-2 px-3 py-2 fs-6">
+                                    @item.Price.ToString("C0")
+                                </span>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold text-primary">@item.BrandName @item.ModelName</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@item.Title</h6>
+                                <p class="card-text text-truncate small">@item.Description</p>
+
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <small class="text-muted"><i class="bi bi-calendar"></i> @item.ProductionYear</small>
+                                    <small class="text-muted"><i class="bi bi-speedometer2"></i> @item.Mileage km</small>
+                                    <small class="text-muted"><i class="bi bi-geo-alt"></i> @item.LocationCity</small>
+                                </div>
+                            </div>
+
+                            <div class="card-footer bg-white border-top-0 pb-3">
+                                <a asp-controller="Listings" asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary w-100 stretched-link">
+                                    Zobacz szczegóły
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (!Model.Listings.Any())
+            {
+                <div class="alert alert-warning text-center mt-5 p-5">
+                    <h4>Niestety, nie znaleziono ogłoszeń spełniających kryteria.</h4>
+                    <p>Spróbuj zmienić filtry lub <a asp-action="Index">wyczyść wyszukiwanie</a>.</p>
+                </div>
+            }
+
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Logika ładowania modeli po zmianie marki
+            $('#BrandFilter').change(function () {
+                var brandId = $(this).val();
+                var modelDropdown = $('#ModelFilter');
+
+                modelDropdown.empty();
+                modelDropdown.append('<option value="">Wszystkie modele</option>');
+                modelDropdown.prop('disabled', true); // Blokujemy na czas ładowania
+
+                if (brandId) {
+                    $.getJSON('/Listings/GetModelsJson?brandId=' + brandId, function (data) {
+                        $.each(data, function (index, item) {
+                            modelDropdown.append($('<option>', {
+                                value: item.id,
+                                text: item.name
+                            }));
+                        });
+                        modelDropdown.prop('disabled', false); // Odblokowujemy jak są dane
+                    });
+                }
+            });
+        });
+    </script>
+}
