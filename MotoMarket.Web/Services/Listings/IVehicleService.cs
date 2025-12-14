@@ -13,5 +13,7 @@ namespace MotoMarket.Web.Services.Listings
         Task DeleteListing(int id);
         Task RestoreListing(int id);
         Task UpdateListingStatus(int id, int status);
+        Task<bool> ToggleFavorite(int listingId); // Zwraca true=dodano, false=usunięto
+        Task<IEnumerable<ListingDto>> GetMyFavorites();
     }
 }

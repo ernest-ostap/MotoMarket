@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces.Persistence;
+using MotoMarket.Application.Common.Interfaces.Identity;
 using MotoMarket.Application.Listings.Queries.GetAllListings; // Do podstawowego mapowania
 
 namespace MotoMarket.Application.Listings.Queries.GetListingDetail
@@ -13,10 +14,12 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
     public class GetListingDetailQueryHandler : IRequestHandler<GetListingDetailQuery, ListingDetailDto>
     {
         private readonly IApplicationDbContext _context;
+        private readonly ICurrentUserService _currentUserService;
 
-        public GetListingDetailQueryHandler(IApplicationDbContext context)
+        public GetListingDetailQueryHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
         {
             _context = context;
+            _currentUserService = currentUserService;
         }
 
         public async Task<ListingDetailDto> Handle(GetListingDetailQuery request, CancellationToken cancellationToken)
@@ -44,7 +47,7 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
             }
 
             // Mapowanie ręczne 
-            return new ListingDetailDto
+            var result = new ListingDetailDto
             {
                 Id = entity.Id,
                 UserId = entity.UserId,
@@ -91,8 +94,21 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
                     Name = p.ParameterType.Name,
                     Value = p.Value,
                     Unit = p.ParameterType.Unit
-                }).ToList()
+                }).ToList(),
+                IsFavorite = false // Domyślnie false
             };
+
+            // Sprawdzamy czy to ogłoszenie jest w ulubionych użytkownika
+            var userId = _currentUserService.UserId;
+            if (!string.IsNullOrEmpty(userId))
+            {
+                var isFavorite = await _context.UserFavorites
+                    .AsNoTracking()
+                    .AnyAsync(x => x.UserId == userId && x.ListingId == entity.Id, cancellationToken);
+                result.IsFavorite = isFavorite;
+            }
+
+            return result;
         }
     }
 }

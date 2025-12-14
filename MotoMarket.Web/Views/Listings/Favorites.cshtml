@@ -1,0 +1,98 @@
+﻿@using MotoMarket.Web.Models.DTOs
+@model IEnumerable<ListingDto>
+
+@{
+    ViewData["Title"] = "Ulubione";
+    // Stałe statusów (zgodnie z ListingStatus enum)
+    const int StatusActive = 1;
+    const int StatusSold = 2;
+    const int StatusArchived = 3;
+}
+
+<h2 class="mb-4">Moje ulubione ogłoszenia ❤️</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-light text-center">
+        Nie masz jeszcze ulubionych aut. <a asp-action="Index">Przeglądaj ogłoszenia</a>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            var isInactive = item.Status == StatusSold || item.Status == StatusArchived;
+            var statusText = item.Status == StatusSold ? "Sprzedane" : item.Status == StatusArchived ? "Zarchiwizowane" : "";
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm @(isInactive ? "opacity-50" : "")" style="@(isInactive ? "filter: grayscale(70%);" : "")">
+                    <div style="position: relative;">
+                        <button type="button"
+                                class="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle shadow-sm favorite-btn d-flex align-items-center justify-content-center"
+                                style="width: 35px; height: 35px; z-index: 2;"
+                                data-id="@item.Id"
+                                title="Usuń z ulubionych">
+                            <i class="bi bi-heart-fill text-danger"></i>
+                        </button>
+                        <img src="@item.MainPhotoUrl" class="card-img-top" style="height: 200px; object-fit: cover;" alt="@item.Title">
+                        @if (isInactive)
+                        {
+                            <div class="position-absolute top-50 start-50 translate-middle">
+                                <span class="badge bg-dark px-3 py-2 fs-6">@statusText</span>
+                            </div>
+                        }
+                        <span class="badge bg-dark position-absolute bottom-0 end-0 m-2 px-3 py-2 fs-6">
+                            @item.Price.ToString("C0")
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@item.BrandName @item.ModelName</h5>
+                        <p class="card-text text-truncate small">@item.Title</p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0 pb-3">
+                        @if (isInactive)
+                        {
+                            <button class="btn btn-secondary w-100" disabled>Ogłoszenie niedostępne</button>
+                        }
+                        else
+                        {
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary w-100">Szczegóły</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Obsługa kliknięcia w serce (usuwanie z ulubionych)
+            $('.favorite-btn').click(function(e) {
+                e.preventDefault();
+                var btn = $(this);
+                var id = btn.data('id');
+                var card = btn.closest('.col-md-4');
+
+                // Strzał do kontrolera MVC
+                $.post('/Listings/ToggleFavoriteJson/' + id, function(data) {
+                    if (data.success && !data.isFavorite) {
+                        // Jeśli zostało usunięte z ulubionych, usuwamy kartę z animacją
+                        card.fadeOut(300, function() {
+                            $(this).remove();
+                            // Jeśli nie ma już żadnych kart, pokazujemy komunikat
+                            if ($('.col-md-4').length === 0) {
+                                location.reload(); // Przeładowujemy stronę żeby pokazać komunikat
+                            }
+                        });
+                    } else if (!data.success) {
+                        alert('Musisz być zalogowany!');
+                        window.location.href = '/Auth/Login';
+                    }
+                });
+            });
+        });
+    </script>
+}

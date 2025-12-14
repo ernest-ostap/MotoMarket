@@ -35,5 +35,7 @@
 
         // --- Zdjęcia ---
         public string MainPhotoUrl { get; set; } = string.Empty;
+
+        public bool IsFavorite { get; set; }
     }
 }

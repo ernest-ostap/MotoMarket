@@ -35,6 +35,7 @@ namespace MotoMarket.Application.Common.Interfaces.Persistence
         // --- Konfiguracja ---
         DbSet<AdminSetting> AdminSettings { get; }
         DbSet<PageContent> PageContents { get; }
+        DbSet<UserFavorite> UserFavorites { get; }
 
         // --- Metoda zapisu ---
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

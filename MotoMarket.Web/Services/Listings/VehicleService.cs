@@ -39,6 +39,14 @@ namespace MotoMarket.Web.Services.Listings
 
             var queryString = queryParams.Any() ? "?" + string.Join("&", queryParams) : "";
 
+            // Dodajemy token autoryzacyjny (jeśli użytkownik jest zalogowany)
+            // API użyje tego do sprawdzenia ulubionych
+            var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
             var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Listings{queryString}");
 
             if (response.IsSuccessStatusCode)
@@ -63,6 +71,14 @@ namespace MotoMarket.Web.Services.Listings
 
         public async Task<ListingDetailDto?> GetListingDetail(int id)
         {
+            // Dodajemy token autoryzacyjny (jeśli użytkownik jest zalogowany)
+            // API użyje tego do sprawdzenia ulubionych
+            var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
             var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Listings/{id}");
 
             if (response.IsSuccessStatusCode)
@@ -117,6 +133,57 @@ namespace MotoMarket.Web.Services.Listings
                     }
                 }
                 // --------------------
+
+                return listings;
+            }
+            return new List<ListingDto>();
+        }
+        #endregion
+
+        #region Favorites
+        public async Task<bool> ToggleFavorite(int listingId)
+        {
+            // Token
+            var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            // Strzał do API endpointa POST /api/Favorites/{id}
+            var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Favorites/{listingId}", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                // API zwraca true/false
+                return bool.Parse(json);
+            }
+
+            return false;
+        }
+
+        public async Task<IEnumerable<ListingDto>> GetMyFavorites()
+        {
+            var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Favorites");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var listings = JsonSerializer.Deserialize<IEnumerable<ListingDto>>(json, options) ?? new List<ListingDto>();
+
+                // Poprawka URL zdjęć (skopiuj tę pętlę z GetAllListings)
+                foreach (var item in listings)
+                {
+                    if (!string.IsNullOrEmpty(item.MainPhotoUrl)) item.MainPhotoUrl = _apiBaseUrl + item.MainPhotoUrl;
+                }
 
                 return listings;
             }

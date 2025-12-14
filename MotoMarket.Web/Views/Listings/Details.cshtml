@@ -129,8 +129,26 @@
         <div class="col-lg-4">
             <div class="card shadow-sm sticky-top" style="top: 2rem;">
                 <div class="card-body">
-                    <h2 class="card-title text-primary mb-3">@Model.Price.ToString("C0")</h2>
-                    <h5 class="card-subtitle mb-3">@Model.BrandName @Model.ModelName</h5>
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h2 class="card-title text-primary mb-1">@Model.Price.ToString("C0")</h2>
+                            <h5 class="card-subtitle mb-0">@Model.BrandName @Model.ModelName</h5>
+                        </div>
+                        <button type="button"
+                                class="btn btn-light rounded-circle shadow-sm favorite-btn d-flex align-items-center justify-content-center"
+                                style="width: 45px; height: 45px;"
+                                data-id="@Model.Id"
+                                title="@(Model.IsFavorite ? "Usuń z ulubionych" : "Dodaj do ulubionych")">
+                            @if (Model.IsFavorite)
+                            {
+                                <i class="bi bi-heart-fill text-danger fs-4"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-heart text-danger fs-4"></i>
+                            }
+                        </button>
+                    </div>
 
                     <hr />
 
@@ -153,3 +171,35 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Obsługa kliknięcia w serce
+            $('.favorite-btn').click(function(e) {
+                e.preventDefault();
+                var btn = $(this);
+                var icon = btn.find('i');
+                var id = btn.data('id');
+
+                // Strzał do kontrolera MVC
+                $.post('/Listings/ToggleFavoriteJson/' + id, function(data) {
+                    if (data.success) {
+                        if (data.isFavorite) {
+                            // Zmieniamy na pełne serce
+                            icon.removeClass('bi-heart').addClass('bi-heart-fill');
+                            btn.attr('title', 'Usuń z ulubionych');
+                        } else {
+                            // Zmieniamy na puste serce
+                            icon.removeClass('bi-heart-fill').addClass('bi-heart');
+                            btn.attr('title', 'Dodaj do ulubionych');
+                        }
+                    } else {
+                        alert('Musisz być zalogowany!');
+                        window.location.href = '/Auth/Login';
+                    }
+                });
+            });
+        });
+    </script>
+}

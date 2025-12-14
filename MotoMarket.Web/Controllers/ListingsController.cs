@@ -89,6 +89,14 @@ namespace MotoMarket.Web.Controllers
             return View(listings);
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Favorites()
+        {
+            var favorites = await _vehicleService.GetMyFavorites();
+            return View(favorites);
+        }
+
         #region Edit
         [Authorize]
         [HttpGet]
@@ -224,6 +232,22 @@ namespace MotoMarket.Web.Controllers
             return RedirectToAction(nameof(MyListings));
         }
         #endregion
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ToggleFavoriteJson(int id)
+        {
+            try
+            {
+                var isFavorite = await _vehicleService.ToggleFavorite(id);
+                // Zwracamy JSON, żeby strona się nie przeładowała
+                return Json(new { success = true, isFavorite = isFavorite });
+            }
+            catch
+            {
+                return Json(new { success = false });
+            }
+        }
 
         [HttpGet]
         public async Task<JsonResult> GetModelsJson(int brandId)

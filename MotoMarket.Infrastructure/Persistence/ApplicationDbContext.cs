@@ -50,6 +50,8 @@ namespace MotoMarket.Infrastructure.Persistence
         public DbSet<VehicleFeature> VehicleFeatures { get; set; }
         public DbSet<VehicleParameterType> VehicleParameterTypes { get; set; }
 
+        public DbSet<UserFavorite> UserFavorites { get; set; }
+
         // Tutaj konfigurujemy szczegóły, np. precyzję ceny
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -80,6 +82,15 @@ namespace MotoMarket.Infrastructure.Persistence
                 .WithMany()
                 .HasForeignKey(l => l.ModelId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<UserFavorite>()
+                .HasKey(x => new { x.UserId, x.ListingId }); // Klucz złożony
+
+            builder.Entity<UserFavorite>()
+                .HasOne(x => x.Listing)
+                .WithMany() 
+                .HasForeignKey(x => x.ListingId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Reszta relacji ListingFeature, ListingPhoto itp. z automatu zadziała dobrze (Cascade delete jest tam OK)
         }

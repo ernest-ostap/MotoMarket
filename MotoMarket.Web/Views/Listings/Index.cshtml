@@ -92,6 +92,21 @@
                     <div class="col-md-4 mb-4">
                         <div class="card h-100 shadow-sm hover-shadow transition">
                             <div style="position: relative;">
+
+                                <button type="button"
+                                        class="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle shadow-sm favorite-btn d-flex align-items-center justify-content-center"
+                                        style="width: 35px; height: 35px; z-index: 2;"
+                                        data-id="@item.Id"
+                                        title="Dodaj do ulubionych">
+                                    @if (item.IsFavorite)
+                                    {
+                                        <i class="bi bi-heart-fill text-danger"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-heart text-danger"></i>
+                                    }
+                                </button>
                                 @if (!string.IsNullOrEmpty(item.MainPhotoUrl))
                                 {
                                     <img src="@item.MainPhotoUrl" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
@@ -162,6 +177,32 @@
                         modelDropdown.prop('disabled', false); // Odblokowujemy jak są dane
                     });
                 }
+            });
+        });
+                $(document).ready(function() {
+            // Obsługa kliknięcia w serce
+            $('.favorite-btn').click(function(e) {
+                e.preventDefault(); // Żeby nie klikało w link pod spodem (jeśli jest)
+                var btn = $(this);
+                var icon = btn.find('i');
+                var id = btn.data('id');
+
+                // Strzał do kontrolera MVC (który strzela do API)
+                $.post('/Listings/ToggleFavoriteJson/' + id, function(data) {
+                    if (data.success) {
+                        if (data.isFavorite) {
+                            // Zmieniamy na pełne serce
+                            icon.removeClass('bi-heart').addClass('bi-heart-fill');
+                            // Opcjonalnie: animacja
+                        } else {
+                            // Zmieniamy na puste serce
+                            icon.removeClass('bi-heart-fill').addClass('bi-heart');
+                        }
+                    } else {
+                        alert('Musisz być zalogowany!');
+                        window.location.href = '/Auth/Login';
+                    }
+                });
             });
         });
     </script>
