@@ -20,16 +20,16 @@ namespace MotoMarket.Infrastructure
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString)); 
+                options.UseSqlServer(connectionString));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>() 
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             // --- 1. Rejestracja serwisu tokenów ---
             services.AddTransient<ITokenService, TokenService>();
 
-            // --- 2. Konfiguracja JWT (Bramkarz) ---
+            // --- 2. Konfiguracja JWT (Bramkarz) + FIX DLA SIGNALR ---
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -37,17 +37,37 @@ namespace MotoMarket.Infrastructure
             })
             .AddJwtBearer(options =>
             {
+                options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
+                    // UWAGA: Upewnij się, że w appsettings.json masz sekcję "JwtSettings" i pole "Secret"
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Secret"]!)),
                     ValidateIssuer = true,
                     ValidIssuer = configuration["JwtSettings:Issuer"],
                     ValidateAudience = true,
                     ValidAudience = configuration["JwtSettings:Audience"],
-                    ValidateLifetime = true, // Sprawdzaj czy nie wygasł
-                    ClockSkew = TimeSpan.Zero // Nie dawaj 5 minut tolerancji, wygaś od razu
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
                 };
+
+                // --- NOWOŚĆ: To naprawia SignalR (błąd 401) ---
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+
+                        // Jeśli zapytanie idzie do Huba (/chatHub), weź token z URL
+                        if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chatHub")))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+                // ------------------------------------------------
             });
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());

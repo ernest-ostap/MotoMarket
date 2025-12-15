@@ -4,7 +4,7 @@ namespace MotoMarket.Web.Services.Auth
 {
     public interface IAuthService
     {
-        Task<bool> Login(LoginViewModel model);
+        Task<string?> Login(LoginViewModel model);
         Task<bool> Register(RegisterViewModel model);
         Task Logout();
         Task<bool> UpdateProfile(UpdateProfileViewModel model);

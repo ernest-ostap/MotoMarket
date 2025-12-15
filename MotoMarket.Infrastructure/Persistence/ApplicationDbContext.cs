@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MotoMarket.Application.Common.Interfaces.Persistence;
 using MotoMarket.Domain.Entities;
+using MotoMarket.Domain.Entities.Chat;
 using MotoMarket.Domain.Entities.Configuration;
 using MotoMarket.Domain.Entities.Listings;
 using MotoMarket.Domain.Entities.System;
@@ -11,7 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DriveType = MotoMarket.Domain.Entities.Vehicles.DriveType;
-using MotoMarket.Application.Common.Interfaces.Persistence;
 
 namespace MotoMarket.Infrastructure.Persistence
 {
@@ -52,6 +53,9 @@ namespace MotoMarket.Infrastructure.Persistence
 
         public DbSet<UserFavorite> UserFavorites { get; set; }
 
+        //chat signalR
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+
         // Tutaj konfigurujemy szczegóły, np. precyzję ceny
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -88,10 +92,21 @@ namespace MotoMarket.Infrastructure.Persistence
 
             builder.Entity<UserFavorite>()
                 .HasOne(x => x.Listing)
-                .WithMany() 
+                .WithMany()
                 .HasForeignKey(x => x.ListingId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Konfiguracja Chatu
+            builder.Entity<ChatMessage>(entity =>
+            {
+                // Relacja do ogłoszenia 
+                entity.HasOne(m => m.Listing)
+                      .WithMany()
+                      .HasForeignKey(m => m.ListingId)
+                      .OnDelete(DeleteBehavior.SetNull); // Jak ogłoszenie zniknie, historia zostaje (ListingId = null)
+
+                
+            });
             // Reszta relacji ListingFeature, ListingPhoto itp. z automatu zadziała dobrze (Cascade delete jest tam OK)
         }
     }

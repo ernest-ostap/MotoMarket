@@ -168,7 +168,15 @@
                                 <span>Pokaż numer</span>
                             }
                         </button>
-                        <button class="btn btn-outline-dark btn-lg">Napisz wiadomość</button>
+                        @if (Model.UserId != User.FindFirst("sub")?.Value) // Sprawdź czy masz dostęp do swojego ID w widoku
+                        {
+                            <a asp-controller="Chat" asp-action="Conversation"
+                               asp-route-recipientId="@Model.UserId"
+                               asp-route-listingId="@Model.Id"
+                               class="btn btn-primary btn-lg w-100 mt-3">
+                                <i class="bi bi-chat-dots"></i> Napisz do sprzedającego
+                            </a>
+                        }
                         <div id="phoneDisplay" class="text-center fw-bold text-primary mt-2" style="display:none;"></div>
                     </div>
 

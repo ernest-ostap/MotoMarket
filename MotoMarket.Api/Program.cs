@@ -2,33 +2,45 @@ using MotoMarket.Application;
 using MotoMarket.Application.Common.Interfaces.Identity;
 using MotoMarket.Infrastructure;
 using MotoMarket.Infrastructure.Persistence;
+// Usingi do JWT nie s¹ tu ju¿ potrzebne, bo s¹ w Infrastructure
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Rejestracja warstw (Tutaj w œrodku dzieje siê AddJwtBearer z fixem)
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddHttpContextAccessor(); // Rejestrujemy dostêp do HttpContext
-builder.Services.AddScoped<ICurrentUserService, MotoMarket.Api.Services.CurrentUserService>(); // Rejestracja serwisu aktualnego u¿ytkownika
+builder.Services.AddSignalR(); // SignalR zostaje
+
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowWebClient", builder =>
+    {
+        builder
+            .WithOrigins("https://localhost:7029")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, MotoMarket.Api.Services.CurrentUserService>();
 
 var app = builder.Build();
 
-// tymczasowy scope do wykonania seeda
+// Seeder
 using (var scope = app.Services.CreateScope())
 {
     var seeder = scope.ServiceProvider.GetRequiredService<ApplicationDbContextSeeder>();
-    await seeder.SeedAsync(); // To wykona migracje i doda dane
+    await seeder.SeedAsync();
 }
 
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -36,14 +48,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 
-app.UseAuthentication(); // 1. SprawdŸ kim jestem (czy mam token)
-app.UseAuthorization();  // 2. SprawdŸ czy mam dostêp
+app.UseCors("AllowWebClient"); // CORS
 
-app.UseAuthorization();
+app.UseAuthentication(); // Auth
+app.UseAuthorization();  // Authz
 
+app.MapHub<MotoMarket.Api.Hubs.ChatHub>("/chatHub"); // Mapowanie Huba
 app.MapControllers();
 
 app.Run();

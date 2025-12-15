@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Czat";
+}
+
+<div class="container mt-4">
+    <div class="card shadow" style="height: 80vh;">
+        <div class="card-header bg-white border-bottom">
+            <h5 class="mb-0">Rozmowa</h5>
+        </div>
+
+        <div class="card-body overflow-auto" id="messagesList" style="background-color: #f8f9fa;">
+            <div class="text-center text-muted mt-5">Ładowanie historii...</div>
+        </div>
+
+        <div class="card-footer bg-white">
+            <div class="input-group">
+                <input type="text" id="messageInput" class="form-control" placeholder="Napisz wiadomość..." autocomplete="off">
+                <button class="btn btn-primary" id="sendButton" disabled>
+                    <i class="bi bi-send-fill"></i> Wyślij
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="chatData"
+     data-api-url="@ViewBag.ApiUrl"
+     data-recipient-id="@ViewBag.RecipientId"
+     data-listing-id="@ViewBag.ListingId"
+     data-current-user-id="@ViewBag.CurrentUserId"
+     data-jwt-token="@ViewBag.JwtToken" style="display:none;">
+     style="display:none;"></div>
+
+@section Scripts {
+    <script src="~/js/signalr.min.js"></script>
+    <script src="~/js/chat.js"></script>
+}

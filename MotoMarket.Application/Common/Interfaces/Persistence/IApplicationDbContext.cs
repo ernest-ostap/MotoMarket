@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MotoMarket.Domain.Entities;
+using MotoMarket.Domain.Entities.Chat;
 using MotoMarket.Domain.Entities.Configuration;
 using MotoMarket.Domain.Entities.Listings;
 using MotoMarket.Domain.Entities.System;
@@ -36,6 +37,10 @@ namespace MotoMarket.Application.Common.Interfaces.Persistence
         DbSet<AdminSetting> AdminSettings { get; }
         DbSet<PageContent> PageContents { get; }
         DbSet<UserFavorite> UserFavorites { get; }
+
+
+        // --- Czat ---
+        DbSet<ChatMessage> ChatMessages { get; }
 
         // --- Metoda zapisu ---
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

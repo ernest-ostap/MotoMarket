@@ -26,9 +26,24 @@ namespace MotoMarket.Web.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var success = await _authService.Login(model);
-            if (success)
+            // ZMIANA: Oczekujemy, że serwis zwróci stringa (token) lub null/empty
+            // Uwaga: Musisz zaktualizować AuthService (patrz niżej)!
+            var token = await _authService.Login(model);
+
+            if (!string.IsNullOrEmpty(token))
             {
+                // --- NOWOŚĆ: Zapisujemy token w ciasteczku ---
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true, // Bezpieczne (JS nie ukradnie, ale serwer odczyta)
+                    Secure = true,   // Tylko HTTPS
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTime.UtcNow.AddDays(7)
+                };
+
+                Response.Cookies.Append("JWT", token, cookieOptions);
+                // ---------------------------------------------
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -52,8 +67,6 @@ namespace MotoMarket.Web.Controllers
             var success = await _authService.Register(model);
             if (success)
             {
-                // Jeśli Register w serwisie od razu loguje, to idź do Home
-                // Jeśli nie, to przekieruj do Login:
                 return RedirectToAction("Login");
             }
 
@@ -64,9 +77,15 @@ namespace MotoMarket.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _authService.Logout();
+
+            // --- NOWOŚĆ: Czyścimy ciasteczko przy wylogowaniu ---
+            Response.Cookies.Delete("JWT");
+            // ----------------------------------------------------
+
             return RedirectToAction("Index", "Home");
         }
 
+        // ... Reszta metod (UpdateProfile, ChangePassword) bez zmian ...
         [HttpPost]
         public async Task<IActionResult> UpdateProfile(UpdateProfileViewModel model)
         {
