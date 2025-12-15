@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 using MotoMarket.Application.Common.Interfaces.Identity;
 using MotoMarket.Application.Listings.Queries.GetAllListings; // Do podstawowego mapowania
+using Microsoft.AspNetCore.Identity;
+using MotoMarket.Domain.Entities;
 
 namespace MotoMarket.Application.Listings.Queries.GetListingDetail
 {
@@ -15,11 +17,13 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
     {
         private readonly IApplicationDbContext _context;
         private readonly ICurrentUserService _currentUserService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public GetListingDetailQueryHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
+        public GetListingDetailQueryHandler(IApplicationDbContext context, ICurrentUserService currentUserService, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _currentUserService = currentUserService;
+            _userManager = userManager;
         }
 
         public async Task<ListingDetailDto> Handle(GetListingDetailQuery request, CancellationToken cancellationToken)
@@ -97,6 +101,13 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
                 }).ToList(),
                 IsFavorite = false // Domyślnie false
             };
+
+            // Numer telefonu sprzedającego (jeśli jest)
+            var seller = await _userManager.FindByIdAsync(entity.UserId);
+            if (!string.IsNullOrWhiteSpace(seller?.PhoneNumber))
+            {
+                result.SellerPhone = seller.PhoneNumber;
+            }
 
             // Sprawdzamy czy to ogłoszenie jest w ulubionych użytkownika
             var userId = _currentUserService.UserId;

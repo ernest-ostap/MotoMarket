@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text;
 using MotoMarket.Web.Models.DTOs; // Tu musi być Twój AuthDto (skopiowany z API lub stworzony)
 using MotoMarket.Web.Models.ViewModels;
+using System.Net.Http.Headers;
 
 namespace MotoMarket.Web.Services.Auth
 {
@@ -84,6 +85,36 @@ namespace MotoMarket.Web.Services.Auth
         public async Task Logout()
         {
             await _httpContextAccessor.HttpContext!.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+        public async Task<bool> UpdateProfile(UpdateProfileViewModel model)
+        {
+            var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            var json = JsonSerializer.Serialize(model);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Users/update-profile", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> ChangePassword(ChangePasswordViewModel model)
+        {
+            var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            var json = JsonSerializer.Serialize(model);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Users/change-password", content);
+            return response.IsSuccessStatusCode;
         }
     }
 }

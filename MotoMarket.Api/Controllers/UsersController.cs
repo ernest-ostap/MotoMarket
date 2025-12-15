@@ -1,7 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using MotoMarket.Application.Users.Commands.LoginUser;
 using MotoMarket.Application.Users.Commands.RegisterUser;
+using MotoMarket.Application.Users.Commands.UpdateUserProfile;
+using MotoMarket.Application.Users.Commands.ChangePassword;
 using MotoMarket.Application.Users.Queries;
 
 namespace MotoMarket.Api.Controllers
@@ -27,6 +30,22 @@ namespace MotoMarket.Api.Controllers
         public async Task<ActionResult<AuthDto>> Login(LoginUserCommand command)
         {
             return await _mediator.Send(command);
+        }
+
+        [Authorize]
+        [HttpPost("update-profile")]
+        public async Task<ActionResult> UpdateProfile(UpdateUserProfileCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpPost("change-password")]
+        public async Task<ActionResult> ChangePassword(ChangePasswordCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }

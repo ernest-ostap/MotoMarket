@@ -22,6 +22,9 @@ namespace MotoMarket.Web.Models.ViewModels
 
         [Required(ErrorMessage ="Nazwisko jest wymagane.")]
         public string LastName { get; set; } = string.Empty;
+
+        [Phone(ErrorMessage = "Nieprawidłowy numer telefonu.")]
+        public string? PhoneNumber { get; set; }
     }
 }
 

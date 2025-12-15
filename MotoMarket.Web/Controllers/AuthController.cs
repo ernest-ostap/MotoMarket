@@ -66,5 +66,33 @@ namespace MotoMarket.Web.Controllers
             await _authService.Logout();
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile(UpdateProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Nieprawidłowe dane.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var success = await _authService.UpdateProfile(model);
+            TempData[success ? "Success" : "Error"] = success ? "Dane zaktualizowane." : "Błąd aktualizacji danych.";
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Nieprawidłowe dane hasła.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var success = await _authService.ChangePassword(model);
+            TempData[success ? "Success" : "Error"] = success ? "Hasło zostało zmienione." : "Błąd zmiany hasła.";
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

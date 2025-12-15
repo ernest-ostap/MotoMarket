@@ -38,7 +38,8 @@ namespace MotoMarket.Application.Users.Commands.RegisterUser
                 UserName = request.Email, // Identity wymaga UserName (często to samo co email)
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                RegisteredAt = DateTime.UtcNow
+                RegisteredAt = DateTime.UtcNow,
+                PhoneNumber = request.PhoneNumber ?? string.Empty
             };
 
             // 3. Zapisz w bazie (CreateAsync samo hashuje hasło!)
@@ -49,6 +50,17 @@ namespace MotoMarket.Application.Users.Commands.RegisterUser
                 // Zbieramy błędy (np. hasło nie ma dużej litery)
                 var errors = string.Join(", ", result.Errors.Select(e => e.Description));
                 throw new Exception($"Błąd rejestracji: {errors}");
+            }
+
+            // 3b. Ustaw numer telefonu eksplicytnie (żeby mieć pewność zapisu)
+            if (!string.IsNullOrWhiteSpace(request.PhoneNumber))
+            {
+                var phoneResult = await _userManager.SetPhoneNumberAsync(user, request.PhoneNumber);
+                if (!phoneResult.Succeeded)
+                {
+                    var phoneErrors = string.Join(", ", phoneResult.Errors.Select(e => e.Description));
+                    throw new Exception($"Błąd zapisu numeru telefonu: {phoneErrors}");
+                }
             }
 
             // 4. Wygeneruj token (żeby po rejestracji był od razu zalogowany)

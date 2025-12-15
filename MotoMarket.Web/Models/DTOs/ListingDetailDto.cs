@@ -17,6 +17,8 @@
         // Do edycji
         public IEnumerable<int> FeatureIds { get; set; } = new List<int>();
         public IEnumerable<ListingParametersDto> Parameters { get; set; } = new List<ListingParametersDto>();
+
+        public string SellerPhone { get; set; } = string.Empty;
     }
 
     public class ListingParametersDto

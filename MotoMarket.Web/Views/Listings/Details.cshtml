@@ -158,8 +158,18 @@
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button class="btn btn-primary btn-lg">Wyświetl numer</button>
+                        <button class="btn btn-primary btn-lg" id="showPhoneBtn" @(string.IsNullOrWhiteSpace(Model.SellerPhone) ? "disabled" : "")>
+                            @if (string.IsNullOrWhiteSpace(Model.SellerPhone))
+                            {
+                                <span>Brak numeru</span>
+                            }
+                            else
+                            {
+                                <span>Pokaż numer</span>
+                            }
+                        </button>
                         <button class="btn btn-outline-dark btn-lg">Napisz wiadomość</button>
+                        <div id="phoneDisplay" class="text-center fw-bold text-primary mt-2" style="display:none;"></div>
                     </div>
 
                     <div class="mt-3 text-muted small text-center">
@@ -199,6 +209,14 @@
                         window.location.href = '/Auth/Login';
                     }
                 });
+            });
+
+            // Pokaż numer telefonu
+            $('#showPhoneBtn').click(function (e) {
+                e.preventDefault();
+                var phone = '@Model.SellerPhone';
+                if (!phone) return;
+                $('#phoneDisplay').text(phone).slideDown(150);
             });
         });
     </script>
