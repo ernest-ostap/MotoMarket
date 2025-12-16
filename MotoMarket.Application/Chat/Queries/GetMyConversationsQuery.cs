@@ -24,26 +24,67 @@ namespace MotoMarket.Application.Chat.Queries
             var myId = _currentUserService.UserId;
             if (string.IsNullOrEmpty(myId)) return new List<ConversationDto>();
 
-            // Pobieramy wszystkie wiadomości, w których biorę udział
+            // 1. Pobieramy wszystkie wiadomości, w których biorę udział
             var allMyMessages = await _context.ChatMessages
                 .AsNoTracking()
                 .Where(m => m.SenderId == myId || m.RecipientId == myId)
                 .OrderByDescending(m => m.SentAt) // Najnowsze na górze
                 .ToListAsync(cancellationToken);
 
-            // Grupujemy w pamięci (prostsze niż skomplikowany GroupBy w SQL przy GUID-ach)
-            var conversations = allMyMessages
-                .GroupBy(m => m.SenderId == myId ? m.RecipientId : m.SenderId) // Grupuj po ID rozmówcy
-                .Select(g => new ConversationDto
-                {
-                    OtherUserId = g.Key,
-                    LastMessage = g.First().Content, // Pierwsza, bo posortowaliśmy wcześniej
-                    LastMessageDate = g.First().SentAt,
-                    ListingId = g.First().ListingId
-                })
+            if (!allMyMessages.Any()) return new List<ConversationDto>();
+
+            // 2. Grupujemy wiadomości po "Tym Drugim" użytkowniku
+            var groupedConversations = allMyMessages
+                .GroupBy(m => m.SenderId == myId ? m.RecipientId : m.SenderId)
                 .ToList();
 
-            return conversations;
+            // 3. Pobieramy listę ID rozmówców
+            var contactIds = groupedConversations.Select(g => g.Key).Distinct().ToList();
+
+            // 4. Pobieramy dane tych użytkowników (Imiona/Maile) z bazy
+            // Uwaga: Jeśli _context.Users podkreśla się na czerwono, zobacz instrukcję pod spodem
+            var usersInfo = await _context.Users
+                .AsNoTracking()
+                .Where(u => contactIds.Contains(u.Id))
+                .Select(u => new
+                {
+                    u.Id,
+                    u.FirstName,
+                    u.LastName,
+                    u.Email
+                })
+                .ToDictionaryAsync(u => u.Id, cancellationToken);
+
+            // 5. Sklejamy wynik (Wiadomości + Imiona)
+            var result = groupedConversations.Select(g =>
+            {
+                var otherUserId = g.Key;
+                var lastMsg = g.First(); // Najnowsza wiadomość w grupie
+
+                // Próbujemy znaleźć usera w słowniku
+                string displayName = "Użytkownik usunięty";
+                if (usersInfo.TryGetValue(otherUserId, out var user))
+                {
+                    // Formatowanie: "Jan Kowalski" lub Email jak brak imienia
+                    displayName = $"{user.FirstName} {user.LastName}".Trim();
+                    if (string.IsNullOrEmpty(displayName))
+                    {
+                        displayName = user.Email ?? "Nieznany";
+                    }
+                }
+
+                return new ConversationDto
+                {
+                    OtherUserId = otherUserId,
+                    OtherUserName = displayName, // <--- Tutaj wstawiamy imię
+                    LastMessage = lastMsg.Content,
+                    LastMessageDate = lastMsg.SentAt, // lub First().SentAt zależy jak posortowane
+                    ListingId = lastMsg.ListingId
+                };
+            })
+            .ToList();
+
+            return result;
         }
     }
 }

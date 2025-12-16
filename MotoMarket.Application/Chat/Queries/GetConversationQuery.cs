@@ -42,6 +42,19 @@ namespace MotoMarket.Application.Chat.Queries
                 })
                 .ToListAsync(cancellationToken);
 
+            var unreadMessages = await _context.ChatMessages
+                .Where(m => m.SenderId == request.OtherUserId && m.RecipientId == currentUserId && !m.IsRead)
+                .ToListAsync(cancellationToken);
+
+            if (unreadMessages.Any())
+            {
+                foreach (var msg in unreadMessages)
+                {
+                    msg.IsRead = true;
+                }
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+
             return messages;
         }
     }

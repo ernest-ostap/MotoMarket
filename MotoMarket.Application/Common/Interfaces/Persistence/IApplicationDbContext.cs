@@ -41,6 +41,7 @@ namespace MotoMarket.Application.Common.Interfaces.Persistence
 
         // --- Czat ---
         DbSet<ChatMessage> ChatMessages { get; }
+        DbSet<Domain.Entities.ApplicationUser> Users { get; }
 
         // --- Metoda zapisu ---
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

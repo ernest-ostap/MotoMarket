@@ -26,6 +26,14 @@ namespace MotoMarket.Web.Controllers
             return View(conversations);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetUnreadCount()
+        {
+            // Pobierz z serwisu (dodaj metodę do IChatService!)
+            var count = await _chatService.GetUnreadCount();
+            return Json(count);
+        }
+
         // GET: Chat/Conversation?recipientId=xyz&listingId=123
         public IActionResult Conversation(string recipientId, int? listingId)
         {

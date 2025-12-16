@@ -5,5 +5,6 @@ namespace MotoMarket.Web.Services.Chat
     public interface IChatService
     {
         Task<IEnumerable<ConversationDto>> GetMyConversations();
+        Task<int> GetUnreadCount();
     }
 }

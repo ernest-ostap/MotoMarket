@@ -29,5 +29,11 @@ namespace MotoMarket.Api.Controllers
         {
             return Ok(await _mediator.Send(new GetMyConversationsQuery()));
         }
+
+        [HttpGet("unread-count")]
+        public async Task<ActionResult<int>> GetUnreadCount()
+        {
+            return Ok(await _mediator.Send(new GetUnreadMessagesCountQuery()));
+        }
     }
 }
