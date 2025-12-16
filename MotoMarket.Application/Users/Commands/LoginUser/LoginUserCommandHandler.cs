@@ -37,7 +37,7 @@ namespace MotoMarket.Application.Users.Commands.LoginUser
             }
 
             // 3. Wygeneruj token
-            var token = _tokenService.CreateToken(user);
+            var token = await _tokenService.CreateToken(user);
 
             return new AuthDto
             {

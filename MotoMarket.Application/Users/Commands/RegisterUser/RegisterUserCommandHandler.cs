@@ -64,7 +64,7 @@ namespace MotoMarket.Application.Users.Commands.RegisterUser
             }
 
             // 4. Wygeneruj token (żeby po rejestracji był od razu zalogowany)
-            var token = _tokenService.CreateToken(user);
+            var token = await _tokenService.CreateToken(user);
 
             return new AuthDto
             {

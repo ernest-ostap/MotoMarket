@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using MotoMarket.Domain.Entities;
 using MotoMarket.Domain.Entities.Vehicles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DriveType = MotoMarket.Domain.Entities.Vehicles.DriveType;
 
@@ -12,18 +13,25 @@ namespace MotoMarket.Infrastructure.Persistence
     public class ApplicationDbContextSeeder
     {
         private readonly ApplicationDbContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ApplicationDbContextSeeder(ApplicationDbContext context)
+        public ApplicationDbContextSeeder(
+            ApplicationDbContext context,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         public async Task SeedAsync()
         {
-            //sprawdzenie czy baza istnieje
+            // Sprawdzenie czy baza istnieje i migracja
             try
             {
-                if(_context.Database.IsSqlServer())
+                if (_context.Database.IsSqlServer())
                 {
                     await _context.Database.MigrateAsync();
                 }
@@ -34,11 +42,13 @@ namespace MotoMarket.Infrastructure.Persistence
             }
 
             await SeedVehicleDictionaryAsync();
+            // ZMIANA 4: Wywołujemy metodę seedowania userów!
+            await SeedUsersAsync();
         }
 
         private async Task SeedVehicleDictionaryAsync()
         {
-            // 1. MARKI (Brands) - sprawdzamy czy są jakiekolwiek
+            // 1. MARKI (Brands)
             if (!_context.VehicleBrands.Any())
             {
                 var brands = new List<VehicleBrand>
@@ -46,7 +56,7 @@ namespace MotoMarket.Infrastructure.Persistence
                     new() { Name = "Audi", IsActive = true },
                     new() { Name = "BMW", IsActive = true },
                     new() { Name = "Mercedes-Benz", IsActive = true },
-                    new() { Name = "Volkswagen", IsActive = true }, 
+                    new() { Name = "Volkswagen", IsActive = true },
                     new() { Name = "Toyota", IsActive = true },
                     new() { Name = "Ford", IsActive = true },
                     new() {
@@ -121,6 +131,7 @@ namespace MotoMarket.Infrastructure.Persistence
                 });
             }
 
+            // 7. CECHY (Wyposażenie)
             if (!_context.VehicleFeatures.Any())
             {
                 var features = new List<VehicleFeature>
@@ -146,7 +157,7 @@ namespace MotoMarket.Infrastructure.Persistence
                 _context.VehicleFeatures.AddRange(features);
             }
 
-            // 2. PARAMETRY TECHNICZNE (Pola do wpisania wartości) - ParameterTypes
+            // 8. PARAMETRY TECHNICZNE
             if (!_context.VehicleParameterTypes.Any())
             {
                 var paramsTypes = new List<VehicleParameterType>
@@ -161,6 +172,50 @@ namespace MotoMarket.Infrastructure.Persistence
             }
 
             await _context.SaveChangesAsync();
+        }
+
+        // Ta metoda teraz zadziała poprawnie
+        public async Task SeedUsersAsync()
+        {
+            // 1. Tworzenie ROL (jeśli nie istnieją)
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+            if (!await _roleManager.RoleExistsAsync("User"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("User"));
+            }
+
+            // 2. Tworzenie ADMINA (jeśli nie istnieje)
+            // Używamy FindByEmailAsync zamiast LINQ na Users.All (bezpieczniej)
+            var adminUser = await _userManager.FindByEmailAsync("admin@motomarket.pl");
+
+            if (adminUser == null)
+            {
+                var admin = new ApplicationUser
+                {
+                    UserName = "admin@motomarket.pl",
+                    Email = "admin@motomarket.pl",
+                    FirstName = "Główny",
+                    LastName = "Administrator",
+                    EmailConfirmed = true
+                };
+
+                var result = await _userManager.CreateAsync(admin, "Admin123!"); 
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(admin, "Admin");
+                }
+            }
+            else
+            {
+                // Jeśli admin istnieje, upewnij się, że ma rolę (przydatne jak dodajesz role do istniejącej bazy)
+                if (!await _userManager.IsInRoleAsync(adminUser, "Admin"))
+                {
+                    await _userManager.AddToRoleAsync(adminUser, "Admin");
+                }
+            }
         }
     }
 }

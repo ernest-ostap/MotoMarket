@@ -9,6 +9,6 @@ namespace MotoMarket.Application.Common.Interfaces.Identity
 {
     public interface ITokenService
     {
-        string CreateToken(ApplicationUser user);
+        Task<string> CreateToken(Domain.Entities.ApplicationUser user);
     }
 }
