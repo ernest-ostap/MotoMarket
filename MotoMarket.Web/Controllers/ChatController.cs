@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MotoMarket.Web.Services.Chat;
 using System.Security.Claims;
 
 namespace MotoMarket.Web.Controllers
@@ -8,10 +9,21 @@ namespace MotoMarket.Web.Controllers
     public class ChatController : Controller
     {
         private readonly IConfiguration _configuration;
+        private readonly IChatService _chatService;
 
-        public ChatController(IConfiguration configuration)
+        public ChatController(IConfiguration configuration, IChatService chatService)
         {
             _configuration = configuration;
+            _chatService = chatService;
+        }
+
+        // GET: Chat (Lista rozmów)
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            // Używamy metody z ChatService
+            var conversations = await _chatService.GetMyConversations();
+            return View(conversations);
         }
 
         // GET: Chat/Conversation?recipientId=xyz&listingId=123

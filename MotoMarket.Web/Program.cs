@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using MotoMarket.Web.Services.Auth;
+using MotoMarket.Web.Services.Chat;
 using MotoMarket.Web.Services.Listings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddHttpClient(); // Rejestrujemy fabrykê klienta HTTP
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IDictionaryService, DictionaryService>();
+builder.Services.AddHttpClient<IChatService, ChatService>();
 
 var app = builder.Build();
 

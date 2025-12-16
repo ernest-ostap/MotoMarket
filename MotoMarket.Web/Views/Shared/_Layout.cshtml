@@ -35,6 +35,11 @@
                                 + Dodaj ogłoszenie
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Chat" asp-action="Index">
+                                <i class="bi bi-chat-text"></i> Wiadomości
+                            </a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         @if (User.Identity != null && User.Identity.IsAuthenticated)

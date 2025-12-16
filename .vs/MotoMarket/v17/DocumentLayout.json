@@ -1,7 +1,48 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\repos\\MotoMarket\\MotoMarket\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\views\\chat\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\views\\chat\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\controllers\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\controllers\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\services\\chat\\chatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\services\\chat\\chatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\services\\chat\\ichatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\services\\chat\\ichatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\models\\dtos\\conversationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\models\\dtos\\conversationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB73911B-3DA2-4CE5-842D-E7FE4B18257B}|MotoMarket.Api\\MotoMarket.Api.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.api\\controllers\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB73911B-3DA2-4CE5-842D-E7FE4B18257B}|MotoMarket.Api\\MotoMarket.Api.csproj|solutionrelative:motomarket.api\\controllers\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.application\\chat\\queries\\getmyconversationsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\chat\\queries\\getmyconversationsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.application\\chat\\queries\\conversationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\chat\\queries\\conversationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +50,141 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "MotoMarket.Web\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACkAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T15:38:32.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Chat\\Index.cshtml",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Views\\Chat\\Index.cshtml",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Chat\\Index.cshtml",
+              "RelativeToolTip": "MotoMarket.Web\\Views\\Chat\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T15:38:15.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ChatController.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Controllers\\ChatController.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Controllers\\ChatController.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Controllers\\ChatController.cs",
+              "RelativeToolTip": "MotoMarket.Web\\Controllers\\ChatController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T15:36:24.987Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Program.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Program.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Program.cs",
+              "RelativeToolTip": "MotoMarket.Web\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T12:23:11.424Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ChatService.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Services\\Chat\\ChatService.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Services\\Chat\\ChatService.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Services\\Chat\\ChatService.cs",
+              "RelativeToolTip": "MotoMarket.Web\\Services\\Chat\\ChatService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T12:22:40.234Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IChatService.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Services\\Chat\\IChatService.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Services\\Chat\\IChatService.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Services\\Chat\\IChatService.cs",
+              "RelativeToolTip": "MotoMarket.Web\\Services\\Chat\\IChatService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T12:21:49.588Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ConversationDto.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Models\\DTOs\\ConversationDto.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Models\\DTOs\\ConversationDto.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Models\\DTOs\\ConversationDto.cs",
+              "RelativeToolTip": "MotoMarket.Web\\Models\\DTOs\\ConversationDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T12:18:53.679Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ChatController.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Api\\Controllers\\ChatController.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Api\\Controllers\\ChatController.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Api\\Controllers\\ChatController.cs",
+              "RelativeToolTip": "MotoMarket.Api\\Controllers\\ChatController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T12:17:20.714Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "GetMyConversationsQuery.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Chat\\Queries\\GetMyConversationsQuery.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Application\\Chat\\Queries\\GetMyConversationsQuery.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Chat\\Queries\\GetMyConversationsQuery.cs",
+              "RelativeToolTip": "MotoMarket.Application\\Chat\\Queries\\GetMyConversationsQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T12:17:06.234Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ConversationDto.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Chat\\Queries\\ConversationDto.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Application\\Chat\\Queries\\ConversationDto.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Chat\\Queries\\ConversationDto.cs",
+              "RelativeToolTip": "MotoMarket.Application\\Chat\\Queries\\ConversationDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T12:16:41.064Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -23,5 +23,11 @@ namespace MotoMarket.Api.Controllers
         {
             return Ok(await _mediator.Send(new GetConversationQuery(otherUserId)));
         }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ConversationDto>>> GetMyConversations()
+        {
+            return Ok(await _mediator.Send(new GetMyConversationsQuery()));
+        }
     }
 }
