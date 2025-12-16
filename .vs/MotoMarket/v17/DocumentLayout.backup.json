@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\repos\\MotoMarket\\MotoMarket\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\services\\auth\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\services\\auth\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\services\\auth\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\services\\auth\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D6A78D8D-6E4D-4146-9D3A-0E117410AACD}|MotoMarket.Infrastructure\\MotoMarket.Infrastructure.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.infrastructure\\identity\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D6A78D8D-6E4D-4146-9D3A-0E117410AACD}|MotoMarket.Infrastructure\\MotoMarket.Infrastructure.csproj|solutionrelative:motomarket.infrastructure\\identity\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -75,19 +87,58 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Services\\Auth\\AuthService.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Services\\Auth\\AuthService.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Services\\Auth\\AuthService.cs",
+              "RelativeToolTip": "MotoMarket.Web\\Services\\Auth\\AuthService.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAswHIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T17:10:04.589Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Services\\Auth\\IAuthService.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Services\\Auth\\IAuthService.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Services\\Auth\\IAuthService.cs",
+              "RelativeToolTip": "MotoMarket.Web\\Services\\Auth\\IAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T17:10:03.981Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "MotoMarket.Web\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAswHQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T17:08:24.301Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "TokenService.cs",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Infrastructure\\Identity\\TokenService.cs",
               "RelativeDocumentMoniker": "MotoMarket.Infrastructure\\Identity\\TokenService.cs",
               "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Infrastructure\\Identity\\TokenService.cs",
               "RelativeToolTip": "MotoMarket.Infrastructure\\Identity\\TokenService.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwDoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAcwDoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-15T17:04:41.976Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Api\\appsettings.json",
               "RelativeDocumentMoniker": "MotoMarket.Api\\appsettings.json",
@@ -100,7 +151,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "DependencyInjection.cs",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Infrastructure\\DependencyInjection.cs",
               "RelativeDocumentMoniker": "MotoMarket.Infrastructure\\DependencyInjection.cs",
@@ -113,7 +164,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Listings\\Details.cshtml",
               "RelativeDocumentMoniker": "MotoMarket.Web\\Views\\Listings\\Details.cshtml",
@@ -126,7 +177,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "Conversation.cshtml",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Chat\\Conversation.cshtml",
               "RelativeDocumentMoniker": "MotoMarket.Web\\Views\\Chat\\Conversation.cshtml",
@@ -139,7 +190,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "chat.js",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\wwwroot\\js\\chat.js",
               "RelativeDocumentMoniker": "MotoMarket.Web\\wwwroot\\js\\chat.js",
@@ -152,7 +203,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "ChatController.cs",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Controllers\\ChatController.cs",
               "RelativeDocumentMoniker": "MotoMarket.Web\\Controllers\\ChatController.cs",
@@ -165,7 +216,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "ChatController.cs",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Api\\Controllers\\ChatController.cs",
               "RelativeDocumentMoniker": "MotoMarket.Api\\Controllers\\ChatController.cs",
@@ -178,7 +229,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "GetConversationQuery.cs",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Chat\\Queries\\GetConversationQuery.cs",
               "RelativeDocumentMoniker": "MotoMarket.Application\\Chat\\Queries\\GetConversationQuery.cs",
@@ -190,7 +241,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "ChatMessageDto.cs",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Chat\\Queries\\ChatMessageDto.cs",
               "RelativeDocumentMoniker": "MotoMarket.Application\\Chat\\Queries\\ChatMessageDto.cs",
@@ -202,7 +253,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "IApplicationDbContext.cs",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Common\\Interfaces\\Persistence\\IApplicationDbContext.cs",
               "RelativeDocumentMoniker": "MotoMarket.Application\\Common\\Interfaces\\Persistence\\IApplicationDbContext.cs",
@@ -214,7 +265,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "SendMessageCommand.cs",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Chat\\Commands\\SendMessageCommand.cs",
               "RelativeDocumentMoniker": "MotoMarket.Application\\Chat\\Commands\\SendMessageCommand.cs",
@@ -226,7 +277,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Api\\Program.cs",
               "RelativeDocumentMoniker": "MotoMarket.Api\\Program.cs",
@@ -239,7 +290,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "ChatHub.cs",
               "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Api\\Hubs\\ChatHub.cs",
               "RelativeDocumentMoniker": "MotoMarket.Api\\Hubs\\ChatHub.cs",

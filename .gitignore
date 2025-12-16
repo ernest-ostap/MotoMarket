@@ -63,3 +63,54 @@ secrets.json
 *.swo
 
 
+
+# === Additional .NET artifacts ===
+*.obj
+*.exe
+*.dll
+*.pdb
+*.mdb
+*.cache
+*.db
+*.sqlite*
+*.sqlitedb
+*.mdf
+*.ldf
+*.jfm
+artifacts/
+
+# Additional logs / temp
+*.pid
+*.seed
+*.pid.lock
+
+# OS-specific (extended)
+.DS_Store
+ehthumbs.db
+Icon?
+*.stackdump
+
+# Extra app configuration (local overrides)
+appsettings.*.local.json
+
+# === Node / frontend ===
+node_modules/
+MotoMarket.Web/node_modules/
+dist/
+dist-ssr/
+build/
+.npm/
+.pnpm-debug.log*
+*.tsbuildinfo
+
+# Frontend tooling / caches
+.turbo/
+.parcel-cache/
+.next/
+.nuxt/
+.cache/
+coverage/
+*.log*
+
+# Libman (static web assets restore)
+wwwroot/lib/
