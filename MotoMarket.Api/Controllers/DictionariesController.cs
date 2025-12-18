@@ -30,31 +30,31 @@ namespace MotoMarket.Api.Controllers
         [HttpGet("body-types")]
         public async Task<ActionResult<IEnumerable<DictionaryDto>>> GetBodyTypes()
         {
-            return Ok(await _mediator.Send(new GetBodyTypesQuery()));
+            return Ok(await _mediator.Send(new GetBodyTypesQuery(false)));
         }
 
         [HttpGet("drive-types")]
         public async Task<ActionResult<IEnumerable<DictionaryDto>>> GetDriveTypes()
         {
-            return Ok(await _mediator.Send(new GetDriveTypesQuery()));
+            return Ok(await _mediator.Send(new GetDriveTypesQuery(false)));
         }
 
         [HttpGet("fuel-types")]
         public async Task<ActionResult<IEnumerable<DictionaryDto>>> GetFuelTypes()
         {
-            return Ok(await _mediator.Send(new GetFuelTypesQuery()));
+            return Ok(await _mediator.Send(new GetFuelTypesQuery(false)));
         }
 
         [HttpGet("gearbox-types")]
         public async Task<ActionResult<IEnumerable<DictionaryDto>>> GetGearboxTypes()
         {
-            return Ok(await _mediator.Send(new GetGearboxTypesQuery()));
+            return Ok(await _mediator.Send(new GetGearboxTypesQuery(false)));
         }
 
         [HttpGet("vehicle-categories")]
         public async Task<ActionResult<IEnumerable<DictionaryDto>>> GetVehicleCategories()
         {
-            return Ok(await _mediator.Send(new GetVehicleCategoriesQuery()));
+            return Ok(await _mediator.Send(new GetVehicleCategoriesQuery(false)));
         }
 
         [HttpGet("features")]

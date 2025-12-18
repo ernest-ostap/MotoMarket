@@ -4,7 +4,9 @@ using MotoMarket.Application.Common.Interfaces.Persistence;
 
 namespace MotoMarket.Application.Dictionaries.Queries
 {
-    public record GetDriveTypesQuery : IRequest<IEnumerable<DictionaryDto>>;
+    // parametr IncludeInactive jest domyslne na FALSE, czyli zwykly user zawsze zobaczy tylko aktywne obiekty
+    // ale za to wywołując to dla admina, dajemy to na true i admin widzi wszystko 
+    public record GetDriveTypesQuery(bool IncludeInactive) : IRequest<IEnumerable<DictionaryDto>>;
 
     public class GetDriveTypesQueryHandler : IRequestHandler<GetDriveTypesQuery, IEnumerable<DictionaryDto>>
     {
@@ -17,11 +19,24 @@ namespace MotoMarket.Application.Dictionaries.Queries
 
         public async Task<IEnumerable<DictionaryDto>> Handle(GetDriveTypesQuery request, CancellationToken cancellationToken)
         {
-            return await _context.DriveTypes
-                .AsNoTracking()
-                .Where(x => x.IsActive)
+            // Budujemy zapytanie krok po kroku
+            var query = _context.DriveTypes.AsNoTracking().AsQueryable();
+
+            // 2. Jeśli NIE chcemy nieaktywnych (czyli jesteśmy zwykłym userem), to filtrujemy
+            if (!request.IncludeInactive)
+            {
+                query = query.Where(x => x.IsActive);
+            }
+
+            return await query
                 .OrderBy(x => x.Name)
-                .Select(x => new DictionaryDto { Id = x.Id, Name = x.Name })
+                .Select(x => new DictionaryDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    // WAŻNE: Musisz zwracać IsActive, żeby Admin widział status!
+                    IsActive = x.IsActive
+                })
                 .ToListAsync(cancellationToken);
         }
     }
