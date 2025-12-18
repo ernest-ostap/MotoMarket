@@ -18,7 +18,7 @@ namespace MotoMarket.Api.Controllers
         [HttpGet("brands")]
         public async Task<ActionResult<IEnumerable<DictionaryDto>>> GetBrands()
         {
-            return Ok(await _mediator.Send(new GetBrandsQuery()));
+            return Ok(await _mediator.Send(new GetBrandsQuery(false)));
         }
 
         [HttpGet("models/{brandId}")]

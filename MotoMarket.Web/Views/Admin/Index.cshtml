@@ -1,40 +1,67 @@
 ﻿@{
     ViewData["Title"] = "Panel Administratora";
-    Layout = "_Layout"; // Na razie zwykły, potem zrobimy osobny
+    Layout = "_Layout";
 }
 
 <div class="container mt-5">
-    <div class="p-5 mb-4 bg-light rounded-3 shadow">
-        <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold text-danger">Panel Administratora 🛠️</h1>
-            <p class="col-md-8 fs-4">Witaj w centrum dowodzenia.</p>
+    <div class="p-5 mb-4 bg-light rounded-3 shadow-sm border">
+        <div class="container-fluid py-2">
+            <h1 class="display-5 fw-bold text-danger">
+                <i class="bi bi-speedometer2"></i> Panel Administratora
+            </h1>
+            <p class="col-md-8 fs-4 text-muted">Centrum zarządzania systemem MotoMarket.</p>
+        </div>
+    </div>
 
-            <hr class="my-4" />
+    <div class="row g-4">
 
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card text-white bg-primary mb-3">
-                        <div class="card-header">Słowniki</div>
-                        <div class="card-body">
-                            <h5 class="card-title">Marki i Modele</h5>
-                            <p class="card-text">Zarządzaj bazą dostępnych pojazdów.</p>
-                            <a href="#" class="btn btn-light">Zarządzaj</a>
-                        </div>
-                    </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-car-front-fill"></i> Pojazdy</h5>
                 </div>
+                <div class="list-group list-group-flush">
+                    <a asp-controller="Brands" asp-action="Index" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        Marki
+                        <span class="badge bg-primary rounded-pill"><i class="bi bi-arrow-right"></i></span>
+                    </a>
+                    <a asp-controller="Models" asp-action="Index" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        Modele
+                        <span class="badge bg-secondary rounded-pill"><i class="bi bi-arrow-right"></i></span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
-                <div class="col-md-4">
-                    <div class="card text-white bg-warning mb-3">
-                        <div class="card-header">Ogłoszenia</div>
-                        <div class="card-body">
-                            <h5 class="card-title">Moderacja</h5>
-                            <p class="card-text">Przeglądaj, usuwaj i banuj ogłoszenia.</p>
-                            <a href="#" class="btn btn-light">Moderuj</a>
-                        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-info">
+                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-gear-wide-connected"></i> Parametry</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a asp-controller="FuelTypes" asp-action="Index" class="list-group-item list-group-item-action">Typy Paliwa</a>
+                    <a asp-controller="GearboxTypes" asp-action="Index" class="list-group-item list-group-item-action">Skrzynie Biegów</a>
+                    <a asp-controller="DriveTypes" asp-action="Index" class="list-group-item list-group-item-action">Napędy</a>
+                    <a asp-controller="BodyTypes" asp-action="Index" class="list-group-item list-group-item-action">Typy Nadwozia</a>
+                    <a asp-controller="VehicleCategories" asp-action="Index" class="list-group-item list-group-item-action">Kategorie</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-warning">
+                <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-shield-lock-fill"></i> Administracja</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text small text-muted">Narzędzia do zarządzania treścią i użytkownikami.</p>
+                    <div class="d-grid gap-2">
+                        <a href="#" class="btn btn-outline-dark disabled"><i class="bi bi-people-fill"></i> Użytkownicy (Wkrótce)</a>
+                        <a href="#" class="btn btn-outline-danger disabled"><i class="bi bi-exclamation-triangle-fill"></i> Zgłoszenia (Wkrótce)</a>
                     </div>
                 </div>
             </div>
-
         </div>
+
     </div>
 </div>
