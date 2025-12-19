@@ -14,7 +14,12 @@ namespace MotoMarket.Web.Services.Admin
         #endregion
 
         #region models
-
+        Task<IEnumerable<ModelDto>> GetAllModels();
+        Task<ModelDto?> GetModel(int id);
+        Task<bool> CreateModel(string name, int brandId);
+        Task<bool> UpdateModel(int id, string name, int brandId);
+        Task<bool> ToggleModelActive(int id);
+        Task<bool> DeleteModel(int id);
         #endregion
 
         #region DriveTypes
@@ -68,10 +73,6 @@ namespace MotoMarket.Web.Services.Admin
         #endregion
 
         #region ParametersTypes
-
-        #endregion
-
-        #region VehicleParameters
 
         #endregion
 

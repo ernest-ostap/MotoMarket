@@ -80,7 +80,7 @@ namespace MotoMarket.Web.Controllers
         // MotoMarket.Web/Controllers/BrandsController.cs
 
         [HttpPost]
-        [Route("Brands/ToggleActive/{id}")] // <--- DODAJ TO. To wymusza, że ten adres MUSI działać.
+        [Route("Brands/ToggleActive/{id}")] 
         public async Task<IActionResult> ToggleActive(int id)
         {
             await _adminService.ToggleBrandActive(id);

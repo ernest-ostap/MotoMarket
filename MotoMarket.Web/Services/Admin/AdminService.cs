@@ -86,7 +86,60 @@ namespace MotoMarket.Web.Services.Admin
         #endregion
 
         #region Models
+        public async Task<IEnumerable<ModelDto>> GetAllModels()
+        {
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Models");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<IEnumerable<ModelDto>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<ModelDto>();
+            }
+            return new List<ModelDto>();
+        }
 
+        public async Task<ModelDto?> GetModel(int id)
+        {
+            var models = await GetAllModels();
+            return models.FirstOrDefault(m => m.Id == id);
+        }
+
+        public async Task<bool> CreateModel(string name, int brandId)
+        {
+            AddAuthHeader();
+            var command = new { Name = name, BrandId = brandId };
+            var json = JsonSerializer.Serialize(command);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Models", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UpdateModel(int id, string name, int brandId)
+        {
+            AddAuthHeader();
+            var command = new { Id = id, Name = name, BrandId = brandId };
+            var json = JsonSerializer.Serialize(command);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync($"{_apiBaseUrl}/api/Models/{id}", content);
+            return response.IsSuccessStatusCode;
+        }
+        public async Task<bool> ToggleModelActive(int id)
+        {
+            AddAuthHeader();
+            // Wysyłamy pusty content, bo ID jest w URL
+            var content = new StringContent("", Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/Models/{id}/toggle-active", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteModel(int id)
+        {
+            AddAuthHeader();
+            var response = await _httpClient.DeleteAsync($"{_apiBaseUrl}/api/Models/{id}");
+            return response.IsSuccessStatusCode;
+        }
         #endregion
 
         #region DriveTypes
@@ -359,10 +412,6 @@ namespace MotoMarket.Web.Services.Admin
         #endregion
 
         #region ParametersTypes
-
-        #endregion
-
-        #region VehicleParameters
 
         #endregion
 

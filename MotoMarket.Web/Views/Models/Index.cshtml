@@ -1,0 +1,54 @@
+﻿@model IEnumerable<MotoMarket.Web.Models.DTOs.ModelDto>
+@{
+    ViewData["Title"] = "Modele Pojazdów";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Modele Pojazdów</h2>
+        <a asp-action="Create" class="btn btn-success">Dodaj nowy</a>
+    </div>
+
+    <table class="table table-bordered bg-white shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Status</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@item.BrandName</td>
+                    <td>@item.Name</td>
+                    <td>
+                        <form asp-action="ToggleActive" asp-route-id="@item.Id" method="post" style="display:inline;">
+                            @if (item.IsActive)
+                            {
+                                <button type="submit" class="btn badge bg-success border-0" title="Kliknij, aby ukryć">
+                                    <i class="bi bi-check-circle"></i> Widoczny
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn badge bg-secondary border-0" title="Kliknij, aby aktywować">
+                                    <i class="bi bi-x-circle"></i> Ukryty
+                                </button>
+                            }
+                        </form>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline;" onsubmit="return confirm('Czy na pewno usunąć?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">Wróć</a>
+</div>
