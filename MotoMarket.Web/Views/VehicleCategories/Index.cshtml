@@ -1,12 +1,12 @@
-﻿@model IEnumerable<MotoMarket.Web.Models.DTOs.DictionaryDto>
+@model IEnumerable<MotoMarket.Web.Models.DTOs.DictionaryDto>
 @{
-    ViewData["Title"] = "Marki";
+    ViewData["Title"] = "Kategorie Pojazdów";
 }
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Marki Pojazdów</h2>
-        <a asp-controller="Brands" asp-action="Create" class="btn btn-success">Dodaj nową</a>
+        <h2>Kategorie Pojazdów</h2>
+        <a asp-controller="VehicleCategories" asp-action="Create" class="btn btn-success">Dodaj nową</a>
     </div>
 
     @if (TempData["Success"] != null)
@@ -59,3 +59,4 @@
 
     <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">Wróć do Panelu</a>
 </div>
+

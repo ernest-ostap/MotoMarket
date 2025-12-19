@@ -1,12 +1,12 @@
-﻿@model IEnumerable<MotoMarket.Web.Models.DTOs.DictionaryDto>
+@model IEnumerable<MotoMarket.Web.Models.DTOs.DictionaryDto>
 @{
-    ViewData["Title"] = "Marki";
+    ViewData["Title"] = "Typy Nadwozia";
 }
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Marki Pojazdów</h2>
-        <a asp-controller="Brands" asp-action="Create" class="btn btn-success">Dodaj nową</a>
+        <h2>Typy Nadwozia</h2>
+        <a asp-controller="BodyTypes" asp-action="Create" class="btn btn-success">Dodaj nowy</a>
     </div>
 
     @if (TempData["Success"] != null)
@@ -35,13 +35,13 @@
                             @if (item.IsActive)
                             {
                                 <button type="submit" class="btn badge bg-success border-0" title="Kliknij, aby ukryć">
-                                    <i class="bi bi-check-circle"></i> Widoczna
+                                    <i class="bi bi-check-circle"></i> Widoczny
                                 </button>
                             }
                             else
                             {
                                 <button type="submit" class="btn badge bg-secondary border-0" title="Kliknij, aby aktywować">
-                                    <i class="bi bi-x-circle"></i> Ukryta
+                                    <i class="bi bi-x-circle"></i> Ukryty
                                 </button>
                             }
                         </form>
@@ -59,3 +59,4 @@
 
     <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">Wróć do Panelu</a>
 </div>
+

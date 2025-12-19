@@ -1,0 +1,20 @@
+@{
+    ViewData["Title"] = "Dodaj Typ Nadwozia";
+}
+
+<div class="container mt-5" style="max-width: 500px;">
+    <div class="card shadow">
+        <div class="card-header bg-success text-white">Dodaj Typ Nadwozia</div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Nazwa</label>
+                    <input type="text" name="name" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-success w-100">Zapisz</button>
+            </form>
+            <a asp-action="Index" class="btn btn-link d-block text-center mt-2">Anuluj</a>
+        </div>
+    </div>
+</div>
+

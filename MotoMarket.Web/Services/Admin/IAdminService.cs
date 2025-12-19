@@ -17,35 +17,61 @@ namespace MotoMarket.Web.Services.Admin
 
         #endregion
 
-        #region asd
+        #region DriveTypes
+        Task<IEnumerable<DictionaryDto>> GetAllDriveTypes();
+        Task<DictionaryDto?> GetDriveType(int id);
+        Task<bool> CreateDriveType(string name);
+        Task<bool> UpdateDriveType(int id, string name);
+        Task<bool> ToggleDriveTypeActive(int id);
+        Task<bool> DeleteDriveType(int id);
+        #endregion
+
+        #region BodyTypes
+        Task<IEnumerable<DictionaryDto>> GetAllBodyTypes();
+        Task<DictionaryDto?> GetBodyType(int id);
+        Task<bool> CreateBodyType(string name);
+        Task<bool> UpdateBodyType(int id, string name);
+        Task<bool> ToggleBodyTypeActive(int id);
+        Task<bool> DeleteBodyType(int id);
 
         #endregion
 
-        #region MyRegion
+        #region FuelTypes
+        Task<IEnumerable<DictionaryDto>> GetAllFuelTypes();
+        Task<DictionaryDto?> GetFuelType(int id);
+        Task<bool> CreateFuelType(string name);
+        Task<bool> UpdateFuelType(int id, string name);
+        Task<bool> ToggleFuelTypeActive(int id);
+        Task<bool> DeleteFuelType(int id);
+        #endregion
+
+        #region GearboxTypes
+        Task<IEnumerable<DictionaryDto>> GetAllGearboxTypes();
+        Task<DictionaryDto?> GetGearboxType(int id);
+        Task<bool> CreateGearboxType(string name);
+        Task<bool> UpdateGearboxType(int id, string name);
+        Task<bool> ToggleGearboxTypeActive(int id);
+        Task<bool> DeleteGearboxType(int id);
+        #endregion
+
+        #region VehicleCategories
+        Task<IEnumerable<DictionaryDto>> GetAllVehicleCategories();
+        Task<DictionaryDto?> GetVehicleCategory(int id);
+        Task<bool> CreateVehicleCategory(string name);
+        Task<bool> UpdateVehicleCategory(int id, string name);
+        Task<bool> ToggleVehicleCategoryActive(int id);
+        Task<bool> DeleteVehicleCategory(int id);
+        #endregion
+
+        #region Features
 
         #endregion
 
-        #region MyRegion
+        #region ParametersTypes
 
         #endregion
 
-        #region MyRegion
-
-        #endregion
-
-        #region MyRegion
-
-        #endregion
-
-        #region MyRegion
-
-        #endregion
-
-        #region MyRegion
-
-        #endregion
-
-        #region MyRegion
+        #region VehicleParameters
 
         #endregion
 

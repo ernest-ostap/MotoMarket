@@ -1,0 +1,23 @@
+@model MotoMarket.Web.Models.DTOs.DictionaryDto
+@{
+    ViewData["Title"] = "Edytuj Typ Nadwozia";
+}
+
+<div class="container mt-5" style="max-width: 500px;">
+    <div class="card shadow">
+        <div class="card-header bg-warning text-dark">Edytuj Typ Nadwozia</div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label class="form-label">Nazwa</label>
+                    <input asp-for="Name" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-warning w-100">Zaktualizuj</button>
+            </form>
+            <a asp-action="Index" class="btn btn-link d-block text-center mt-2">Anuluj</a>
+        </div>
+    </div>
+</div>
+

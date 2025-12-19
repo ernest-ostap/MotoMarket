@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DriveType = MotoMarket.Domain.Entities.Vehicles.DriveType;
 
 namespace MotoMarket.Application.Dictionaries.Commands.DriveTypes
 {
