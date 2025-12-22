@@ -1,0 +1,43 @@
+﻿@model MotoMarket.Web.Models.DTOs.FeatureDto
+
+@{
+    ViewData["Title"] = "Edytuj wyposażenie";
+}
+
+<div class="container mt-5" style="max-width: 500px;">
+    <div class="card shadow">
+        <div class="card-header bg-warning text-dark">
+            Edytuj Wyposażenie
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label class="form-label">Kategoria</label>
+                    <input asp-for="GroupName" class="form-control" list="groups" placeholder="np. Bezpieczeństwo" required />
+
+                    <datalist id="groups">
+                        <option value="Bezpieczeństwo" />
+                        <option value="Komfort" />
+                        <option value="Multimedia" />
+                        <option value="Wygląd" />
+                    </datalist>
+                    <span asp-validation-for="GroupName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Nazwa</label>
+                    <input asp-for="Name" class="form-control" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-warning">Zaktualizuj</button>
+                    <a asp-action="Index" class="btn btn-link text-decoration-none text-secondary">Anuluj</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

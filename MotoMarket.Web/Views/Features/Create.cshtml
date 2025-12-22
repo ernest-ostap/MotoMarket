@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Dodaj wyposażenie";
+}
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Kategoria</label>
+        <input type="text" name="groupName" class="form-control" placeholder="np. Bezpieczeństwo" required list="groups" />
+        <datalist id="groups">
+            <option value="Bezpieczeństwo" />
+            <option value="Komfort" />
+            <option value="Multimedia" />
+            <option value="Wygląd" />
+        </datalist>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Nazwa</label>
+        <input type="text" name="name" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-success">Zapisz</button>
+</form>

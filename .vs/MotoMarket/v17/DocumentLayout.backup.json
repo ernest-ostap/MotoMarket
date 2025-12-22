@@ -3,64 +3,40 @@
   "WorkspaceRootPath": "C:\\repos\\MotoMarket\\MotoMarket\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.application\\dictionaries\\commands\\models\\deletemodelcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\dictionaries\\commands\\models\\deletemodelcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\views\\features\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\views\\features\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.application\\dictionaries\\commands\\bodytypes\\deletebodytypecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\dictionaries\\commands\\bodytypes\\deletebodytypecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\views\\brands\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\views\\brands\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.application\\dictionaries\\commands\\models\\togglemodelactivecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\dictionaries\\commands\\models\\togglemodelactivecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\views\\brands\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\views\\brands\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.application\\dictionaries\\commands\\bodytypes\\togglebodytypeactivecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\dictionaries\\commands\\bodytypes\\togglebodytypeactivecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\views\\features\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\views\\features\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\views\\models\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\views\\models\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\views\\features\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\views\\features\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\views\\gearboxtypes\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\views\\gearboxtypes\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EB73911B-3DA2-4CE5-842D-E7FE4B18257B}|MotoMarket.Api\\MotoMarket.Api.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.api\\controllers\\modelscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EB73911B-3DA2-4CE5-842D-E7FE4B18257B}|MotoMarket.Api\\MotoMarket.Api.csproj|solutionrelative:motomarket.api\\controllers\\modelscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EB73911B-3DA2-4CE5-842D-E7FE4B18257B}|MotoMarket.Api\\MotoMarket.Api.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.api\\controllers\\bodytypescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EB73911B-3DA2-4CE5-842D-E7FE4B18257B}|MotoMarket.Api\\MotoMarket.Api.csproj|solutionrelative:motomarket.api\\controllers\\bodytypescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\controllers\\featurescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\controllers\\featurescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\controllers\\brandscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\controllers\\brandscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\models\\dtos\\modeldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\models\\dtos\\modeldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\services\\admin\\adminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\services\\admin\\adminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.application\\dictionaries\\queries\\modeldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\dictionaries\\queries\\modeldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.application\\dictionaries\\commands\\models\\updatemodelcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\dictionaries\\commands\\models\\updatemodelcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.application\\dictionaries\\commands\\models\\createmodelcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\dictionaries\\commands\\models\\createmodelcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.application\\dictionaries\\queries\\getallmodelsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\dictionaries\\queries\\getallmodelsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.application\\dictionaries\\queries\\getmodelsbybrandquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\dictionaries\\queries\\getmodelsbybrandquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|c:\\repos\\motomarket\\motomarket\\motomarket.web\\services\\admin\\iadminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA93C9C1-FCFF-4399-99DC-72D97A6BA3E1}|MotoMarket.Web\\MotoMarket.Web.csproj|solutionrelative:motomarket.web\\services\\admin\\iadminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -70,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -78,197 +54,119 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Brands\\Create.cshtml",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Views\\Brands\\Create.cshtml",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Brands\\Create.cshtml",
+              "RelativeToolTip": "MotoMarket.Web\\Views\\Brands\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-22T15:29:41.163Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "DeleteBodyTypeCommand.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Commands\\BodyTypes\\DeleteBodyTypeCommand.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Application\\Dictionaries\\Commands\\BodyTypes\\DeleteBodyTypeCommand.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Commands\\BodyTypes\\DeleteBodyTypeCommand.cs",
-              "RelativeToolTip": "MotoMarket.Application\\Dictionaries\\Commands\\BodyTypes\\DeleteBodyTypeCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T16:16:13.253Z",
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Brands\\Edit.cshtml",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Views\\Brands\\Edit.cshtml",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Brands\\Edit.cshtml",
+              "RelativeToolTip": "MotoMarket.Web\\Views\\Brands\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-22T15:29:37.255Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DeleteModelCommand.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Commands\\Models\\DeleteModelCommand.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Application\\Dictionaries\\Commands\\Models\\DeleteModelCommand.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Commands\\Models\\DeleteModelCommand.cs",
-              "RelativeToolTip": "MotoMarket.Application\\Dictionaries\\Commands\\Models\\DeleteModelCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T16:16:09.876Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ToggleModelActiveCommand.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Commands\\Models\\ToggleModelActiveCommand.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Application\\Dictionaries\\Commands\\Models\\ToggleModelActiveCommand.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Commands\\Models\\ToggleModelActiveCommand.cs",
-              "RelativeToolTip": "MotoMarket.Application\\Dictionaries\\Commands\\Models\\ToggleModelActiveCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T16:13:50.549Z",
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Features\\Edit.cshtml",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Views\\Features\\Edit.cshtml",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Features\\Edit.cshtml",
+              "RelativeToolTip": "MotoMarket.Web\\Views\\Features\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-22T15:29:33.634Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ToggleBodyTypeActiveCommand.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Commands\\BodyTypes\\ToggleBodyTypeActiveCommand.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Application\\Dictionaries\\Commands\\BodyTypes\\ToggleBodyTypeActiveCommand.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Commands\\BodyTypes\\ToggleBodyTypeActiveCommand.cs",
-              "RelativeToolTip": "MotoMarket.Application\\Dictionaries\\Commands\\BodyTypes\\ToggleBodyTypeActiveCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T16:11:27.618Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "BodyTypesController.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Api\\Controllers\\BodyTypesController.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Api\\Controllers\\BodyTypesController.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Api\\Controllers\\BodyTypesController.cs",
-              "RelativeToolTip": "MotoMarket.Api\\Controllers\\BodyTypesController.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAowCsAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T16:09:13.562Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "BrandsController.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Controllers\\BrandsController.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Web\\Controllers\\BrandsController.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Controllers\\BrandsController.cs",
-              "RelativeToolTip": "MotoMarket.Web\\Controllers\\BrandsController.cs",
-              "ViewState": "AgIAAD0AAAAAAAAAAAAcwGkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T16:05:46.006Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\GearboxTypes\\Index.cshtml",
-              "RelativeDocumentMoniker": "MotoMarket.Web\\Views\\GearboxTypes\\Index.cshtml",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\GearboxTypes\\Index.cshtml",
-              "RelativeToolTip": "MotoMarket.Web\\Views\\GearboxTypes\\Index.cshtml",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAADEAAAAYAAAAAAAAAA==",
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Features\\Create.cshtml",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Views\\Features\\Create.cshtml",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Features\\Create.cshtml",
+              "RelativeToolTip": "MotoMarket.Web\\Views\\Features\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-19T16:04:11.822Z",
+              "WhenOpened": "2025-12-22T15:27:22.533Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Models\\Index.cshtml",
-              "RelativeDocumentMoniker": "MotoMarket.Web\\Views\\Models\\Index.cshtml",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Models\\Index.cshtml",
-              "RelativeToolTip": "MotoMarket.Web\\Views\\Models\\Index.cshtml",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAACcAAAAdAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Features\\Index.cshtml",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Views\\Features\\Index.cshtml",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Views\\Features\\Index.cshtml",
+              "RelativeToolTip": "MotoMarket.Web\\Views\\Features\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-19T15:54:59.728Z",
+              "WhenOpened": "2025-12-22T15:26:56.868Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "ModelsController.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Api\\Controllers\\ModelsController.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Api\\Controllers\\ModelsController.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Api\\Controllers\\ModelsController.cs*",
-              "RelativeToolTip": "MotoMarket.Api\\Controllers\\ModelsController.cs*",
-              "ViewState": "AgIAABIAAAAAAAAAAAAUwDEAAAAfAAAAAAAAAA==",
+              "Title": "BrandsController.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Controllers\\BrandsController.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Controllers\\BrandsController.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Controllers\\BrandsController.cs",
+              "RelativeToolTip": "MotoMarket.Web\\Controllers\\BrandsController.cs",
+              "ViewState": "AgIAACYAAAAAAAAAAAAIwGgAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T15:52:13.971Z",
+              "WhenOpened": "2025-12-22T15:25:16.773Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "UpdateModelCommand.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Commands\\Models\\UpdateModelCommand.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Application\\Dictionaries\\Commands\\Models\\UpdateModelCommand.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Commands\\Models\\UpdateModelCommand.cs",
-              "RelativeToolTip": "MotoMarket.Application\\Dictionaries\\Commands\\Models\\UpdateModelCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAABAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "FeaturesController.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Controllers\\FeaturesController.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Controllers\\FeaturesController.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Controllers\\FeaturesController.cs",
+              "RelativeToolTip": "MotoMarket.Web\\Controllers\\FeaturesController.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAYwDMAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T15:51:56.772Z",
+              "WhenOpened": "2025-12-22T15:25:08.231Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "CreateModelCommand.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Commands\\Models\\CreateModelCommand.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Application\\Dictionaries\\Commands\\Models\\CreateModelCommand.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Commands\\Models\\CreateModelCommand.cs",
-              "RelativeToolTip": "MotoMarket.Application\\Dictionaries\\Commands\\Models\\CreateModelCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAABAAAAAAAAAA==",
+              "DocumentIndex": 7,
+              "Title": "AdminService.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Services\\Admin\\AdminService.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Services\\Admin\\AdminService.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Services\\Admin\\AdminService.cs",
+              "RelativeToolTip": "MotoMarket.Web\\Services\\Admin\\AdminService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAJkBAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T15:51:45.73Z",
+              "WhenOpened": "2025-12-22T15:22:54.004Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "GetAllModelsQuery.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Queries\\GetAllModelsQuery.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Application\\Dictionaries\\Queries\\GetAllModelsQuery.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Queries\\GetAllModelsQuery.cs",
-              "RelativeToolTip": "MotoMarket.Application\\Dictionaries\\Queries\\GetAllModelsQuery.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAApAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "IAdminService.cs",
+              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Services\\Admin\\IAdminService.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Web\\Services\\Admin\\IAdminService.cs",
+              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Services\\Admin\\IAdminService.cs",
+              "RelativeToolTip": "MotoMarket.Web\\Services\\Admin\\IAdminService.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAA1wE0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T15:50:34.074Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ModelDto.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Queries\\ModelDto.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Application\\Dictionaries\\Queries\\ModelDto.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Queries\\ModelDto.cs",
-              "RelativeToolTip": "MotoMarket.Application\\Dictionaries\\Queries\\ModelDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T15:50:06.798Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "GetModelsByBrandQuery.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Queries\\GetModelsByBrandQuery.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Application\\Dictionaries\\Queries\\GetModelsByBrandQuery.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Application\\Dictionaries\\Queries\\GetModelsByBrandQuery.cs",
-              "RelativeToolTip": "MotoMarket.Application\\Dictionaries\\Queries\\GetModelsByBrandQuery.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T15:46:17.346Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ModelDto.cs",
-              "DocumentMoniker": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Models\\DTOs\\ModelDto.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Web\\Models\\DTOs\\ModelDto.cs",
-              "ToolTip": "C:\\repos\\MotoMarket\\MotoMarket\\MotoMarket.Web\\Models\\DTOs\\ModelDto.cs",
-              "RelativeToolTip": "MotoMarket.Web\\Models\\DTOs\\ModelDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T15:44:51.937Z",
+              "WhenOpened": "2025-12-22T15:22:53.406Z",
               "EditorCaption": ""
             }
           ]

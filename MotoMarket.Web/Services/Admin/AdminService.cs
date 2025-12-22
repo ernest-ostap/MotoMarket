@@ -408,7 +408,55 @@ namespace MotoMarket.Web.Services.Admin
         #endregion
 
         #region Features
+        public async Task<IEnumerable<FeatureDto>> GetAllFeatures()
+        {
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Features");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<IEnumerable<FeatureDto>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<FeatureDto>();
+            }
+            return new List<FeatureDto>();
+        }
 
+        public async Task<FeatureDto?> GetFeature(int id) => (await GetAllFeatures()).FirstOrDefault(f => f.Id == id);
+
+        public async Task<bool> CreateFeature(string name, string groupName)
+        {
+            AddAuthHeader();
+            var command = new { Name = name, GroupName = groupName };
+            var json = JsonSerializer.Serialize(command);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Features", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UpdateFeature(int id, string name, string groupName)
+        {
+            AddAuthHeader();
+            var command = new { Id = id, Name = name, GroupName = groupName };
+            var json = JsonSerializer.Serialize(command);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync($"{_apiBaseUrl}/api/Features/{id}", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> ToggleFeatureActive(int id)
+        {
+            AddAuthHeader();
+            // Wysyłamy pusty content, bo ID jest w URL
+            var content = new StringContent("", Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/Features/{id}/toggle-active", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteFeature(int id)
+        {
+            AddAuthHeader();
+            var response = await _httpClient.DeleteAsync($"{_apiBaseUrl}/api/Features/{id}");
+            return response.IsSuccessStatusCode;
+        }
         #endregion
 
         #region ParametersTypes

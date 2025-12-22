@@ -69,6 +69,12 @@ namespace MotoMarket.Web.Services.Admin
         #endregion
 
         #region Features
+        Task <IEnumerable<FeatureDto>> GetAllFeatures();
+        Task<FeatureDto?> GetFeature(int id);
+        Task<bool> CreateFeature(string name, string icon);
+        Task<bool> UpdateFeature(int id, string name, string icon);
+        Task<bool> ToggleFeatureActive(int id);
+        Task<bool> DeleteFeature(int id);
 
         #endregion
 
