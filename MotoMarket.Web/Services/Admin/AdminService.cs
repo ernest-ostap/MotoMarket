@@ -460,53 +460,7 @@ namespace MotoMarket.Web.Services.Admin
         #endregion
 
         #region ParametersTypes
-        public async Task<IEnumerable<ParameterTypeDto>> GetAllParameterTypes()
-        {
-            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/ParameterTypes");
-            if (response.IsSuccessStatusCode)
-            {
-                var json = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<IEnumerable<ParameterTypeDto>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<ParameterTypeDto>();
-            }
-            return new List<ParameterTypeDto>();
-        }
 
-        public async Task<ParameterTypeDto?> GetParameterType(int id) => (await GetAllParameterTypes()).FirstOrDefault(p => p.Id == id);
-
-        public async Task<bool> CreateParameterType(string name, string unit, string inputType, string category, bool isRequired)
-        {
-            AddAuthHeader();
-            var command = new { Name = name, Unit = unit, InputType = inputType, Category = category, IsRequired = isRequired };
-            var json = JsonSerializer.Serialize(command);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/ParameterTypes", content);
-            return response.IsSuccessStatusCode;
-        }
-
-        public async Task<bool> UpdateParameterType(int id, string name, string unit, string inputType, string category, bool isRequired)
-        {
-            AddAuthHeader();
-            var command = new { Id = id, Name = name, Unit = unit, InputType = inputType, Category = category, IsRequired = isRequired };
-            var json = JsonSerializer.Serialize(command);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PutAsync($"{_apiBaseUrl}/api/ParameterTypes/{id}", content);
-            return response.IsSuccessStatusCode;
-        }
-
-        public async Task<bool> ToggleParameterTypeActive(int id)
-        {
-            AddAuthHeader();
-            var content = new StringContent("", Encoding.UTF8, "application/json");
-            var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/ParameterTypes/{id}/toggle-active", content);
-            return response.IsSuccessStatusCode;
-        }
-
-        public async Task<bool> DeleteParameterType(int id)
-        {
-            AddAuthHeader();
-            var response = await _httpClient.DeleteAsync($"{_apiBaseUrl}/api/ParameterTypes/{id}");
-            return response.IsSuccessStatusCode;
-        }
         #endregion
 
         private void AddAuthHeader()
