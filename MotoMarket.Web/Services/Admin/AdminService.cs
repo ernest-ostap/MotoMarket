@@ -460,7 +460,64 @@ namespace MotoMarket.Web.Services.Admin
         #endregion
 
         #region ParametersTypes
+        public async Task<IEnumerable<ParameterTypeDto>> GetAllParameterTypes()
+        {
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/ParameterTypes");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<IEnumerable<ParameterTypeDto>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<ParameterTypeDto>();
+            }
+            return new List<ParameterTypeDto>();
+        }
 
+        // Implementacja Create przyjmująca DTO
+        public async Task<bool> CreateParameterType(ParameterTypeDto dto)
+        {
+            AddAuthHeader();
+            // Serializujemy cały obiekt (Name, Unit, Category, IsRequired...)
+            var json = JsonSerializer.Serialize(dto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/ParameterTypes", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        // Implementacja Update przyjmująca DTO
+        public async Task<bool> UpdateParameterType(ParameterTypeDto dto)
+        {
+            AddAuthHeader();
+            var json = JsonSerializer.Serialize(dto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // WAŻNE: W URL używamy dto.Id
+            var response = await _httpClient.PutAsync($"{_apiBaseUrl}/api/ParameterTypes/{dto.Id}", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        // Implementacja Get (do edycji)
+        public async Task<ParameterTypeDto?> GetParameterType(int id)
+        {
+            // Wersja leniwa (pobieramy wszystkie i filtrujemy), chyba że dorobiłeś GET /api/ParameterTypes/{id}
+            var all = await GetAllParameterTypes();
+            return all.FirstOrDefault(p => p.Id == id);
+        }
+
+        // Delete i ToggleActive (skopiuj z Brands, zmień URL na ParameterTypes)
+        public async Task<bool> DeleteParameterType(int id)
+        {
+            AddAuthHeader();
+            var response = await _httpClient.DeleteAsync($"{_apiBaseUrl}/api/ParameterTypes/{id}");
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> ToggleParameterTypeActive(int id)
+        {
+            AddAuthHeader();
+            var content = new StringContent("", Encoding.UTF8, "application/json");
+            var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/ParameterTypes/{id}/toggle-active", content);
+            return response.IsSuccessStatusCode;
+        }
         #endregion
 
         private void AddAuthHeader()

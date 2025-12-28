@@ -9,7 +9,7 @@ namespace MotoMarket.Domain.Entities.Vehicles
     public class VehicleParameterType : Common.BaseEntity
     {
         public string Name { get; set; } = string.Empty;
-        public string Unit { get; set; } = string.Empty;
+        public string? Unit { get; set; } 
         public string InputType { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
         public bool IsRequired { get; set; }

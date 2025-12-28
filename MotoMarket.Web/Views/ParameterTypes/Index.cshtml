@@ -1,0 +1,91 @@
+﻿@model IEnumerable<MotoMarket.Web.Models.DTOs.ParameterTypeDto>
+@{
+    ViewData["Title"] = "Parametry Techniczne";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Parametry Techniczne</h2>
+        <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-lg"></i> Dodaj nowy</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <table class="table table-bordered bg-white shadow-sm align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Kategoria</th>
+                <th>Nazwa</th>
+                <th>Jednostka</th>
+                <th>Typ pola</th>
+                <th>Wymagany?</th>
+                <th>Status</th>
+                <th style="width: 150px;">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold text-secondary">@item.Category</td>
+                    <td>@item.Name</td>
+                    <td>@(string.IsNullOrEmpty(item.Unit) ? "-" : item.Unit)</td>
+                    <td>
+                        @if (item.InputType == "number")
+                        {
+                            <span class="badge bg-info text-dark">Liczba</span>
+                        }
+                        else
+                        {
+
+                            <span class="badge bg-light text-dark border">Tekst</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.IsRequired)
+                        {
+                            <i class="bi bi-check-lg text-success fw-bold"></i>
+                        }
+                        else
+                        {
+
+                            <span class="text-muted">-</span>
+                        }
+                    </td>
+                    <td>
+                        <form asp-action="ToggleActive" asp-route-id="@item.Id" method="post" style="display:inline;">
+                            @if (item.IsActive)
+                            {
+                                <button type="submit" class="btn badge bg-success border-0" title="Kliknij, aby ukryć">
+                                    Aktywny
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn badge bg-secondary border-0" title="Kliknij, aby aktywować">
+                                    Ukryty
+                                </button>
+                            }
+                        </form>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+
+                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline;" onsubmit="return confirm('Czy na pewno usunąć ten parametr?');">
+                            <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">Wróć do Panelu</a>
+</div>

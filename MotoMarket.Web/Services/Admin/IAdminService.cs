@@ -79,7 +79,12 @@ namespace MotoMarket.Web.Services.Admin
         #endregion
 
         #region ParametersTypes
-
+        Task<bool> CreateParameterType(ParameterTypeDto dto);
+        Task<bool> UpdateParameterType(ParameterTypeDto dto);
+        Task<ParameterTypeDto?> GetParameterType(int id);
+        Task<bool> DeleteParameterType(int id);
+        Task<bool> ToggleParameterTypeActive(int id);
+        Task<IEnumerable<ParameterTypeDto>> GetAllParameterTypes();
         #endregion
 
     }
