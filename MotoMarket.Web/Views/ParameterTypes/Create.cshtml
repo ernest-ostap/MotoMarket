@@ -1,0 +1,74 @@
+@{
+    ViewData["Title"] = "Dodaj Typ Parametru";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <div class="card shadow">
+        <div class="card-header bg-success text-white">Dodaj Typ Parametru</div>
+        <div class="card-body">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            <form asp-action="Create" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Kategoria</label>
+                    <input type="text" name="category" class="form-control" placeholder="np. Silnik" required list="categories" />
+                    <datalist id="categories">
+                        <option value="Silnik" />
+                        <option value="Wymiary" />
+                        <option value="Paliwo" />
+                        <option value="Skrzynia biegów" />
+                        <option value="Inne" />
+                    </datalist>
+                    @if (ViewData.ModelState["category"]?.Errors.Count > 0)
+                    {
+                        <span class="text-danger">@ViewData.ModelState["category"].Errors[0].ErrorMessage</span>
+                    }
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Nazwa</label>
+                    <input type="text" name="name" class="form-control" placeholder="np. Moc" required />
+                    @if (ViewData.ModelState["name"]?.Errors.Count > 0)
+                    {
+                        <span class="text-danger">@ViewData.ModelState["name"].Errors[0].ErrorMessage</span>
+                    }
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Jednostka <small class="text-muted">(opcjonalnie)</small></label>
+                    <input type="text" name="unit" class="form-control" placeholder="np. KM, l, kg - zostaw puste dla parametrów bez jednostki" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Typ wejścia</label>
+                    <select name="inputType" class="form-select" required>
+                        <option value="">Wybierz typ</option>
+                        <option value="number">Liczba</option>
+                        <option value="text">Tekst</option>
+                        <option value="select">Lista wyboru</option>
+                    </select>
+                    @if (ViewData.ModelState["inputType"]?.Errors.Count > 0)
+                    {
+                        <span class="text-danger">@ViewData.ModelState["inputType"].Errors[0].ErrorMessage</span>
+                    }
+                </div>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" name="isRequired" value="true" class="form-check-input" id="isRequired" />
+                        <label class="form-check-label" for="isRequired">Wymagany</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Zapisz</button>
+            </form>
+            <a asp-action="Index" class="btn btn-link d-block text-center mt-2">Anuluj</a>
+        </div>
+    </div>
+</div>
+

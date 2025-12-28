@@ -1,0 +1,80 @@
+@model IEnumerable<MotoMarket.Web.Models.DTOs.ParameterTypeDto>
+@{
+    ViewData["Title"] = "Typy Parametrów";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Typy Parametrów</h2>
+        <a asp-action="Create" class="btn btn-success">Dodaj</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <table class="table table-bordered bg-white shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th>Kategoria</th>
+                <th>Nazwa</th>
+                <th>Jednostka</th>
+                <th>Typ wejścia</th>
+                <th>Wymagany</th>
+                <th>Status</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@item.Category</td>
+                    <td>@item.Name</td>
+                    <td>@item.Unit</td>
+                    <td>@item.InputType</td>
+                    <td>
+                        @if (item.IsRequired)
+                        {
+                            <span class="badge bg-danger">Tak</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Nie</span>
+                        }
+                    </td>
+                    <td>
+                        <form asp-action="ToggleActive" asp-route-id="@item.Id" method="post" style="display:inline;">
+                            @if (item.IsActive)
+                            {
+                                <button type="submit" class="btn badge bg-success border-0" title="Kliknij, aby ukryć">
+                                    <i class="bi bi-check-circle"></i> Widoczny
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn badge bg-secondary border-0" title="Kliknij, aby aktywować">
+                                    <i class="bi bi-x-circle"></i> Ukryty
+                                </button>
+                            }
+                        </form>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edytuj</a>
+                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline;" onsubmit="return confirm('Czy na pewno usunąć?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">Wróć</a>
+</div>
+
