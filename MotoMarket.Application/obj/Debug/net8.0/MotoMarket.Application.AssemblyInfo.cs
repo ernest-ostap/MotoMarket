@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MotoMarket.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+712eb6bd1fa5d0436d5a59f5f70d71ebf88c2c17")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+25f6b72917340ee1dc3fc433413afd222572de5b")]
 [assembly: System.Reflection.AssemblyProductAttribute("MotoMarket.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MotoMarket.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

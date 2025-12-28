@@ -52,7 +52,17 @@
                                     <span class="text-dark">Witaj, <b>@User.FindFirst("FirstName")?.Value</b>!</span>
                                     <span class="navbar-toggler-icon" style="width: 1.1em; height: 1.1em;"></span>
                                 </a>
+                                
                                 <ul class="dropdown-menu dropdown-menu-end shadow">
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link text-danger fw-bold border border-danger rounded ms-2 px-3"
+                                               asp-controller="Admin" asp-action="Index">
+                                                <i class="bi bi-shield-lock-fill"></i> PANEL ADMINA
+                                            </a>
+                                        </li>
+                                    }
                                     <li>
                                         <a class="dropdown-item" asp-controller="Listings" asp-action="Favorites">
                                             <i class="bi bi-heart-fill text-danger me-2"></i>Ulubione
