@@ -5,6 +5,7 @@ using MotoMarket.Application.Common.Interfaces.Identity;
 using MotoMarket.Application.Users.Commands.ChangePassword;
 using MotoMarket.Application.Users.Commands.LoginUser;
 using MotoMarket.Application.Users.Commands.RegisterUser;
+using MotoMarket.Application.Users.Commands.ToggleUserAdminRole;
 using MotoMarket.Application.Users.Commands.ToggleUserBan;
 using MotoMarket.Application.Users.Commands.UpdateUserProfile;
 using MotoMarket.Application.Users.Queries;
@@ -75,6 +76,14 @@ namespace MotoMarket.Api.Controllers
         {
             var isBanned = await _userManagementService.IsUserBanned(id); 
             return Ok(isBanned);
+        }
+
+        [HttpPatch("{id}/toggle-admin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ToggleAdminRole(string id)
+        {
+            await _mediator.Send(new ToggleUserAdminRoleCommand(id));
+            return NoContent();
         }
     }
 }

@@ -12,5 +12,6 @@ namespace MotoMarket.Application.Common.Interfaces.Identity
         Task<IEnumerable<UserDto>> GetAllUsersAsync();
         Task<bool> ToggleBanAsync(string userId);
         Task<bool> IsUserBanned(string userId);
+        Task<bool> ToggleAdminRoleAsync(string userId);
     }
 }

@@ -79,5 +79,28 @@ namespace MotoMarket.Infrastructure.Identity
 
             return user.LockoutEnd.HasValue && user.LockoutEnd.Value > DateTimeOffset.UtcNow;
         }
+
+        public async Task<bool> ToggleAdminRoleAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return false;
+
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+
+            if (isAdmin)
+            {
+                // DEGRADACJA: Zabierz Admina, daj Usera
+                await _userManager.RemoveFromRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync(user, "User");
+            }
+            else
+            {
+                // AWANS: Zabierz Usera, daj Admina
+                await _userManager.RemoveFromRoleAsync(user, "User");
+                await _userManager.AddToRoleAsync(user, "Admin");
+            }
+
+            return true;
+        }
     }
 }

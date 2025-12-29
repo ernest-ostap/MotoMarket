@@ -90,6 +90,7 @@ namespace MotoMarket.Web.Services.Admin
         #region Users
         Task<IEnumerable<UserDto>> GetAllUsers();
         Task<bool> ToggleUserBan(string userId);
+        Task<bool> ToggleUserAdminRole(string userId);
         #endregion
     }
 }

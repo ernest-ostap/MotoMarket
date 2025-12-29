@@ -28,5 +28,13 @@ namespace MotoMarket.Web.Controllers
             await _adminService.ToggleUserBan(id);
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        [Route("Users/ToggleAdmin/{id}")]
+        public async Task<IActionResult> ToggleAdmin(string id)
+        {
+            await _adminService.ToggleUserAdminRole(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -64,6 +64,20 @@
                                         </button>
                                     }
                                 </form>
+                                <form asp-action="ToggleAdmin" asp-route-id="@user.Id" method="post" style="display:inline;" onsubmit="return confirm('Czy na pewno chcesz zmienić uprawnienia tego użytkownika?');">
+                                    @if (user.Role == "Admin")
+                                    {
+                                        <button type="submit" class="btn btn-sm btn-outline-primary" title="Zabierz uprawnienia Admina">
+                                            <i class="bi bi-person-down"></i> Degraduj
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-sm btn-primary" title="Nadaj uprawnienia Admina">
+                                            <i class="bi bi-person-up"></i> Awansuj
+                                        </button>
+                                    }
+                                </form>
                             }
                         </td>
                     </tr>

@@ -543,6 +543,14 @@ namespace MotoMarket.Web.Services.Admin
             var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/Users/{userId}/toggle-ban", content);
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<bool> ToggleUserAdminRole(string userId)
+        {
+            AddAuthHeader();
+            var content = new StringContent("", Encoding.UTF8, "application/json");
+            var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/Users/{userId}/toggle-admin", content);
+            return response.IsSuccessStatusCode;
+        }
         #endregion
 
         private void AddAuthHeader()
