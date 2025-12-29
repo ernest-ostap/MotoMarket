@@ -87,5 +87,9 @@ namespace MotoMarket.Web.Services.Admin
         Task<IEnumerable<ParameterTypeDto>> GetAllParameterTypes();
         #endregion
 
+        #region Users
+        Task<IEnumerable<UserDto>> GetAllUsers();
+        Task<bool> ToggleUserBan(string userId);
+        #endregion
     }
 }

@@ -12,6 +12,9 @@ namespace MotoMarket.Web.Controllers
             return View();
         }
 
-        // ... Error() itp.
+        public IActionResult Banned()
+        {
+            return View();
+        }
     }
 }

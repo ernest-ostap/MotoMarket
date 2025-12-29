@@ -29,6 +29,9 @@ namespace MotoMarket.Infrastructure
             // --- 1. Rejestracja serwisu tokenów ---
             services.AddTransient<ITokenService, TokenService>();
 
+            // Rejestracja serwisu userów
+            services.AddTransient<IUserManagementService, UserManagementService>();
+
             // --- 2. Konfiguracja JWT (Bramkarz) + FIX DLA SIGNALR ---
             services.AddAuthentication(options =>
             {
@@ -51,7 +54,7 @@ namespace MotoMarket.Infrastructure
                     ClockSkew = TimeSpan.Zero
                 };
 
-                // --- NOWOŚĆ: To naprawia SignalR (błąd 401) ---
+                //signalR token fix 
                 options.Events = new JwtBearerEvents
                 {
                     OnMessageReceived = context =>

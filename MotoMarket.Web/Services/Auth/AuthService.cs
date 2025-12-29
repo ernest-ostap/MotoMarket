@@ -126,5 +126,26 @@ namespace MotoMarket.Web.Services.Auth
             var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Users/change-password", content);
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<bool> IsUserBanned(string userId)
+        {
+            var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Users/{userId}/is-banned");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                // API zwraca true/false
+                bool.TryParse(json, out var isBanned);
+                return isBanned;
+            }
+
+            return false; // Jak błąd API, to na wszelki wypadek nie banujmy (fail-open)
+        }
     }
 }

@@ -520,6 +520,31 @@ namespace MotoMarket.Web.Services.Admin
         }
         #endregion
 
+        #region Users
+        public async Task<IEnumerable<UserDto>> GetAllUsers()
+        {
+            AddAuthHeader(); 
+
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Users");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<IEnumerable<UserDto>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<UserDto>();
+            }
+            
+            return new List<UserDto>();
+        }
+
+        public async Task<bool> ToggleUserBan(string userId)
+        {
+            AddAuthHeader();
+            // Endpoint: PATCH /api/Users/{id}/toggle-ban
+            var content = new StringContent("", Encoding.UTF8, "application/json");
+            var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/Users/{userId}/toggle-ban", content);
+            return response.IsSuccessStatusCode;
+        }
+        #endregion
+
         private void AddAuthHeader()
         {
             var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;

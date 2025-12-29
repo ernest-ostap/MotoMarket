@@ -9,5 +9,7 @@ namespace MotoMarket.Web.Services.Auth
         Task Logout();
         Task<bool> UpdateProfile(UpdateProfileViewModel model);
         Task<bool> ChangePassword(ChangePasswordViewModel model);
+
+        Task<bool> IsUserBanned(string userId);
     }
 }

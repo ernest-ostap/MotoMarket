@@ -43,6 +43,8 @@ app.UseRouting();
 app.UseAuthentication(); // Dodajemy middleware uwierzytelniania, musi byc przed UseAuthorization 
 app.UseAuthorization();
 
+app.UseMiddleware<MotoMarket.Web.Middleware.UserStatusMiddleware>();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
