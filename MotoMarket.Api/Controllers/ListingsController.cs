@@ -1,16 +1,19 @@
 ﻿using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using MotoMarket.Application.Listings.Commands.BanListing;
 using MotoMarket.Application.Listings.Commands.CreateListing;
 using MotoMarket.Application.Listings.Commands.DeleteListing;
 using MotoMarket.Application.Listings.Commands.RestoreListing;
-using MotoMarket.Application.Listings.Commands.UpdateListingStatus;
+using MotoMarket.Application.Listings.Commands.UnbanListing;
 using MotoMarket.Application.Listings.Commands.UpdateListing;
+using MotoMarket.Application.Listings.Commands.UpdateListingStatus;
+using MotoMarket.Application.Listings.Queries.GetAdminListings;
 using MotoMarket.Application.Listings.Queries.GetAllListings;
 using MotoMarket.Application.Listings.Queries.GetListingDetail;
 using MotoMarket.Application.Listings.Queries.GetMyListings;
-using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
 namespace MotoMarket.Api.Controllers
@@ -33,6 +36,14 @@ namespace MotoMarket.Api.Controllers
         {
             var result = await _mediator.Send(query);
             return Ok(result);
+        }
+
+        //get dla admina - wszystkie ogłoszenia, także zbanowane i z innym statusem
+        [HttpGet("admin-all")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IEnumerable<AdminListingDto>>> GetForAdmin()
+        {
+            return Ok(await _mediator.Send(new GetAdminListingsQuery()));
         }
 
         // GET api/listings/id
@@ -234,6 +245,22 @@ namespace MotoMarket.Api.Controllers
             }
 
             await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpPatch("admin/{id}/ban")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> BanListing(int id, [FromBody] string reason)
+        {
+            await _mediator.Send(new BanListingCommand(id, reason));
+            return NoContent();
+        }
+
+        [HttpPatch("admin/{id}/unban")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UnbanListing(int id)
+        {
+            await _mediator.Send(new UnbanListingCommand(id));
             return NoContent();
         }
 

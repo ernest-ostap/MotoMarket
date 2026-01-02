@@ -553,6 +553,40 @@ namespace MotoMarket.Web.Services.Admin
         }
         #endregion
 
+        #region AdminListing
+        public async Task<IEnumerable<AdminListingDto>> GetAllListings()
+        {
+            AddAuthHeader();
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Listings/admin-all");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<IEnumerable<AdminListingDto>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<AdminListingDto>();
+            }
+            return new List<AdminListingDto>();
+        }
+
+        public async Task<bool> BanListing(int id, string reason)
+        {
+            AddAuthHeader();
+            // Wysyłamy powód jako JSON
+            var json = JsonSerializer.Serialize(reason);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/Listings/admin/{id}/ban", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UnbanListing(int id)
+        {
+            AddAuthHeader();
+            // Wysyłamy pusty content, bo nie potrzebujemy parametrów
+            var content = new StringContent("", Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/Listings/admin/{id}/unban", content);
+            return response.IsSuccessStatusCode;
+        }
+        #endregion
         private void AddAuthHeader()
         {
             var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;

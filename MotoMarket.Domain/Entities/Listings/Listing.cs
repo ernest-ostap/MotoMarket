@@ -23,6 +23,9 @@ namespace MotoMarket.Domain.Entities.Listings
         public string LocationRegion { get; set; } = string.Empty;
         public ListingStatus Status { get; set; } //zdefiniowany ponizej
 
+        //info o banie
+        public string? BanReason { get; set; }
+
         //Dane pojazdu z FK
         public int BrandId { get; set; }
         public VehicleBrand Brand { get; set; } = null!;

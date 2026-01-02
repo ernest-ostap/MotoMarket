@@ -1,0 +1,88 @@
+﻿@model IEnumerable<MotoMarket.Web.Models.DTOs.AdminListingDto>
+@{
+    ViewData["Title"] = "Moderacja Ogłoszeń";
+}
+
+<div class="container mt-4">
+    <h2><i class="bi bi-card-list"></i> Wszystkie Ogłoszenia</h2>
+    <p class="text-muted">Jako administrator możesz usunąć dowolne ogłoszenie.</p>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div class="table-responsive shadow-sm mt-3">
+        <table class="table table-hover bg-white align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Data</th>
+                    <th>Pojazd</th>
+                    <th>Tytuł</th>
+                    <th>Cena</th>
+                    <th>Właściciel (ID)</th>
+                    <th>Status</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CreatedAt.ToString("dd.MM.yyyy")</td>
+                        <td class="fw-bold">@item.BrandModel</td>
+                        <td>
+                            <a asp-controller="Listings" asp-action="Details" asp-route-id="@item.Id" target="_blank">
+                                @item.Title <i class="bi bi-box-arrow-up-right small"></i>
+                            </a>
+                        </td>
+                        <td class="text-success fw-bold">@item.Price.ToString("N0") PLN</td>
+                        <td class="small text-muted">@item.OwnerId</td>
+                        <td>
+                            @if (item.Status == "Active")
+                            {
+                                <span class="badge bg-success">Aktywne</span>
+                            }
+                            else if (item.Status == "Sold")
+                            {
+                                <span class="badge bg-secondary">Sprzedane</span>
+                            }
+                            else if (item.Status == "Archived")
+                            {
+                                <span class="badge bg-warning">Zarchiwizowane</span>
+                            }
+                            else if (item.Status == "Banned")
+                            {
+                                <span class="badge bg-danger">ZBANOWANE</span>
+                            }
+                        </td>
+                        
+                            @if (item.Status == "Banned")
+                            {
+                                <td>
+                                    <small class="text-danger">Powód: @item.BanReason</small>
+                                    <br />
+                                    <form asp-action="Unban" asp-route-id="@item.Id" method="post" style="display:inline;" onsubmit="return confirm('Czy na pewno chcesz przywrócić to ogłoszenie?');">
+                                        <button type="submit" class="btn btn-sm btn-success" title="Odbanuj / Przywróć">
+                                            <i class="bi bi-arrow-counterclockwise"></i> Przywróć
+                                        </button>
+                                    </form>
+                                </td>
+                            }
+                            else if(item.Status != "Banned")
+                            {
+                                <td>
+                                    <a asp-action="Ban" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-hammer"></i> Zbanuj
+                                    </a>
+                                </td>
+                            }
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">Wróć do Panelu</a>
+</div>

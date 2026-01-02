@@ -1,0 +1,29 @@
+﻿@model int
+@{
+    ViewData["Title"] = "Zbanuj ogłoszenie";
+}
+
+<div class="container mt-5" style="max-width: 500px;">
+    <div class="card border-danger shadow">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0">Potwierdź blokadę ogłoszenia (ID: @Model)</h5>
+        </div>
+        <div class="card-body">
+            <p>To ogłoszenie zniknie z wyników wyszukiwania, a użytkownik zobaczy powód blokady.</p>
+
+            <form asp-action="BanConfirm" method="post">
+                <input type="hidden" name="id" value="@Model" />
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Podaj powód blokady:</label>
+                    <textarea name="reason" class="form-control" rows="3" placeholder="np. Niezgodne z regulaminem, wulgarne zdjęcia..." required></textarea>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-danger">Zbanuj definitywnie</button>
+                    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
