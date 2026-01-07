@@ -5,17 +5,19 @@
     ViewData["Title"] = Model.Title;
 }
 
-<div class="container mt-4">
-    <nav aria-label="breadcrumb">
+<div class="container mt-4 mb-5">
+    <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Strona główna</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Listings" asp-action="Index">Ogłoszenia</a></li>
             <li class="breadcrumb-item active" aria-current="page">@Model.BrandName @Model.ModelName</li>
         </ol>
     </nav>
 
     <div class="row">
         <div class="col-lg-8">
-            <div class="card mb-4">
+            <!-- Photo Gallery -->
+            <div class="card mb-4 border-0 shadow-lg overflow-hidden">
                 @if (Model.PhotoUrls != null && Model.PhotoUrls.Any())
                 {
                     var carouselId = "listingCarousel";
@@ -30,7 +32,7 @@
                             @foreach (var photo in Model.PhotoUrls.Select((url, index) => new { url, index }))
                             {
                                 <div class="carousel-item @(photo.index == 0 ? "active" : "")">
-                                    <img src="@photo.url" class="d-block w-100" alt="Zdjęcie @photo.index" style="max-height: 500px; object-fit: cover;">
+                                    <img src="@photo.url" class="d-block w-100" alt="Zdjęcie @photo.index" style="max-height: 600px; object-fit: cover;">
                                 </div>
                             }
                         </div>
@@ -46,45 +48,64 @@
                 }
                 else if (!string.IsNullOrEmpty(Model.MainPhotoUrl))
                 {
-                    <img src="@Model.MainPhotoUrl" class="card-img-top" alt="Główne zdjęcie" style="max-height: 500px; object-fit: cover;">
+                    <img src="@Model.MainPhotoUrl" class="card-img-top" alt="Główne zdjęcie" style="max-height: 600px; object-fit: cover;">
                 }
                 else
                 {
-                    <div class="p-5 text-center bg-light text-muted">Brak zdjęć</div>
+                    <div class="p-5 text-center bg-secondary text-white d-flex align-items-center justify-content-center" style="min-height: 400px;">
+                        <div>
+                            <i class="bi bi-image fs-1 d-block mb-3"></i>
+                            <p class="mb-0">Brak zdjęć</p>
+                        </div>
+                    </div>
                 }
             </div>
 
-            <div class="card mb-4">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Opis pojazdu</h5>
+            <!-- Description -->
+            <div class="card mb-4 border-0 shadow-lg">
+                <div class="card-header bg-white border-0 pb-0">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-file-text text-primary me-2"></i>Opis pojazdu
+                    </h5>
                 </div>
                 <div class="card-body">
-                    <p class="card-text" style="white-space: pre-line">@Model.Description</p>
+                    <p class="card-text mb-0" style="white-space: pre-line; line-height: 1.8;">@Model.Description</p>
                 </div>
             </div>
 
-            <div class="card mb-4">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Dane techniczne</h5>
+            <!-- Technical Data -->
+            <div class="card mb-4 border-0 shadow-lg">
+                <div class="card-header bg-white border-0 pb-0">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-gear-wide-connected text-primary me-2"></i>Dane techniczne
+                    </h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span class="text-muted">Rok produkcji</span>
+                                <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                    <span class="text-muted">
+                                        <i class="bi bi-calendar3 me-2"></i>Rok produkcji
+                                    </span>
                                     <strong>@Model.ProductionYear</strong>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span class="text-muted">Przebieg</span>
+                                <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                    <span class="text-muted">
+                                        <i class="bi bi-speedometer2 me-2"></i>Przebieg
+                                    </span>
                                     <strong>@Model.Mileage km</strong>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span class="text-muted">Paliwo</span>
+                                <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                    <span class="text-muted">
+                                        <i class="bi bi-fuel-pump me-2"></i>Paliwo
+                                    </span>
                                     <strong>@Model.FuelTypeName</strong>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span class="text-muted">Skrzynia</span>
+                                <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                    <span class="text-muted">
+                                        <i class="bi bi-gear me-2"></i>Skrzynia
+                                    </span>
                                     <strong>@Model.GearboxTypeName</strong>
                                 </li>
                             </ul>
@@ -93,32 +114,38 @@
                             <ul class="list-group list-group-flush">
                                 @foreach (var param in Model.Parameters)
                                 {
-                                    <li class="list-group-item d-flex justify-content-between">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                                         <span class="text-muted">@param.Name</span>
                                         <strong>@param.Value @param.Unit</strong>
                                     </li>
                                 }
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span class="text-muted">VIN</span>
-                                    <strong>@Model.VIN</strong>
-                                </li>
+                                @if (!string.IsNullOrEmpty(Model.VIN))
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                        <span class="text-muted">VIN</span>
+                                        <strong class="font-monospace small">@Model.VIN</strong>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Features -->
             @if (Model.Features != null && Model.Features.Any())
             {
-                <div class="card mb-4">
-                    <div class="card-header bg-white">
-                        <h5 class="mb-0">Wyposażenie</h5>
+                <div class="card mb-4 border-0 shadow-lg">
+                    <div class="card-header bg-white border-0 pb-0">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="bi bi-star-fill text-primary me-2"></i>Wyposażenie
+                        </h5>
                     </div>
                     <div class="card-body">
                         <div class="d-flex flex-wrap gap-2">
                             @foreach (var feature in Model.Features)
                             {
-                                <span class="badge bg-secondary p-2">@feature</span>
+                                <span class="badge bg-primary p-2 fs-6">@feature</span>
                             }
                         </div>
                     </div>
@@ -126,17 +153,18 @@
             }
         </div>
 
+        <!-- Sidebar -->
         <div class="col-lg-4">
-            <div class="card shadow-sm sticky-top" style="top: 2rem;">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="card shadow-lg sticky-top border-0" style="top: 2rem; border-radius: var(--radius-xl);">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
                         <div>
-                            <h2 class="card-title text-primary mb-1">@Model.Price.ToString("C0")</h2>
-                            <h5 class="card-subtitle mb-0">@Model.BrandName @Model.ModelName</h5>
+                            <h2 class="card-title text-primary mb-2 fw-bold">@Model.Price.ToString("N0") PLN</h2>
+                            <h5 class="card-subtitle mb-0 text-muted">@Model.BrandName @Model.ModelName</h5>
                         </div>
                         <button type="button"
                                 class="btn btn-light rounded-circle shadow-sm favorite-btn d-flex align-items-center justify-content-center"
-                                style="width: 45px; height: 45px;"
+                                style="width: 50px; height: 50px;"
                                 data-id="@Model.Id"
                                 title="@(Model.IsFavorite ? "Usuń z ulubionych" : "Dodaj do ulubionych")">
                             @if (Model.IsFavorite)
@@ -150,15 +178,16 @@
                         </button>
                     </div>
 
-                    <hr />
+                    <hr class="my-4" />
 
-                    <div class="mb-3">
-                        <i class="bi bi-geo-alt-fill text-danger"></i>
+                    <div class="mb-4">
+                        <i class="bi bi-geo-alt-fill text-primary me-2"></i>
                         <strong>@Model.LocationCity</strong>, @Model.LocationRegion
                     </div>
 
                     <div class="d-grid gap-2">
                         <button class="btn btn-primary btn-lg" id="showPhoneBtn" @(string.IsNullOrWhiteSpace(Model.SellerPhone) ? "disabled" : "")>
+                            <i class="bi bi-telephone me-2"></i>
                             @if (string.IsNullOrWhiteSpace(Model.SellerPhone))
                             {
                                 <span>Brak numeru</span>
@@ -168,21 +197,27 @@
                                 <span>Pokaż numer</span>
                             }
                         </button>
-                        @if (Model.UserId != User.FindFirst("sub")?.Value) // Sprawdź czy masz dostęp do swojego ID w widoku
+                        @if (Model.UserId != User.FindFirst("sub")?.Value)
                         {
                             <a asp-controller="Chat" asp-action="Conversation"
                                asp-route-recipientId="@Model.UserId"
                                asp-route-listingId="@Model.Id"
-                               class="btn btn-primary btn-lg w-100 mt-3">
-                                <i class="bi bi-chat-dots"></i> Napisz do sprzedającego
+                               class="btn btn-outline-primary btn-lg w-100">
+                                <i class="bi bi-chat-dots me-2"></i>Napisz do sprzedającego
                             </a>
                         }
-                        <div id="phoneDisplay" class="text-center fw-bold text-primary mt-2" style="display:none;"></div>
+                        <div id="phoneDisplay" class="text-center fw-bold text-primary mt-2 fs-5" style="display:none;"></div>
                     </div>
 
-                    <div class="mt-3 text-muted small text-center">
-                        ID Ogłoszenia: @Model.Id <br />
-                        Dodano: @Model.CreatedAt.ToShortDateString()
+                    <hr class="my-4" />
+
+                    <div class="text-muted small text-center">
+                        <div class="mb-2">
+                            <i class="bi bi-hash me-1"></i>ID: @Model.Id
+                        </div>
+                        <div>
+                            <i class="bi bi-calendar3 me-1"></i>Dodano: @Model.CreatedAt.ToShortDateString()
+                        </div>
                     </div>
                 </div>
             </div>

@@ -5,11 +5,13 @@
     ViewData["Title"] = "Ogłoszenia";
 }
 
-<div class="container-fluid mt-3">
+<div class="container-fluid mt-4 mb-5">
     <div class="row">
         <div class="col-md-3">
-            <div class="card p-3 shadow-sm sticky-top" style="top: 1rem; z-index: 100;">
-                <h4 class="mb-3">Filtrowanie</h4>
+            <div class="card p-4 shadow-lg sticky-top border-0" style="top: 1rem; z-index: 100; border-radius: var(--radius-xl);">
+                <h4 class="mb-4 fw-bold">
+                    <i class="bi bi-funnel me-2 text-primary"></i>Filtrowanie
+                </h4>
 
                 <form asp-action="Index" method="get" id="filterForm">
 
@@ -66,75 +68,87 @@
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">Filtruj</button>
-                        <a asp-action="Index" class="btn btn-outline-secondary">Wyczyść filtry</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search me-1"></i>Filtruj
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-x-circle me-1"></i>Wyczyść filtry
+                        </a>
                     </div>
                 </form>
             </div>
         </div>
 
         <div class="col-md-9">
-
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h1 class="display-5">Ogłoszenia</h1>
-                    <small class="text-muted">Znaleziono: @Model.Listings.Count() ofert</small>
+                    <h1 class="display-5 fw-bold mb-2">
+                        <i class="bi bi-car-front text-primary me-2"></i>Ogłoszenia
+                    </h1>
+                    <p class="text-muted mb-0">
+                        <i class="bi bi-check-circle me-1"></i>Znaleziono: <strong>@Model.Listings.Count()</strong> ofert
+                    </p>
                 </div>
-
                 <a asp-action="Create" class="btn btn-success btn-lg shadow">
-                    <i class="bi bi-plus-circle"></i> Sprzedaj auto
+                    <i class="bi bi-plus-circle me-1"></i>Sprzedaj auto
                 </a>
             </div>
 
-            <div class="row">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 @foreach (var item in Model.Listings)
                 {
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow-sm hover-shadow transition">
-                            <div style="position: relative;">
-
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0 overflow-hidden">
+                            <div class="position-relative">
                                 <button type="button"
                                         class="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle shadow-sm favorite-btn d-flex align-items-center justify-content-center"
-                                        style="width: 35px; height: 35px; z-index: 2;"
+                                        style="width: 40px; height: 40px; z-index: 2; backdrop-filter: blur(10px);"
                                         data-id="@item.Id"
-                                        title="Dodaj do ulubionych">
+                                        title="@(item.IsFavorite ? "Usuń z ulubionych" : "Dodaj do ulubionych")">
                                     @if (item.IsFavorite)
                                     {
-                                        <i class="bi bi-heart-fill text-danger"></i>
+                                        <i class="bi bi-heart-fill text-danger fs-5"></i>
                                     }
                                     else
                                     {
-                                        <i class="bi bi-heart text-danger"></i>
+                                        <i class="bi bi-heart text-danger fs-5"></i>
                                     }
                                 </button>
                                 @if (!string.IsNullOrEmpty(item.MainPhotoUrl))
                                 {
-                                    <img src="@item.MainPhotoUrl" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                                    <img src="@item.MainPhotoUrl" class="card-img-top" alt="@item.Title" style="height: 220px; object-fit: cover;">
                                 }
                                 else
                                 {
-                                    <img src="https://via.placeholder.com/300x200?text=Brak+Zdjecia" class="card-img-top" alt="No image" style="height: 200px; object-fit: cover;">
+                                    <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white" style="height: 220px;">
+                                        <i class="bi bi-image fs-1"></i>
+                                    </div>
                                 }
-                                <span class="badge bg-dark position-absolute bottom-0 end-0 m-2 px-3 py-2 fs-6">
-                                    @item.Price.ToString("C0")
+                                <span class="badge bg-primary position-absolute bottom-0 end-0 m-2 px-3 py-2 fs-6 fw-bold">
+                                    @item.Price.ToString("N0") PLN
                                 </span>
                             </div>
 
                             <div class="card-body">
-                                <h5 class="card-title fw-bold text-primary">@item.BrandName @item.ModelName</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">@item.Title</h6>
-                                <p class="card-text text-truncate small">@item.Description</p>
-
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <small class="text-muted"><i class="bi bi-calendar"></i> @item.ProductionYear</small>
-                                    <small class="text-muted"><i class="bi bi-speedometer2"></i> @item.Mileage km</small>
-                                    <small class="text-muted"><i class="bi bi-geo-alt"></i> @item.LocationCity</small>
+                                <h5 class="card-title fw-bold mb-2">@item.BrandName @item.ModelName</h5>
+                                <h6 class="card-subtitle mb-3 text-muted small">@item.Title</h6>
+                                
+                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                    <small class="text-muted">
+                                        <i class="bi bi-calendar3 me-1"></i>@item.ProductionYear
+                                    </small>
+                                    <small class="text-muted">
+                                        <i class="bi bi-speedometer2 me-1"></i>@(item.Mileage / 1000) tys. km
+                                    </small>
+                                    <small class="text-muted">
+                                        <i class="bi bi-geo-alt me-1"></i>@item.LocationCity
+                                    </small>
                                 </div>
                             </div>
 
-                            <div class="card-footer bg-white border-top-0 pb-3">
-                                <a asp-controller="Listings" asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary w-100 stretched-link">
-                                    Zobacz szczegóły
+                            <div class="card-footer bg-white border-0 pt-0 pb-3">
+                                <a asp-controller="Listings" asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary w-100">
+                                    Zobacz szczegóły <i class="bi bi-arrow-right ms-1"></i>
                                 </a>
                             </div>
                         </div>
@@ -144,9 +158,15 @@
 
             @if (!Model.Listings.Any())
             {
-                <div class="alert alert-warning text-center mt-5 p-5">
-                    <h4>Niestety, nie znaleziono ogłoszeń spełniających kryteria.</h4>
-                    <p>Spróbuj zmienić filtry lub <a asp-action="Index">wyczyść wyszukiwanie</a>.</p>
+                <div class="card shadow-lg border-0 text-center mt-5">
+                    <div class="card-body p-5">
+                        <i class="bi bi-search text-muted" style="font-size: 4rem;"></i>
+                        <h4 class="mt-4 mb-3">Nie znaleziono ogłoszeń</h4>
+                        <p class="text-muted mb-4">Spróbuj zmienić filtry lub wyczyść wyszukiwanie.</p>
+                        <a asp-action="Index" class="btn btn-primary">
+                            <i class="bi bi-arrow-clockwise me-1"></i>Wyczyść filtry
+                        </a>
+                    </div>
                 </div>
             }
 

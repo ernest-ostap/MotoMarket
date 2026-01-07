@@ -1,9 +1,12 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MotoMarket.Web</title>
+    <title>@ViewData["Title"] - MotoMarket</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MotoMarket.Web.styles.css" asp-append-version="true" />
@@ -11,59 +14,65 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MotoMarket.Web</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-speedometer2 me-2"></i>MotoMarket
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Start</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house-door me-1"></i>Start
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="About">O nas</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="About">O nas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Listings" asp-action="Index">Ogłoszenia</a>
+                            <a class="nav-link" asp-controller="Listings" asp-action="Index">
+                                <i class="bi bi-car-front me-1"></i>Ogłoszenia
+                            </a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav ms-auto">
-
+                    <ul class="navbar-nav align-items-center">
                         <li class="nav-item me-2">
-                            <a class="btn btn-warning fw-bold text-dark" asp-controller="Listings" asp-action="Create">
-                                + Dodaj ogłoszenie
+                            <a class="btn btn-primary" asp-controller="Listings" asp-action="Create">
+                                <i class="bi bi-plus-circle me-1"></i>Dodaj ogłoszenie
                             </a>
                         </li>
-                        <li class="nav-item position-relative">
-                            <a class="nav-link text-dark" asp-controller="Chat" asp-action="Index">
-                                <i class="bi bi-chat-text"></i> Wiadomości
-                                <span id="msg-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display:none;">
-                                    0
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav ms-auto">
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item dropdown" id="userMenu">
-                                <a class="nav-link dropdown-toggle d-flex align-items-center gap-1" href="#" role="button">
-                                    <span class="text-dark">Witaj, <b>@User.FindFirst("FirstName")?.Value</b>!</span>
-                                    <span class="navbar-toggler-icon" style="width: 1.1em; height: 1.1em;"></span>
+                            <li class="nav-item position-relative me-2">
+                                <a class="nav-link" asp-controller="Chat" asp-action="Index">
+                                    <i class="bi bi-chat-text fs-5"></i>
+                                    <span id="msg-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display:none;">
+                                        0
+                                    </span>
                                 </a>
-                                
-                                <ul class="dropdown-menu dropdown-menu-end shadow">
+                            </li>
+                            <li class="nav-item dropdown" id="userMenu">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px; font-size: 0.875rem; font-weight: 600;">
+                                            @(User.FindFirst("FirstName")?.Value?.Substring(0, 1).ToUpper() ?? "U")
+                                        </div>
+                                        <span class="d-none d-md-inline">@User.FindFirst("FirstName")?.Value</span>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-lg" style="min-width: 220px; z-index: 1050;">
                                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                                     {
-                                        <li class="nav-item">
-                                            <a class="nav-link text-danger fw-bold border border-danger rounded ms-2 px-3"
-                                               asp-controller="Admin" asp-action="Index">
-                                                <i class="bi bi-shield-lock-fill"></i> PANEL ADMINA
+                                        <li>
+                                            <a class="dropdown-item text-danger fw-bold" asp-controller="Admin" asp-action="Index">
+                                                <i class="bi bi-shield-lock-fill me-2"></i>Panel Administratora
                                             </a>
                                         </li>
+                                        <li><hr class="dropdown-divider" /></li>
                                     }
                                     <li>
                                         <a class="dropdown-item" asp-controller="Listings" asp-action="Favorites">
@@ -98,10 +107,10 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Auth" asp-action="Login">Logowanie</a>
+                                <a class="nav-link" asp-controller="Auth" asp-action="Login">Logowanie</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-primary fw-bold" asp-controller="Auth" asp-action="Register">Rejestracja</a>
+                                <a class="btn btn-outline-primary" asp-controller="Auth" asp-action="Register">Rejestracja</a>
                             </li>
                         }
                     </ul>
@@ -109,18 +118,18 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main role="main" class="fade-in">
+        @RenderBody()
+    </main>
 
     <!-- Modal: Zmiana danych użytkownika -->
     <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="profileModalLabel">Zmień dane użytkownika</h5>
+                    <h5 class="modal-title fw-bold" id="profileModalLabel">
+                        <i class="bi bi-person-lines-fill me-2"></i>Zmień dane użytkownika
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
                 </div>
                 <div class="modal-body">
@@ -146,15 +155,25 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="submit" form="profileForm" class="btn btn-primary">Zapisz zmiany</button>
+                    <button type="submit" form="profileForm" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i>Zapisz zmiany
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer">
         <div class="container">
-            &copy; 2025 - MotoMarket.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col-md-6">
+                    <h6 class="fw-bold mb-3">MotoMarket</h6>
+                    <p class="mb-0">Portal ogłoszeniowy dla miłośników motoryzacji</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">&copy; 2025 MotoMarket. Wszelkie prawa zastrzeżone.</p>
+                </div>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -163,13 +182,43 @@
     <script>
         // Pokazywanie dropdownu po hoverze na desktopie
         const userMenu = document.getElementById('userMenu');
-        if (userMenu) {
+        if (userMenu && window.innerWidth >= 992) {
+            let hoverTimeout;
+            
             userMenu.addEventListener('mouseenter', () => {
-                userMenu.querySelector('.dropdown-menu').classList.add('show');
+                clearTimeout(hoverTimeout);
+                const dropdown = userMenu.querySelector('.dropdown-menu');
+                if (dropdown) {
+                    dropdown.classList.add('show');
+                    // Upewnij się, że dropdown jest widoczny
+                    userMenu.classList.add('show');
+                }
             });
-            userMenu.addEventListener('mouseleave', () => {
-                userMenu.querySelector('.dropdown-menu').classList.remove('show');
+            
+            userMenu.addEventListener('mouseleave', (e) => {
+                // Sprawdź czy mysz nie przeszła do dropdown menu
+                const dropdown = userMenu.querySelector('.dropdown-menu');
+                if (dropdown && !dropdown.contains(e.relatedTarget)) {
+                    hoverTimeout = setTimeout(() => {
+                        dropdown.classList.remove('show');
+                        userMenu.classList.remove('show');
+                    }, 100);
+                }
             });
+            
+            // Obsługa hover na samym dropdown menu
+            const dropdown = userMenu.querySelector('.dropdown-menu');
+            if (dropdown) {
+                dropdown.addEventListener('mouseenter', () => {
+                    clearTimeout(hoverTimeout);
+                });
+                dropdown.addEventListener('mouseleave', () => {
+                    hoverTimeout = setTimeout(() => {
+                        dropdown.classList.remove('show');
+                        userMenu.classList.remove('show');
+                    }, 100);
+                });
+            }
         }
     </script>
     @await RenderSectionAsync("Scripts", required: false)

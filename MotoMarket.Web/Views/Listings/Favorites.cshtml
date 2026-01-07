@@ -9,62 +9,87 @@
     const int StatusArchived = 3;
 }
 
-<h2 class="mb-4">Moje ulubione ogłoszenia ❤️</h2>
-
-@if (!Model.Any())
-{
-    <div class="alert alert-light text-center">
-        Nie masz jeszcze ulubionych aut. <a asp-action="Index">Przeglądaj ogłoszenia</a>
+<div class="container mt-4 mb-5">
+    <div class="mb-4">
+        <h2 class="fw-bold mb-2">
+            <i class="bi bi-heart-fill text-danger me-2"></i>Moje ulubione ogłoszenia
+        </h2>
+        <p class="text-muted mb-0">Twoje zapisane oferty</p>
     </div>
-}
-else
-{
-    <div class="row">
+
+    @if (!Model.Any())
+    {
+        <div class="card shadow-lg border-0 text-center">
+            <div class="card-body p-5">
+                <i class="bi bi-heart text-muted" style="font-size: 4rem;"></i>
+                <h4 class="mt-4 mb-3">Nie masz jeszcze ulubionych aut</h4>
+                <p class="text-muted mb-4">Zacznij przeglądać ogłoszenia i zapisuj te, które Cię interesują!</p>
+                <a asp-action="Index" class="btn btn-primary btn-lg">
+                    <i class="bi bi-search me-1"></i>Przeglądaj ogłoszenia
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         @foreach (var item in Model)
         {
             var isInactive = item.Status == StatusSold || item.Status == StatusArchived;
             var statusText = item.Status == StatusSold ? "Sprzedane" : item.Status == StatusArchived ? "Zarchiwizowane" : "";
             
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm @(isInactive ? "opacity-50" : "")" style="@(isInactive ? "filter: grayscale(70%);" : "")">
-                    <div style="position: relative;">
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0 overflow-hidden @(isInactive ? "opacity-50" : "")" style="@(isInactive ? "filter: grayscale(70%);" : "")">
+                    <div class="position-relative">
                         <button type="button"
                                 class="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle shadow-sm favorite-btn d-flex align-items-center justify-content-center"
-                                style="width: 35px; height: 35px; z-index: 2;"
+                                style="width: 40px; height: 40px; z-index: 2; backdrop-filter: blur(10px);"
                                 data-id="@item.Id"
                                 title="Usuń z ulubionych">
-                            <i class="bi bi-heart-fill text-danger"></i>
+                            <i class="bi bi-heart-fill text-danger fs-5"></i>
                         </button>
-                        <img src="@item.MainPhotoUrl" class="card-img-top" style="height: 200px; object-fit: cover;" alt="@item.Title">
+                        @if (!string.IsNullOrEmpty(item.MainPhotoUrl))
+                        {
+                            <img src="@item.MainPhotoUrl" class="card-img-top" style="height: 220px; object-fit: cover;" alt="@item.Title">
+                        }
+                        else
+                        {
+                            <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white" style="height: 220px;">
+                                <i class="bi bi-image fs-1"></i>
+                            </div>
+                        }
                         @if (isInactive)
                         {
                             <div class="position-absolute top-50 start-50 translate-middle">
                                 <span class="badge bg-dark px-3 py-2 fs-6">@statusText</span>
                             </div>
                         }
-                        <span class="badge bg-dark position-absolute bottom-0 end-0 m-2 px-3 py-2 fs-6">
-                            @item.Price.ToString("C0")
+                        <span class="badge bg-primary position-absolute bottom-0 end-0 m-2 px-3 py-2 fs-6 fw-bold">
+                            @item.Price.ToString("N0") PLN
                         </span>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">@item.BrandName @item.ModelName</h5>
-                        <p class="card-text text-truncate small">@item.Title</p>
+                        <h5 class="card-title fw-bold mb-2">@item.BrandName @item.ModelName</h5>
+                        <p class="card-text text-truncate text-muted small mb-0">@item.Title</p>
                     </div>
-                    <div class="card-footer bg-white border-top-0 pb-3">
+                    <div class="card-footer bg-white border-0 pt-0 pb-3">
                         @if (isInactive)
                         {
                             <button class="btn btn-secondary w-100" disabled>Ogłoszenie niedostępne</button>
                         }
                         else
                         {
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary w-100">Szczegóły</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary w-100">
+                                Zobacz szczegóły <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
                         }
                     </div>
                 </div>
             </div>
         }
-    </div>
-}
+        </div>
+    }
+</div>
 
 @section Scripts {
     <script>

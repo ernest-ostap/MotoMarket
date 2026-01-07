@@ -5,22 +5,38 @@
     ViewData["Title"] = "Moje ogłoszenia";
 }
 
-<div class="container mt-4">
+<div class="container mt-4 mb-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Zarządzaj ogłoszeniami</h2>
-        <a asp-action="Create" class="btn btn-primary">+ Dodaj nowe</a>
+        <div>
+            <h2 class="fw-bold mb-2">
+                <i class="bi bi-card-list text-primary me-2"></i>Moje ogłoszenia
+            </h2>
+            <p class="text-muted mb-0">Zarządzaj swoimi ogłoszeniami</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary btn-lg">
+            <i class="bi bi-plus-circle me-1"></i>Dodaj nowe
+        </a>
     </div>
 
     @if (!Model.Any())
     {
-        <div class="alert alert-info text-center">
-            Nie masz jeszcze żadnych ogłoszeń. <a asp-action="Create">Dodaj pierwsze!</a>
+        <div class="card shadow-lg border-0 text-center">
+            <div class="card-body p-5">
+                <i class="bi bi-inbox text-muted" style="font-size: 4rem;"></i>
+                <h4 class="mt-4 mb-3">Nie masz jeszcze żadnych ogłoszeń</h4>
+                <p class="text-muted mb-4">Rozpocznij sprzedaż swojego pojazdu już dziś!</p>
+                <a asp-action="Create" class="btn btn-primary btn-lg">
+                    <i class="bi bi-plus-circle me-1"></i>Dodaj pierwsze ogłoszenie
+                </a>
+            </div>
         </div>
     }
     else
     {
-        <div class="table-responsive">
-            <table class="table table-hover align-middle">
+        <div class="card shadow-lg border-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
                         <th style="width: 100px;">Zdjęcie</th>
@@ -112,6 +128,8 @@
                     }
                 </tbody>
             </table>
+                </div>
+            </div>
         </div>
     }
 </div>

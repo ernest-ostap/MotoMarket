@@ -3,69 +3,102 @@
     ViewData["Title"] = "Strona Główna";
 }
 
-<div class="bg-dark text-white p-5 mb-5 rounded-3 text-center" style="background-image: url('/images/hero-bg.jpg'); background-size: cover;">
+<!-- Hero Section -->
+<section class="hero-section position-relative mb-5" style="background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); min-height: 500px; display: flex; align-items: center;">
     <div class="container py-5">
-        <h1 class="display-4 fw-bold">@Model.WelcomeTitle</h1>
-        <p class="fs-4 mb-4">@Model.WelcomeSubtitle</p>
-
-        <div class="card p-3 mx-auto shadow-lg text-dark" style="max-width: 800px; opacity: 0.95;">
-            <form asp-controller="Listings" asp-action="Index" method="get" class="row g-2 align-items-end">
-
-                <div class="col-md-4">
-                    <label class="form-label text-start d-block small fw-bold">Marka</label>
-                    <select name="brandId" class="form-select">
-                        <option value="">Wszystkie marki</option>
-                        @foreach (var brand in Model.Brands)
-                        {
-                            <option value="@brand.Id">@brand.Name</option>
-                        }
-                    </select>
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label text-start d-block small fw-bold">Szukaj</label>
-                    <input type="text" name="searchQuery" class="form-control" placeholder="np. Audi A4..." />
-                </div>
-
-                <div class="col-md-4">
-                    <button type="submit" class="btn btn-danger w-100 fw-bold">
-                        <i class="bi bi-search"></i> Znajdź pojazd
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">Najnowsze ogłoszenia 🔥</h2>
-        <a asp-controller="Listings" asp-action="Index" class="btn btn-outline-dark">Zobacz wszystkie</a>
-    </div>
-
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-        @foreach (var car in Model.RecentListings)
-        {
-            <div class="col">
-                <div class="card h-100 shadow-sm border-0">
-                    <img src="@(string.IsNullOrEmpty(car.MainPhotoUrl) ? "https://via.placeholder.com/300x200?text=Brak+zdjęcia" : car.MainPhotoUrl)"
-                         class="card-img-top" alt="@car.Title" style="height: 200px; object-fit: cover;">
-
-                    <div class="card-body">
-                        <h5 class="card-title text-truncate">@car.Title</h5>
-                        <p class="card-text fw-bold text-danger">@car.Price.ToString("N0") PLN</p>
-                        <ul class="list-unstyled small text-muted mb-0">
-                            <li><i class="bi bi-calendar"></i> @car.ProductionYear • @(car.Mileage / 1000) tys. km</li>
-                            <li><i class="bi bi-geo-alt"></i> @car.LocationCity</li>
-                        </ul>
-                    </div>
-                    <div class="card-footer bg-white border-0 pt-0">
-                        <a asp-controller="Listings" asp-action="Details" asp-route-id="@car.Id" class="btn btn-outline-primary w-100 btn-sm">
-                            Zobacz szczegóły
-                        </a>
+        <div class="row align-items-center">
+            <div class="col-lg-6 text-white mb-4 mb-lg-0">
+                <h1 class="display-3 fw-bold mb-4">@Model.WelcomeTitle</h1>
+                <p class="fs-5 mb-4 opacity-90">@Model.WelcomeSubtitle</p>
+            </div>
+            <div class="col-lg-6">
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-bold mb-4">
+                            <i class="bi bi-search me-2 text-primary"></i>Znajdź swój wymarzony pojazd
+                        </h5>
+                        <form asp-controller="Listings" asp-action="Index" method="get">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Marka</label>
+                                <select name="brandId" class="form-select">
+                                    <option value="">Wszystkie marki</option>
+                                    @foreach (var brand in Model.Brands)
+                                    {
+                                        <option value="@brand.Id">@brand.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Szukaj</label>
+                                <input type="text" name="searchQuery" class="form-control" placeholder="np. Audi A4, BMW 3 Series..." />
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 btn-lg">
+                                <i class="bi bi-search me-2"></i>Szukaj pojazdu
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
-        }
+        </div>
     </div>
+    <div class="position-absolute bottom-0 start-0 end-0" style="height: 100px; background: linear-gradient(to top, var(--bg-secondary), transparent);"></div>
+</section>
+
+<!-- Latest Listings Section -->
+<div class="container mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-2">
+                <i class="bi bi-fire text-primary me-2"></i>Najnowsze ogłoszenia
+            </h2>
+            <p class="text-muted mb-0">Sprawdź najnowsze oferty na rynku</p>
+        </div>
+        <a asp-controller="Listings" asp-action="Index" class="btn btn-outline-primary">
+            Zobacz wszystkie <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+    </div>
+
+    @if (Model.RecentListings.Any())
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            @foreach (var car in Model.RecentListings)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 overflow-hidden">
+                        <div class="position-relative">
+                            <img src="@(string.IsNullOrEmpty(car.MainPhotoUrl) ? "https://via.placeholder.com/300x200?text=Brak+zdjęcia" : car.MainPhotoUrl)"
+                                 class="card-img-top" alt="@car.Title" style="height: 220px; object-fit: cover;">
+                            <span class="badge bg-primary position-absolute top-0 end-0 m-2 px-3 py-2">
+                                @car.Price.ToString("N0") PLN
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold text-truncate mb-2">@car.Title</h5>
+                            <div class="d-flex flex-column gap-2 mb-3">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar3 me-1"></i>@car.ProductionYear
+                                    <span class="ms-2"><i class="bi bi-speedometer2 me-1"></i>@(car.Mileage / 1000) tys. km</span>
+                                </small>
+                                <small class="text-muted">
+                                    <i class="bi bi-geo-alt me-1"></i>@car.LocationCity
+                                </small>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-white border-0 pt-0 pb-3">
+                            <a asp-controller="Listings" asp-action="Details" asp-route-id="@car.Id" class="btn btn-outline-primary w-100">
+                                Zobacz szczegóły <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center py-5">
+            <i class="bi bi-info-circle fs-1 d-block mb-3"></i>
+            <p class="mb-0">Brak dostępnych ogłoszeń w tym momencie.</p>
+        </div>
+    }
 </div>
