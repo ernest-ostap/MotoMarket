@@ -7,6 +7,7 @@ using MotoMarket.Domain.Entities.System;
 using MotoMarket.Domain.Entities.Vehicles;
 using DriveType = MotoMarket.Domain.Entities.Vehicles.DriveType;
 
+
 namespace MotoMarket.Application.Common.Interfaces.Persistence
 {
     public interface IApplicationDbContext
@@ -35,7 +36,7 @@ namespace MotoMarket.Application.Common.Interfaces.Persistence
 
         // --- Konfiguracja ---
         DbSet<AdminSetting> AdminSettings { get; }
-        DbSet<PageContent> PageContents { get; }
+        public DbSet<MotoMarket.Domain.Entities.Configuration.PageContent> PageContents { get; set; }
         DbSet<UserFavorite> UserFavorites { get; }
 
 

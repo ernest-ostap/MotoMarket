@@ -98,5 +98,10 @@ namespace MotoMarket.Web.Services.Admin
         Task<bool> BanListing(int id, string reason);
         Task<bool> UnbanListing(int id);
         #endregion
+
+        #region PageContent
+        Task<IEnumerable<PageContentDto>> GetAllPageContents();
+        Task<bool> UpdatePageContent(int id, string content);
+        #endregion
     }
 }

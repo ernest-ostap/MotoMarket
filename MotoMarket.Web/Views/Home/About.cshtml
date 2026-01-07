@@ -1,0 +1,30 @@
+﻿@model IEnumerable<MotoMarket.Web.Models.DTOs.PageContentDto>
+@{
+    ViewData["Title"] = "O Nas";
+    // Helper do wyciągania tekstu
+    string GetContent(string key) => Model.FirstOrDefault(x => x.PageKey == key)?.Content ?? "Brak treści";
+}
+
+<div class="container mt-5">
+    <div class="p-5 mb-4 bg-light rounded-3 shadow-sm text-center">
+        <h1 class="display-5 fw-bold">@Html.Raw(GetContent("ABOUT_HEADER"))</h1>
+    </div>
+
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <img src="https://via.placeholder.com/600x400" class="img-fluid rounded shadow" alt="O nas">
+        </div>
+        <div class="col-md-6">
+            <p class="fs-5 text-muted">
+                @Html.Raw(GetContent("ABOUT_BODY"))
+            </p>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="alert alert-info text-center">
+        <h4>Kontakt</h4>
+        <p>@Html.Raw(GetContent("CONTACT_INFO"))</p>
+    </div>
+</div>

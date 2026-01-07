@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces.Persistence;
-using MotoMarket.Web.Models.DTOs; // Upewnij się co do namespace DTO
+using MotoMarket.Web.Models.DTOs;
 
 namespace MotoMarket.Application.Dictionaries.Queries
 {
@@ -21,7 +21,7 @@ namespace MotoMarket.Application.Dictionaries.Queries
         {
             var query = _context.VehicleModels
                 .AsNoTracking()
-                .Include(x => x.VehicleBrand) // <--- WAŻNE: Dołączamy markę! (Sprawdź czy masz VehicleBrand czy Brand w encji)
+                .Include(x => x.VehicleBrand) 
                 .AsQueryable();
 
             if (!request.IncludeInactive)

@@ -1,0 +1,20 @@
+﻿@model MotoMarket.Web.Models.DTOs.PageContentDto
+@{
+    ViewData["Title"] = "Edytuj Treść";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <div class="card shadow">
+        <div class="card-header bg-warning">Edytuj: @Model.PageKey</div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <div class="mb-3">
+                    <label class="form-label">Treść (Możesz używać HTML)</label>
+                    <textarea name="content" class="form-control" rows="10">@Model.Content</textarea>
+                </div>
+                <button type="submit" class="btn btn-warning">Zapisz</button>
+            </form>
+        </div>
+    </div>
+</div>

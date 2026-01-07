@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MotoMarket.Domain.Entities;
+using MotoMarket.Domain.Entities.Configuration;
 using MotoMarket.Domain.Entities.Vehicles;
 using System;
 using System.Collections.Generic;
@@ -42,8 +43,8 @@ namespace MotoMarket.Infrastructure.Persistence
             }
 
             await SeedVehicleDictionaryAsync();
-            // ZMIANA 4: Wywołujemy metodę seedowania userów!
             await SeedUsersAsync();
+            await SeedPageContentAsync();
         }
 
         private async Task SeedVehicleDictionaryAsync()
@@ -215,6 +216,52 @@ namespace MotoMarket.Infrastructure.Persistence
                 {
                     await _userManager.AddToRoleAsync(adminUser, "Admin");
                 }
+            }
+        }
+        public async Task SeedPageContentAsync()
+        {
+            if (!_context.PageContents.Any())
+            {
+                _context.PageContents.AddRange(new List<PageContent>
+        {
+            new PageContent
+            {
+                PageKey = "ABOUT_HEADER",
+                Content = "Witaj w MotoMarket - Najlepszym miejscu dla fanów motoryzacji!",
+                ModifiedBy = "System",
+                LastModified = DateTime.UtcNow
+            },
+            new PageContent
+            {
+                PageKey = "ABOUT_BODY",
+                Content = "Jesteśmy grupą pasjonatów, która stworzyła ten serwis w ramach projektu inżynierskiego. Naszym celem jest łączenie kupujących i sprzedających w bezpiecznym środowisku. Dbamy o jakość ogłoszeń i weryfikację użytkowników.",
+                ModifiedBy = "System",
+                LastModified = DateTime.UtcNow
+            },
+            new PageContent
+            {
+                PageKey = "CONTACT_INFO",
+                Content = "Kontakt: kontakt@motomarket.pl | Tel: +48 123 456 789 | Adres: ul. Wiejska 1, Warszawa",
+                ModifiedBy = "System",
+                LastModified = DateTime.UtcNow
+            },
+            new PageContent
+            {
+                PageKey = "HOMEPAGE_HEADER",
+                Content = "Witaj w MotoMarket",
+                ModifiedBy = "System",
+                LastModified = DateTime.UtcNow
+            },
+            new PageContent
+            {
+                PageKey = "HOMEPAGE_SUBTITLE",
+                Content = "Najlepsze ogłoszenia motoryzacyjne w Twojej okolicy. Sprawdź naszą ofertę!",
+                ModifiedBy = "System",
+                LastModified = DateTime.UtcNow
+            }
+        });
+
+                await _context.SaveChangesAsync();
             }
         }
     }

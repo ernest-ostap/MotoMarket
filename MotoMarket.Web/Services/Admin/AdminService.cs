@@ -587,6 +587,31 @@ namespace MotoMarket.Web.Services.Admin
             return response.IsSuccessStatusCode;
         }
         #endregion
+
+        #region PageContent
+        public async Task<IEnumerable<PageContentDto>> GetAllPageContents()
+        {
+            // Bez AuthHeader, bo endpoint GET jest publiczny
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Content");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<IEnumerable<PageContentDto>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<PageContentDto>();
+            }
+            return new List<PageContentDto>();
+        }
+
+        public async Task<bool> UpdatePageContent(int id, string content)
+        {
+            AddAuthHeader();
+            var command = new { Id = id, Content = content };
+            var json = JsonSerializer.Serialize(command);
+            var contentHttp = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync($"{_apiBaseUrl}/api/Content/{id}", contentHttp);
+            return response.IsSuccessStatusCode;
+        }
+        #endregion
         private void AddAuthHeader()
         {
             var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;

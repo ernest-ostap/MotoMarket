@@ -123,7 +123,6 @@ namespace MotoMarket.Web.Services.Listings
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 var listings = JsonSerializer.Deserialize<IEnumerable<ListingDto>>(json, options) ?? new List<ListingDto>();
 
-                // --- POPRAWKA URL ---
                 foreach (var item in listings)
                 {
                     if (!string.IsNullOrEmpty(item.MainPhotoUrl))
@@ -132,11 +131,20 @@ namespace MotoMarket.Web.Services.Listings
                         item.MainPhotoUrl = _apiBaseUrl + item.MainPhotoUrl;
                     }
                 }
-                // --------------------
 
                 return listings;
             }
             return new List<ListingDto>();
+        }
+
+        public async Task<IEnumerable<ListingDto>> GetRecentListings(int count)
+        {
+            var emptyFilter = new ListingsFilterViewModel();
+            var all = await GetAllListings(emptyFilter);
+            return all
+                .OrderByDescending(x => x.CreatedAt) // Najnowsze na górze
+                .Take(count) // Bierzemy tyle ile chcemy (np. 8)
+                .ToList();
         }
         #endregion
 

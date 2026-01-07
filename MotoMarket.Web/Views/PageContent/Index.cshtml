@@ -1,0 +1,22 @@
+﻿@model IEnumerable<MotoMarket.Web.Models.DTOs.PageContentDto>
+@{
+    ViewData["Title"] = "Zarządzanie Treścią";
+}
+
+<div class="container mt-4">
+    <h2>Edycja Treści Strony</h2>
+    <table class="table table-bordered bg-white shadow-sm">
+        <thead class="table-light"><tr><th>Klucz (Sekcja)</th><th>Treść</th><th>Akcje</th></tr></thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@item.PageKey</td>
+                    <td>@item.Content</td>
+                    <td><a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edytuj</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">Wróć</a>
+</div>
