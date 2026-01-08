@@ -40,9 +40,20 @@ button.accept-policy {
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
+  /* Pozwól stopce ustawiać się naturalnie pod treścią */
+  position: static;
   width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+  white-space: normal;
+  line-height: 1.5;
+  margin-top: auto;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
 }

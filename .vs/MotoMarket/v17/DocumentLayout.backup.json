@@ -67,8 +67,7 @@
               "RelativeToolTip": "MotoMarket.Infrastructure\\Persistence\\ApplicationDbContextSeeder.cs",
               "ViewState": "AgIAANoAAAAAAAAAAAAIwPUAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T16:17:34.702Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T16:17:34.702Z"
             },
             {
               "$type": "Document",
@@ -80,8 +79,7 @@
               "RelativeToolTip": "MotoMarket.Web\\Views\\Home\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-07T16:08:23.17Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T16:08:23.17Z"
             },
             {
               "$type": "Document",
@@ -93,8 +91,7 @@
               "RelativeToolTip": "MotoMarket.Web\\Controllers\\HomeController.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABsAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T16:06:05.879Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T16:06:05.879Z"
             },
             {
               "$type": "Document",
@@ -106,8 +103,7 @@
               "RelativeToolTip": "MotoMarket.Web\\Services\\Listings\\VehicleService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAI4AAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T15:50:06.433Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T15:50:06.433Z"
             },
             {
               "$type": "Document",
@@ -119,8 +115,7 @@
               "RelativeToolTip": "MotoMarket.Web\\Services\\Listings\\IVehicleService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T15:50:05.8Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T15:50:05.8Z"
             },
             {
               "$type": "Document",
@@ -132,8 +127,7 @@
               "RelativeToolTip": "MotoMarket.Web\\Models\\ViewModels\\HomeViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T15:49:25.913Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T15:49:25.913Z"
             }
           ]
         }
