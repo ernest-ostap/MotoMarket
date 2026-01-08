@@ -1,4 +1,4 @@
-# Build artifacts
+# =============== CORE .NET ===============
 [Bb]in/
 [Oo]bj/
 [Bb]uild/
@@ -6,111 +6,116 @@
 [Dd]ebug/
 [Ll]og/
 [Ll]ogs/
+.net/
 
-# Visual Studio
+# =============== VISUAL STUDIO ===============
 .vs/
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
 
-# JetBrains Rider / ReSharper
+# =============== VS CODE ===============
+.vscode/
+.history/
+
+# =============== RIDER / JETBRAINS ===============
 .idea/
+*.sln.iml
 _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
 
-# VS Code
-.vscode/
-
-# NuGet
+# =============== NUGET ===============
 packages/
 *.nupkg
 *.snupkg
 *.nuget.props
 *.nuget.targets
 
-# Test results
+# =============== TEST RESULTS ===============
 [Tt]est[Rr]esult*/
 [Tt]est[Rr]esults*/
 *.coverage
 *.coveragexml
 *.trx
 
-# Publish / output
+# =============== PUBLISH / OUTPUT ===============
 [Pp]ublish/
 out/
 [Bb]uild[oO]ut/
-
-# Logs / temp files
-*.log
-*.tlog
-*.svclog
-*.tmp
-*.temp
-
-# OS-specific
-[Dd]esktop.ini
-[Tt]humbs.db
-$RECYCLE.BIN/
-
-# User secrets / local config (optional — często lepiej nie commitować)
-appsettings.Development.json
-secrets.json
-
-# Tooling / editors
-*.swp
-*.swo
-
-
-
-# === Additional .NET artifacts ===
-*.obj
-*.exe
-*.dll
-*.pdb
-*.mdb
-*.cache
-*.db
-*.sqlite*
-*.sqlitedb
-*.mdf
-*.ldf
-*.jfm
 artifacts/
 
-# Additional logs / temp
-*.pid
-*.seed
-*.pid.lock
+# =============== MAUI / MOBILE / ANDROID ===============
+# Skompilowane paczki aplikacji
+*.apk
+*.aab
+*.ipa
+*.app
 
-# OS-specific (extended)
-.DS_Store
-ehthumbs.db
-Icon?
-*.stackdump
+# Pliki tymczasowe Androida
+generated/
+gen/
 
-# Extra app configuration (local overrides)
-appsettings.*.local.json
+# Klucze podpisywania (BARDZO WAŻNE - NIE COMMITOWAĆ!)
+*.keystore
+*.jks
+*.p12
+*.pfx
 
-# === Node / frontend ===
+# Konfiguracja Google (często zawiera klucze API)
+google-services.json
+GoogleService-Info.plist
+
+# =============== WEB & UPLOADS ===============
+# Ważne: Nie chcemy zdjęć aut wrzucanych podczas testów w repozytorium!
+wwwroot/uploads/
+wwwroot/images/uploads/
+App_Data/
+
+# Libman (jeśli przywracasz biblioteki przy buildzie)
+wwwroot/lib/
+
+# =============== NODE / FRONTEND ===============
+# To jest kluczowe, żeby nie wciągnąć 4mln plików
 node_modules/
-MotoMarket.Web/node_modules/
+**/node_modules/
 dist/
-dist-ssr/
 build/
 .npm/
 .pnpm-debug.log*
-*.tsbuildinfo
+yarn-error.log
+package-lock.json # To zależy: zazwyczaj się commituje, ale w projektach .NET czasem się to ignoruje, jeśli nie używasz Node'a aktywnie
+yarn.lock
 
-# Frontend tooling / caches
-.turbo/
-.parcel-cache/
-.next/
-.nuxt/
-.cache/
-coverage/
-*.log*
+# =============== DATABASE & LOGS ===============
+*.log
+*.tlog
+*.tmp
+*.temp
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+*.mdf
+*.ldf
+*.bak
 
-# Libman (static web assets restore)
-wwwroot/lib/
+# =============== OS SPECIFIC ===============
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+$RECYCLE.BIN/
+Desktop.ini
+
+# =============== CONFIGURATION & SECRETS ===============
+# Ignorujemy lokalne ustawienia, które mogą mieć twoje hasła
+appsettings.Development.json
+appsettings.*.local.json
+secrets.json
+appsettings.Local.json
