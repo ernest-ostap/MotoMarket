@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MotoMarket.Mobile.ViewModels"
+             x:Class="MotoMarket.Mobile.Views.LoginPage"
+             Title="Logowanie"
+             BackgroundColor="#f4f4f4">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+
+            <Image Source="dotnet_bot.png" 
+                   HeightRequest="150" 
+                   HorizontalOptions="Center" />
+
+            <Label Text="Witaj w MotoMarket!"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#333"/>
+
+            <Entry Placeholder="Email"
+                   Text="{Binding Email}" 
+                   Keyboard="Email"
+                   BackgroundColor="White" />
+
+            <Entry Placeholder="Hasło"
+                   Text="{Binding Password}"
+                   IsPassword="True"
+                   BackgroundColor="White" />
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                               IsVisible="{Binding IsBusy}"
+                               Color="Orange" />
+
+            <Button Text="Zaloguj się"
+                    Command="{Binding LoginCommand}"
+                    BackgroundColor="#ff6600"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    HeightRequest="50"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
