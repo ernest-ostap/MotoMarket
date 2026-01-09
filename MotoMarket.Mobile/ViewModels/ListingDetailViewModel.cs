@@ -61,13 +61,16 @@ namespace MotoMarket.Mobile.ViewModels
                 return;
             }
 
-            if (PhoneDialer.Default.IsSupported)
+            try
             {
+                // ZMIANA: Próbujemy otworzyć dialer "na siłę", nawet jak IsSupported mówi false.
+                // Na prawdziwym telefonie to zadziała, a na emulatorze otworzy aplikację "Telefon".
                 PhoneDialer.Default.Open(Listing.SellerPhone);
             }
-            else
+            catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Info", "To urządzenie nie obsługuje dzwonienia", "OK");
+                // Dopiero jak system rzuci błędem, to wyświetlamy alert
+                Application.Current.MainPage.DisplayAlert("Błąd", "Nie udało się otworzyć telefonu: " + ex.Message, "OK");
             }
         }
 
