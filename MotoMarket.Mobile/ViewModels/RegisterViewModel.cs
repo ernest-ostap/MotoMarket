@@ -16,6 +16,9 @@ namespace MotoMarket.Mobile.ViewModels
         [ObservableProperty] string email;
         [ObservableProperty] string password;
         [ObservableProperty] string confirmPassword;
+        [ObservableProperty] string firstName;
+        [ObservableProperty] string lastName;
+        [ObservableProperty] string phoneNumber;
         [ObservableProperty] bool isBusy;
 
         [RelayCommand]
@@ -24,7 +27,10 @@ namespace MotoMarket.Mobile.ViewModels
             if (IsBusy) return;
 
             // Prosta walidacja
-            if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+            if (string.IsNullOrWhiteSpace(Email) ||
+             string.IsNullOrWhiteSpace(Password) ||
+             string.IsNullOrWhiteSpace(FirstName) || // Imię wymagane
+             string.IsNullOrWhiteSpace(LastName))    // Nazwisko wymagane
             {
                 await Application.Current.MainPage.DisplayAlert("Błąd", "Wypełnij wszystkie pola", "OK");
                 return;
@@ -37,7 +43,7 @@ namespace MotoMarket.Mobile.ViewModels
             }
 
             IsBusy = true;
-            var success = await _authService.RegisterAsync(Email, Password, ConfirmPassword);
+            var success = await _authService.RegisterAsync(Email, Password, ConfirmPassword, FirstName, LastName, PhoneNumber);
             IsBusy = false;
 
             if (success)

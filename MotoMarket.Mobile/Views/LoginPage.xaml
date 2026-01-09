@@ -8,11 +8,7 @@
 
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
-
-            <Image Source="dotnet_bot.png" 
-                   HeightRequest="150" 
-                   HorizontalOptions="Center" />
-
+            
             <Label Text="Witaj w MotoMarket!"
                    FontSize="24"
                    FontAttributes="Bold"

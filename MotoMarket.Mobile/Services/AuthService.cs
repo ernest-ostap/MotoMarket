@@ -62,7 +62,7 @@ namespace MotoMarket.Mobile.Services
         #endregion
 
         #region Register user
-        public async Task<bool> RegisterAsync(string email, string password, string confirmPassword)
+        public async Task<bool> RegisterAsync(string email, string password, string confirmPassword, string firstName, string lastName, string phone)
         {
             try
             {
@@ -70,10 +70,13 @@ namespace MotoMarket.Mobile.Services
                 {
                     Email = email,
                     Password = password,
-                    ConfirmPassword = confirmPassword
+                    ConfirmPassword = confirmPassword,
+                    // Mapujemy nowe pola
+                    FirstName = firstName,
+                    LastName = lastName,
+                    PhoneNumber = phone
                 };
 
-                // Zmień endpoint na taki jaki masz w API (np. /api/Users/register)
                 var response = await _httpClient.PostAsJsonAsync("api/Users/register", command);
 
                 if (response.IsSuccessStatusCode)

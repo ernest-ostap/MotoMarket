@@ -54,5 +54,12 @@ namespace MotoMarket.Mobile.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Błąd", "Nieprawidłowe dane logowania", "OK");
             }
         }
+
+        [RelayCommand]
+        async Task GoToRegisterAsync()
+        {
+            // Nawigacja do strony rejestracji
+            await Application.Current.MainPage.Navigation.PushAsync(new Views.RegisterPage());
+        }
     }
 }
