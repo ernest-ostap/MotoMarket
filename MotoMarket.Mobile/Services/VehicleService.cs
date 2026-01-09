@@ -13,7 +13,7 @@ namespace MotoMarket.Mobile.Services
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri(Constants.ApiUrl);
         }
-
+        #region getListings
         public async Task<IEnumerable<ListingDto>> GetAllListingsAsync()
         {
             try
@@ -47,5 +47,59 @@ namespace MotoMarket.Mobile.Services
 
             return new List<ListingDto>(); // Zwróć pustą listę w razie błędu
         }
+
+        public async Task<IEnumerable<ListingDto>> GetMyListingsAsync()
+        {
+            try
+            {
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (string.IsNullOrEmpty(token)) return new List<ListingDto>(); // Bez tokena nie ma moich ogłoszeń
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                // Endpoint z twojego kontrolera: [HttpGet("mine")]
+                var response = await _httpClient.GetAsync("api/Listings/mine");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<ListingDto>>();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[MY LISTINGS ERROR] {ex.Message}");
+            }
+            return new List<ListingDto>();
+        }
+
+        public async Task<ListingDetailDto> GetListingDetailAsync(int id)
+        {
+            try
+            {
+                // Token jest opcjonalny (gość też może oglądać)
+                var token = await SecureStorage.GetAsync("auth_token");
+
+                _httpClient.DefaultRequestHeaders.Authorization = null; // Czyścimy stary
+                if (!string.IsNullOrEmpty(token))
+                {
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                }
+
+                // Strzał do endpointu detali
+                var response = await _httpClient.GetAsync($"api/Listings/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<ListingDetailDto>();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[DETAIL ERROR] {ex.Message}");
+            }
+            return null;
+        }
+        #endregion
+
     }
 }

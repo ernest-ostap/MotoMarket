@@ -51,11 +51,39 @@ namespace MotoMarket.Mobile.ViewModels
                 IsBusy = false;
             }
         }
+
         [RelayCommand]
         async Task GoToLoginAsync()
         {
             // Idziemy do ekranu logowania
             await Application.Current.MainPage.Navigation.PushAsync(new Views.LoginPage());
+        }
+
+        [RelayCommand]
+        async Task CheckProfileAsync()
+        {
+            var authService = new AuthService(); // Szybka instancja
+            var isLogged = await authService.IsAuthenticatedAsync();
+
+            if (isLogged)
+            {
+                // Jak zalogowany -> Idź do Profilu
+                await Application.Current.MainPage.Navigation.PushAsync(new Views.ProfilePage());
+            }
+            else
+            {
+                // Jak niezalogowany -> Idź do Logowania
+                await Application.Current.MainPage.Navigation.PushAsync(new Views.LoginPage());
+            }
+        }
+
+        [RelayCommand]
+        async Task GoToDetailsAsync(ListingDto item)
+        {
+            if (item == null) return;
+
+            // Przechodzimy do strony szczegółów, przekazując ID
+            await Application.Current.MainPage.Navigation.PushAsync(new Views.ListingDetailPage(item.Id));
         }
     }
 }

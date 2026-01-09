@@ -7,7 +7,7 @@
              Title="Ogłoszenia"
              BackgroundColor="#f0f0f0">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Zaloguj" Command="{Binding GoToLoginCommand}" />
+        <ToolbarItem Text="Konto" Command="{Binding CheckProfileCommand}" />
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="Auto, *">
@@ -26,6 +26,11 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:ListingDto">
                     <Frame Padding="0" CornerRadius="10" HasShadow="True" BorderColor="Transparent" BackgroundColor="White">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ListingsViewModel}}, Path=GoToDetailsCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
                         <VerticalStackLayout>
                             <Image Source="{Binding MainPhotoUrl}" 
                                    Aspect="AspectFill"

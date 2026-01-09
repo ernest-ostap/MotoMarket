@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:MotoMarket.Mobile.Models.Listings"
+             x:Class="MotoMarket.Mobile.Views.MyListingsPage"
+             Title="Moje ogłoszenia">
+
+    <Grid RowDefinitions="Auto, *">
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="Orange" HeightRequest="40"/>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Listings}" Margin="10">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:ListingDto">
+                    <Frame Padding="0" CornerRadius="10" HasShadow="True">
+                        <VerticalStackLayout>
+                            <Image Source="{Binding MainPhotoUrl}" Aspect="AspectFill" HeightRequest="120"/>
+                            <Label Text="{Binding Title}" FontAttributes="Bold" Padding="5"/>
+                            <Label Text="TWOJE" TextColor="Green" HorizontalOptions="End" Padding="5" FontSize="10"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label Text="Nie dodałeś jeszcze żadnych ogłoszeń." TextColor="Gray"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
+</ContentPage>

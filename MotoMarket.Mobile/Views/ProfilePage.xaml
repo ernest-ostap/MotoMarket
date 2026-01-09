@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MotoMarket.Mobile.Views.ProfilePage"
+             Title="Mój Profil">
+
+    <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+
+        <Image Source="dotnet_bot.png" HeightRequest="100" />
+        <Label Text="Zalogowany użytkownik" HorizontalOptions="Center" FontSize="18"/>
+
+        <Button Text="📂 Moje ogłoszenia" 
+                Command="{Binding GoToMyListingsCommand}" 
+                BackgroundColor="#007bff"
+                HeightRequest="50"
+                CornerRadius="25"/>
+
+        <Button Text="🔒 Wyloguj się" 
+                Command="{Binding LogoutCommand}" 
+                BackgroundColor="#dc3545"
+                HeightRequest="50"
+                CornerRadius="25"/>
+
+    </VerticalStackLayout>
+</ContentPage>

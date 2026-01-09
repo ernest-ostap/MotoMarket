@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MotoMarket.Mobile.Views.ListingDetailPage"
+             Title="Szczegóły"
+             BackgroundColor="White">
+
+    <Grid RowDefinitions="*, Auto">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="15" Padding="0,0,0,20">
+
+                <CarouselView ItemsSource="{Binding Photos}" HeightRequest="250" IndicatorView="indicatorView">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding .}" Aspect="AspectFill" />
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+                <IndicatorView x:Name="indicatorView" 
+                               IndicatorColor="LightGray"
+                               SelectedIndicatorColor="#ff6600"
+                               HorizontalOptions="Center" />
+
+                <VerticalStackLayout Padding="20" Spacing="10">
+                    <Label Text="{Binding Listing.Title}" FontSize="22" FontAttributes="Bold" />
+                    <Label Text="{Binding Listing.Price, StringFormat='{0:N0} PLN'}" FontSize="24" TextColor="#ff6600" FontAttributes="Bold" />
+
+                    <Label Text="{Binding Listing.LocationCity}" TextColor="Gray">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="📍 " />
+                                <Span Text="{Binding Listing.LocationCity}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Frame BackgroundColor="#f8f9fa" BorderColor="Transparent" CornerRadius="10" Padding="15">
+                        <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto" RowSpacing="10">
+                            <Label Text="{Binding Listing.ProductionYear, StringFormat='📅 {0}'}" Grid.Row="0" Grid.Column="0"/>
+                            <Label Text="{Binding Listing.Mileage, StringFormat='🚗 {0} km'}" Grid.Row="0" Grid.Column="1"/>
+                            <Label Text="{Binding Listing.FuelType, StringFormat='⛽ {0}'}" Grid.Row="1" Grid.Column="0"/>
+                        </Grid>
+                    </Frame>
+
+                    <Label Text="Opis pojazdu" FontAttributes="Bold" FontSize="18" Margin="0,10,0,0"/>
+                    <Label Text="{Binding Listing.Description}" TextColor="#333" LineHeight="1.2"/>
+
+                    <Label Text="{Binding Listing.SellerName, StringFormat='Sprzedawca: {0}'}" TextColor="Gray" Margin="0,10,0,0"/>
+                </VerticalStackLayout>
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="Orange"/>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*" Padding="15" ColumnSpacing="10" BackgroundColor="White" Shadow="{Shadow Radius=10}">
+
+            <Button Text="📞 Zadzwoń" 
+                    Grid.Column="0"
+                    Command="{Binding CallSellerCommand}" 
+                    BackgroundColor="#28a745" 
+                    FontAttributes="Bold"/>
+
+            <Button Text="💬 Wiadomość" 
+                    Grid.Column="1"
+                    BackgroundColor="#007bff" 
+                    FontAttributes="Bold"
+                    IsEnabled="False"/>
+        </Grid>
+    </Grid>
+</ContentPage>
