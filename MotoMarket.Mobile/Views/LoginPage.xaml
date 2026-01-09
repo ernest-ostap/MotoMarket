@@ -39,6 +39,10 @@
                     FontAttributes="Bold"
                     CornerRadius="10"
                     HeightRequest="50"/>
+            <Button Text="Załóż konto" 
+                    Command="{Binding GoToRegisterCommand}" 
+                    BackgroundColor="Transparent" 
+                    TextColor="#ff6600"/>       
 
         </VerticalStackLayout>
     </ScrollView>

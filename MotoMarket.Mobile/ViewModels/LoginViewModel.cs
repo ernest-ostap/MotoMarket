@@ -47,12 +47,10 @@ namespace MotoMarket.Mobile.ViewModels
 
             if (success)
             {
-                // ZMIANA TUTAJ:
-                await Application.Current.MainPage.DisplayAlert("Sukces", "Zalogowano pomyślnie!", "Super");
+                Application.Current.MainPage = new NavigationPage(new Views.ListingsPage());
             }
             else
             {
-                // ZMIANA TUTAJ:
                 await Application.Current.MainPage.DisplayAlert("Błąd", "Nieprawidłowe dane logowania", "OK");
             }
         }

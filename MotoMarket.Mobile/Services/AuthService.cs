@@ -13,6 +13,7 @@ namespace MotoMarket.Mobile.Services
             _httpClient.BaseAddress = new Uri(Constants.ApiUrl);
         }
 
+        #region Login and logout user
         public async Task<bool> LoginAsync(string email, string password)
         {
             try
@@ -57,6 +58,44 @@ namespace MotoMarket.Mobile.Services
         {
             SecureStorage.Remove("auth_token");
         }
+
+        #endregion
+
+        #region Register user
+        public async Task<bool> RegisterAsync(string email, string password, string confirmPassword)
+        {
+            try
+            {
+                var command = new RegisterUserCommand
+                {
+                    Email = email,
+                    Password = password,
+                    ConfirmPassword = confirmPassword
+                };
+
+                // Zmień endpoint na taki jaki masz w API (np. /api/Users/register)
+                var response = await _httpClient.PostAsJsonAsync("api/Users/register", command);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Opcjonalnie: Możesz tu od razu zalogować usera (pobrać token), 
+                    // jeśli API zwraca token przy rejestracji. 
+                    // Jeśli nie, zwracamy true i user musi się zalogować.
+                    return true;
+                }
+                else
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[REGISTER ERROR] {error}");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[REGISTER EXCEPTION] {ex.Message}");
+            }
+            return false;
+        }
+        #endregion
 
         public async Task<bool> IsAuthenticatedAsync()
         {
