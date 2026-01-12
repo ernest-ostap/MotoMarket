@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces; // Tutaj jest IApplicationDbContext
 using MotoMarket.Application.Common.Interfaces.Identity;
 using MotoMarket.Application.Common.Interfaces.Persistence;
-// using MotoMarket.Application.Common.Interfaces.Identity; // <--- Upewnij się, że masz ten namespace do ICurrentUserService
 using MotoMarket.Domain.Entities.Listings;
 using System;
 using System.Collections.Generic;
@@ -16,12 +15,12 @@ namespace MotoMarket.Application.Listings.Queries.GetAllListings
     public class GetAllListingsQueryHandler : IRequestHandler<GetAllListingsQuery, IEnumerable<ListingDto>>
     {
         private readonly IApplicationDbContext _context;
-        private readonly ICurrentUserService _currentUserService; // <--- 1. DODANO SERWIS UŻYTKOWNIKA
+        private readonly ICurrentUserService _currentUserService;
 
         public GetAllListingsQueryHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
         {
             _context = context;
-            _currentUserService = currentUserService; // <--- 2. WSTRZYKNIĘCIE
+            _currentUserService = currentUserService;
         }
 
         public async Task<IEnumerable<ListingDto>> Handle(GetAllListingsQuery request, CancellationToken cancellationToken)

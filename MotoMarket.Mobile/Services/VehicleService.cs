@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Json;
 using System.Net.Http.Headers;
-using MotoMarket.Mobile.Models.Listings;
+using MotoMarket.Mobile.Models.Listings; 
 
 namespace MotoMarket.Mobile.Services
 {
@@ -13,27 +13,48 @@ namespace MotoMarket.Mobile.Services
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri(Constants.ApiUrl);
         }
-        #region getListings
-        public async Task<IEnumerable<ListingDto>> GetAllListingsAsync()
+
+        public async Task<IEnumerable<ListingDto>> GetAllListingsAsync(ListingsFilterDto filter = null)
         {
             try
             {
-                // 1. POBIERZ TOKEN
                 var token = await SecureStorage.GetAsync("auth_token");
-
-                // Czyścimy nagłówek autoryzacji przed każdym zapytaniem
                 _httpClient.DefaultRequestHeaders.Authorization = null;
 
-                // 2. DOKLEJ GO DO NAGŁÓWKA (Bearer)
                 if (!string.IsNullOrEmpty(token))
                 {
                     _httpClient.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", token);
                 }
 
-                // 3. STRZAŁ DO API
-                // Używamy endpointu, który zwraca listę (sprawdź czy to api/Listings czy api/Vehicles)
-                var response = await _httpClient.GetAsync("api/Listings");
+                var url = "api/Listings";
+
+                if (filter != null)
+                {
+                    var queryParams = new List<string>();
+
+                    if (!string.IsNullOrWhiteSpace(filter.SearchQuery))
+                        queryParams.Add($"searchCallback={Uri.EscapeDataString(filter.SearchQuery)}");
+
+                    if (filter.PriceMin.HasValue)
+                        queryParams.Add($"priceMin={filter.PriceMin}");
+
+                    if (filter.PriceMax.HasValue)
+                        queryParams.Add($"priceMax={filter.PriceMax}");
+
+                    if (filter.BrandId.HasValue)
+                        queryParams.Add($"brandId={filter.BrandId}");
+
+                    if (filter.YearMin.HasValue)
+                        queryParams.Add($"yearMin={filter.YearMin}");
+
+                    if (queryParams.Any())
+                    {
+                        url += "?" + string.Join("&", queryParams);
+                    }
+                }
+
+                var response = await _httpClient.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -45,7 +66,7 @@ namespace MotoMarket.Mobile.Services
                 System.Diagnostics.Debug.WriteLine($"[API ERROR] {ex.Message}");
             }
 
-            return new List<ListingDto>(); // Zwróć pustą listę w razie błędu
+            return new List<ListingDto>();
         }
 
         public async Task<IEnumerable<ListingDto>> GetMyListingsAsync()
@@ -53,11 +74,10 @@ namespace MotoMarket.Mobile.Services
             try
             {
                 var token = await SecureStorage.GetAsync("auth_token");
-                if (string.IsNullOrEmpty(token)) return new List<ListingDto>(); // Bez tokena nie ma moich ogłoszeń
+                if (string.IsNullOrEmpty(token)) return new List<ListingDto>();
 
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                // Endpoint z twojego kontrolera: [HttpGet("mine")]
                 var response = await _httpClient.GetAsync("api/Listings/mine");
 
                 if (response.IsSuccessStatusCode)
@@ -76,16 +96,14 @@ namespace MotoMarket.Mobile.Services
         {
             try
             {
-                // Token jest opcjonalny (gość też może oglądać)
                 var token = await SecureStorage.GetAsync("auth_token");
+                _httpClient.DefaultRequestHeaders.Authorization = null;
 
-                _httpClient.DefaultRequestHeaders.Authorization = null; // Czyścimy stary
                 if (!string.IsNullOrEmpty(token))
                 {
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 }
 
-                // Strzał do endpointu detali
                 var response = await _httpClient.GetAsync($"api/Listings/{id}");
 
                 if (response.IsSuccessStatusCode)
@@ -99,7 +117,19 @@ namespace MotoMarket.Mobile.Services
             }
             return null;
         }
-        #endregion
 
+        public async Task<IEnumerable<DictionaryDto>> GetBrandsAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/Brands");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<DictionaryDto>>();
+                }
+            }
+            catch { }
+            return new List<DictionaryDto>();
+        }
     }
 }

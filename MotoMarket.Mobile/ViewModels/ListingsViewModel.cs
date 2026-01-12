@@ -10,38 +10,77 @@ namespace MotoMarket.Mobile.ViewModels
     {
         private readonly VehicleService _vehicleService;
 
+        [ObservableProperty] string searchText;
+        [ObservableProperty] string minPrice;
+        [ObservableProperty] string maxPrice;
+        [ObservableProperty] string yearMin;
+
+        // Wybrana marka z listy (cały obiekt)
+        [ObservableProperty] DictionaryDto selectedBrand;
+
+        [ObservableProperty] bool areFiltersVisible;
+        [ObservableProperty] bool isBusy;
+
+        public ObservableCollection<ListingDto> Listings { get; } = new();
+        public ObservableCollection<DictionaryDto> Brands { get; } = new();
+
         public ListingsViewModel()
         {
             _vehicleService = new VehicleService();
-            // Automatycznie załaduj dane przy starcie
-            LoadListingsCommand.Execute(null);
+
+            Task.Run(async () =>
+            {
+                await LoadBrandsAsync();
+                await SearchAsync();
+            });
         }
 
-        // Kolekcja widoczna dla listy na ekranie
-        public ObservableCollection<ListingDto> Listings { get; } = new();
-
-        [ObservableProperty]
-        bool isBusy;
+        async Task LoadBrandsAsync()
+        {
+            var brands = await _vehicleService.GetBrandsAsync();
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                Brands.Clear();
+                foreach (var b in brands) Brands.Add(b);
+            });
+        }
 
         [RelayCommand]
-        async Task LoadListingsAsync()
+        void ToggleFilters()
+        {
+            AreFiltersVisible = !AreFiltersVisible;
+        }
+
+        [RelayCommand]
+        async Task SearchAsync()
         {
             if (IsBusy) return;
             IsBusy = true;
 
             try
             {
-                var items = await _vehicleService.GetAllListingsAsync();
+                // Konwersja String -> Liczby
+                decimal? pMin = decimal.TryParse(MinPrice, out var d1) ? d1 : null;
+                decimal? pMax = decimal.TryParse(MaxPrice, out var d2) ? d2 : null;
+                int? yMin = int.TryParse(YearMin, out var i1) ? i1 : null;
+
+                var filter = new ListingsFilterDto
+                {
+                    SearchQuery = SearchText,
+                    PriceMin = pMin,
+                    PriceMax = pMax,
+                    YearMin = yMin,
+                    // Wyciągamy ID z wybranego obiektu Pickera
+                    BrandId = SelectedBrand?.Id
+                };
+
+                var items = await _vehicleService.GetAllListingsAsync(filter);
 
                 Listings.Clear();
                 foreach (var item in items)
                 {
-                    // Tutaj mały hack dla zdjęć na localhost/emulatorze
-                    // Jeśli URL zaczyna się od /, musimy dodać domenę API
                     if (!string.IsNullOrEmpty(item.MainPhotoUrl) && item.MainPhotoUrl.StartsWith("/"))
-                    {
                         item.MainPhotoUrl = Constants.ApiUrl + item.MainPhotoUrl;
-                    }
 
                     Listings.Add(item);
                 }
@@ -52,37 +91,46 @@ namespace MotoMarket.Mobile.ViewModels
             }
         }
 
+        // --- NOWA KOMENDA DO CZYSZCZENIA ---
         [RelayCommand]
-        async Task GoToLoginAsync()
+        async Task ClearFiltersAsync()
         {
-            // Idziemy do ekranu logowania
-            await Application.Current.MainPage.Navigation.PushAsync(new Views.LoginPage());
+            // Resetujemy pola
+            SearchText = string.Empty;
+            MinPrice = string.Empty;
+            MaxPrice = string.Empty;
+            YearMin = string.Empty;
+
+            // To odznaczy markę w Pickerze!
+            SelectedBrand = null;
+
+            // Szukamy ponownie (bez filtrów)
+            await SearchAsync();
         }
+
+        // --- NAWIGACJA I INNE ---
+
+        [RelayCommand]
+        async Task LoadListingsAsync() => await SearchAsync();
+
+        [RelayCommand]
+        async Task GoToLoginAsync() =>
+            await Application.Current.MainPage.Navigation.PushAsync(new Views.LoginPage());
 
         [RelayCommand]
         async Task CheckProfileAsync()
         {
-            var authService = new AuthService(); // Szybka instancja
-            var isLogged = await authService.IsAuthenticatedAsync();
-
-            if (isLogged)
-            {
-                // Jak zalogowany -> Idź do Profilu
+            var authService = new AuthService();
+            if (await authService.IsAuthenticatedAsync())
                 await Application.Current.MainPage.Navigation.PushAsync(new Views.ProfilePage());
-            }
             else
-            {
-                // Jak niezalogowany -> Idź do Logowania
                 await Application.Current.MainPage.Navigation.PushAsync(new Views.LoginPage());
-            }
         }
 
         [RelayCommand]
         async Task GoToDetailsAsync(ListingDto item)
         {
             if (item == null) return;
-
-            // Przechodzimy do strony szczegółów, przekazując ID
             await Application.Current.MainPage.Navigation.PushAsync(new Views.ListingDetailPage(item.Id));
         }
     }

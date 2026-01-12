@@ -6,23 +6,70 @@
              x:Class="MotoMarket.Mobile.Views.ListingsPage"
              Title="Ogłoszenia"
              BackgroundColor="#f0f0f0">
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Konto" Command="{Binding CheckProfileCommand}" />
     </ContentPage.ToolbarItems>
 
-    <Grid RowDefinitions="Auto, *">
-        <ActivityIndicator IsRunning="{Binding IsBusy}" 
-                           IsVisible="{Binding IsBusy}" 
-                           Color="Orange"
-                           HeightRequest="40"/>
+    <Grid RowDefinitions="Auto, Auto, *">
 
-        <CollectionView Grid.Row="1" 
-                        ItemsSource="{Binding Listings}"
-                        Margin="10">
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="10" BackgroundColor="White">
+            <SearchBar Placeholder="Szukaj auta..." 
+                       Text="{Binding SearchText}"
+                       SearchCommand="{Binding SearchCommand}"
+                       Grid.Column="0"/>
+
+            <Button Text="Filtry" 
+                    Command="{Binding ToggleFiltersCommand}"
+                    BackgroundColor="Gray"
+                    TextColor="White"
+                    HeightRequest="40"
+                    Margin="5,0,0,0"
+                    Grid.Column="1"/>
+        </Grid>
+
+        <VerticalStackLayout Grid.Row="1" 
+                             IsVisible="{Binding AreFiltersVisible}" 
+                             Padding="15" 
+                             Spacing="10"
+                             BackgroundColor="#e9ecef">
+
+            <Label Text="Cena (PLN):" FontAttributes="Bold" FontSize="12"/>
+            <Grid ColumnDefinitions="*,*">
+                <Entry Placeholder="Min" Text="{Binding MinPrice}" Keyboard="Numeric" Grid.Column="0" Margin="0,0,5,0" BackgroundColor="White"/>
+                <Entry Placeholder="Max" Text="{Binding MaxPrice}" Keyboard="Numeric" Grid.Column="1" Margin="5,0,0,0" BackgroundColor="White"/>
+            </Grid>
+
+            <Label Text="Rok produkcji (od):" FontAttributes="Bold" FontSize="12"/>
+            <Grid ColumnDefinitions="*,*">
+                <Entry Placeholder="np. 2015" Text="{Binding YearMin}" Keyboard="Numeric" Grid.Column="0" Margin="0,0,5,0" BackgroundColor="White"/>
+            </Grid>
+
+            <Label Text="Marka pojazdu:" FontAttributes="Bold" FontSize="12"/>
+            <Picker Title="Wybierz markę"
+                    ItemsSource="{Binding Brands}"
+                    ItemDisplayBinding="{Binding Name}"
+                    SelectedItem="{Binding SelectedBrand}"
+                    BackgroundColor="White" />
+
+            <Grid ColumnDefinitions="*, Auto" Margin="0,10,0,0">
+                <Button Text="Szukaj" Command="{Binding SearchCommand}" BackgroundColor="#ff6600" Grid.Column="0" Margin="0,0,5,0"/>
+
+                <Button Text="❌" 
+                        Command="{Binding ClearFiltersCommand}" 
+                        BackgroundColor="Gray" 
+                        Grid.Column="1"
+                        WidthRequest="50"/>
+            </Grid>
+
+        </VerticalStackLayout>
+
+        <ActivityIndicator Grid.Row="2" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="Orange" HeightRequest="40"/>
+
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Listings}" Margin="10">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="10"/>
             </CollectionView.ItemsLayout>
-
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:ListingDto">
                     <Frame Padding="0" CornerRadius="10" HasShadow="True" BorderColor="Transparent" BackgroundColor="White">
@@ -32,12 +79,7 @@
                                 CommandParameter="{Binding .}" />
                         </Frame.GestureRecognizers>
                         <VerticalStackLayout>
-                            <Image Source="{Binding MainPhotoUrl}" 
-                                   Aspect="AspectFill"
-                                   HeightRequest="120"
-                                   WidthRequest="200"
-                                   BackgroundColor="LightGray"/>
-
+                            <Image Source="{Binding MainPhotoUrl}" Aspect="AspectFill" HeightRequest="120" WidthRequest="200" BackgroundColor="LightGray"/>
                             <VerticalStackLayout Padding="10">
                                 <Label Text="{Binding Title}" FontAttributes="Bold" LineBreakMode="TailTruncation"/>
                                 <Label Text="{Binding Price, StringFormat='{0:N0} PLN'}" TextColor="#ff6600" FontAttributes="Bold"/>
