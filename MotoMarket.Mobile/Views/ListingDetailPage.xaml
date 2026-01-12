@@ -62,9 +62,9 @@
 
             <Button Text="💬 Wiadomość" 
                     Grid.Column="1"
+                    Command="{Binding OpenChatCommand}"
                     BackgroundColor="#007bff" 
-                    FontAttributes="Bold"
-                    IsEnabled="False"/>
+                    FontAttributes="Bold"/>
         </Grid>
     </Grid>
 </ContentPage>

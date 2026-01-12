@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MotoMarket.Mobile.Views.ChatPage"
+             Title="Czat"
+             Shell.TabBarIsVisible="False">
+    <Grid RowDefinitions="*, Auto" Padding="10">
+
+        <CollectionView Grid.Row="0" ItemsSource="{Binding Messages}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="5">
+                        <Frame x:Name="MessageFrame"
+                       CornerRadius="15"
+                       Padding="10"
+                       HasShadow="False"
+                       BorderColor="Transparent"
+                       WidthRequest="250">
+
+                            <Label Text="{Binding Content}" TextColor="White" />
+
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsMine}" Value="True">
+                                    <Setter Property="HorizontalOptions" Value="End" />
+                                    <Setter Property="BackgroundColor" Value="#007bff" />
+                                </DataTrigger>
+
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsMine}" Value="False">
+                                    <Setter Property="HorizontalOptions" Value="Start" />
+                                    <Setter Property="BackgroundColor" Value="#6c757d" />
+                                </DataTrigger>
+                            </Frame.Triggers>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*, Auto" ColumnSpacing="10" Margin="0,10,0,0">
+            <Entry Text="{Binding NewMessageText}" 
+                   Placeholder="Napisz wiadomość..." 
+                   Grid.Column="0" />
+
+            <Button Text="Wyślij" 
+                    Command="{Binding SendCommand}" 
+                    Grid.Column="1" 
+                    BackgroundColor="#ff6600"/>
+        </Grid>
+    </Grid>
+
+</ContentPage>

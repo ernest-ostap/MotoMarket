@@ -79,5 +79,14 @@ namespace MotoMarket.Mobile.ViewModels
         {
             await Application.Current.MainPage.Navigation.PopAsync();
         }
+
+        [RelayCommand]
+        async Task OpenChatAsync()
+        {
+            if (Listing == null || string.IsNullOrEmpty(Listing.UserId)) return;
+
+            await Application.Current.MainPage.Navigation.PushAsync(
+                new Views.ChatPage(Listing.UserId, Listing.Id));
+        }
     }
 }

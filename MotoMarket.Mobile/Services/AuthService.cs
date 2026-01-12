@@ -31,6 +31,7 @@ namespace MotoMarket.Mobile.Services
                     if (result != null && !string.IsNullOrEmpty(result.Token))
                     {
                         await SecureStorage.SetAsync("auth_token", result.Token);
+                        await SecureStorage.SetAsync("user_id", result.Id);
                         return true;
                     }
                 }

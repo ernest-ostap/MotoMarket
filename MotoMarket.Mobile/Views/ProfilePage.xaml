@@ -14,6 +14,12 @@
                 BackgroundColor="#007bff"
                 HeightRequest="50"
                 CornerRadius="25"/>
+        
+        <Button Text="💬 Moje Wiadomości" 
+                Command="{Binding GoToChatsCommand}" 
+                BackgroundColor="#17a2b8"
+                HeightRequest="50"
+                CornerRadius="25"/>
 
         <Button Text="🔒 Wyloguj się" 
                 Command="{Binding LogoutCommand}" 

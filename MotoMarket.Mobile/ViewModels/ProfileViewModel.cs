@@ -21,6 +21,12 @@ namespace MotoMarket.Mobile.ViewModels
         }
 
         [RelayCommand]
+        async Task GoToChatsAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new MyChatsPage());
+        }
+
+        [RelayCommand]
         void Logout()
         {
             _authService.Logout(); // Usuwa token
