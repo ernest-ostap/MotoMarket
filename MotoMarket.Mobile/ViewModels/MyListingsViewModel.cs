@@ -39,5 +39,11 @@ namespace MotoMarket.Mobile.ViewModels
             }
             finally { IsBusy = false; }
         }
+
+        [RelayCommand]
+        async Task GoToCreateAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new Views.CreateListingPage());
+        }
     }
 }

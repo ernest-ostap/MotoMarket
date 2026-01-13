@@ -14,6 +14,7 @@ namespace MotoMarket.Mobile.Services
             _httpClient.BaseAddress = new Uri(Constants.ApiUrl);
         }
 
+        #region GetListing
         public async Task<IEnumerable<ListingDto>> GetAllListingsAsync(ListingsFilterDto filter = null)
         {
             try
@@ -117,7 +118,105 @@ namespace MotoMarket.Mobile.Services
             }
             return null;
         }
+        #endregion
 
+        #region Create
+        public async Task<IEnumerable<DictionaryDto>> GetDictionaryAsync(string dictionaryName)
+        {
+            try
+            {
+                // Np. api/FuelTypes, api/GearboxTypes - dostosuj do swojego API!
+                var response = await _httpClient.GetAsync($"api/{dictionaryName}");
+                if (response.IsSuccessStatusCode)
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<DictionaryDto>>();
+            }
+            catch { }
+            return new List<DictionaryDto>();
+        }
+
+        // 2. Metoda CreateListingAsync obsługująca wszystkie pola
+        public async Task<bool> CreateListingAsync(CreateListingDto dto, IEnumerable<FileResult> photos)
+        {
+            try
+            {
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (string.IsNullOrEmpty(token)) return false;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                using var content = new MultipartFormDataContent();
+
+                // Helper do dodawania stringów
+                void AddString(string val, string name) => content.Add(new StringContent(val ?? ""), name);
+
+                // --- Proste pola ---
+                AddString(dto.Title, nameof(dto.Title));
+                AddString(dto.Description, nameof(dto.Description));
+                AddString(dto.VIN, nameof(dto.VIN));
+                AddString(dto.LocationCity, nameof(dto.LocationCity));
+                AddString(dto.LocationRegion, nameof(dto.LocationRegion));
+
+                AddString(dto.Price.ToString(System.Globalization.CultureInfo.InvariantCulture), nameof(dto.Price));
+                AddString(dto.ProductionYear.ToString(), nameof(dto.ProductionYear));
+                AddString(dto.Mileage.ToString(), nameof(dto.Mileage));
+
+                // --- Dropdowny ID ---
+                AddString(dto.BrandId.ToString(), nameof(dto.BrandId));
+                AddString(dto.ModelId.ToString(), nameof(dto.ModelId));
+                AddString(dto.FuelTypeId.ToString(), nameof(dto.FuelTypeId));
+                AddString(dto.GearboxTypeId.ToString(), nameof(dto.GearboxTypeId));
+                AddString(dto.DriveTypeId.ToString(), nameof(dto.DriveTypeId));
+                AddString(dto.BodyTypeId.ToString(), nameof(dto.BodyTypeId));
+                AddString(dto.VehicleCategoryId.ToString(), nameof(dto.VehicleCategoryId));
+
+                // --- Lista FeatureIds (Wyposażenie) ---
+                if (dto.SelectedFeatureIds != null)
+                {
+                    foreach (var id in dto.SelectedFeatureIds)
+                    {
+                        content.Add(new StringContent(id.ToString()), "SelectedFeatureIds");
+                    }
+                }
+
+                if (dto.Parameters != null)
+                {
+                    foreach (var kvp in dto.Parameters)
+                    {
+                        content.Add(new StringContent(kvp.Value), $"Parameters[{kvp.Key}]");
+                    }
+                }
+
+                // --- Zdjęcia ---
+                if (photos != null)
+                {
+                    foreach (var photo in photos)
+                    {
+                        var stream = await photo.OpenReadAsync();
+                        var streamContent = new StreamContent(stream);
+                        streamContent.Headers.ContentType = new MediaTypeHeaderValue(photo.ContentType);
+                        content.Add(streamContent, "Photos", photo.FileName);
+                    }
+                }
+
+                var response = await _httpClient.PostAsync("api/Listings", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var err = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"CREATE ERROR: {err}");
+                }
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"CREATE EX: {ex.Message}");
+                return false;
+            }
+        }
+        #endregion
+
+        #region Helpers
         public async Task<IEnumerable<DictionaryDto>> GetBrandsAsync()
         {
             try
@@ -131,5 +230,30 @@ namespace MotoMarket.Mobile.Services
             catch { }
             return new List<DictionaryDto>();
         }
+
+        public async Task<IEnumerable<DictionaryDto>> GetModelsAsync(int brandId)
+        {
+            try
+            {
+                // Swagger mówi: GET /api/Models (bez parametrów)
+                var response = await _httpClient.GetAsync("api/Models");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var allModels = await response.Content.ReadFromJsonAsync<IEnumerable<DictionaryDto>>();
+
+                    // FILTROWANIE PO STRONIE TELEFONU:
+                    // Zwracamy tylko te, gdzie model.BrandId == wybrane brandId
+                    return allModels.Where(x => x.BrandId == brandId).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[MODELS ERROR] {ex.Message}");
+            }
+
+            return new List<DictionaryDto>();
+        }
+        #endregion
     }
 }

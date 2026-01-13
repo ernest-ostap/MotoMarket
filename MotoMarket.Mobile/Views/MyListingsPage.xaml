@@ -5,6 +5,10 @@
              x:Class="MotoMarket.Mobile.Views.MyListingsPage"
              Title="Moje ogłoszenia">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Dodaj +" Command="{Binding GoToCreateCommand}" />
+    </ContentPage.ToolbarItems>
+
     <Grid RowDefinitions="Auto, *">
         <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="Orange" HeightRequest="40"/>
 
