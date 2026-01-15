@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model="clr-namespace:MotoMarket.Mobile.Models.Listings"
+                xmlns:vm="clr-namespace:MotoMarket.Mobile.ViewModels"
              x:Class="MotoMarket.Mobile.Views.MyListingsPage"
              Title="Moje ogłoszenia">
 
@@ -18,13 +19,67 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:ListingDto">
-                    <Frame Padding="0" CornerRadius="10" HasShadow="True">
-                        <VerticalStackLayout>
-                            <Image Source="{Binding MainPhotoUrl}" Aspect="AspectFill" HeightRequest="120"/>
-                            <Label Text="{Binding Title}" FontAttributes="Bold" Padding="5"/>
-                            <Label Text="TWOJE" TextColor="Green" HorizontalOptions="End" Padding="5" FontSize="10"/>
-                        </VerticalStackLayout>
-                    </Frame>
+
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Zarządzaj"
+                               BackgroundColor="#343a40"
+                               Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MyListingsViewModel}}, Path=ChangeStatusCommand}"
+                               CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Frame Padding="0" CornerRadius="10" HasShadow="True" Margin="0,5" BackgroundColor="White">
+                            <Grid ColumnDefinitions="120, *">
+
+                                <Image Grid.Column="0" 
+                           Source="{Binding MainPhotoUrl}" 
+                           Aspect="AspectFill" 
+                           HeightRequest="100"/>
+
+                                <VerticalStackLayout Grid.Column="1" Padding="10" Spacing="5">
+                                    <Label Text="{Binding Title}" FontAttributes="Bold" LineBreakMode="TailTruncation"/>
+                                    <Label Text="{Binding Price, StringFormat='{0:N0} PLN'}" TextColor="#ff6600" FontAttributes="Bold"/>
+
+                                    <Frame Padding="5,2" 
+                               CornerRadius="5" 
+                               HorizontalOptions="Start"
+                               HasShadow="False">
+                                        <Frame.Triggers>
+                                            <DataTrigger TargetType="Frame" Binding="{Binding Status}" Value="1">
+                                                <Setter Property="IsVisible" Value="False"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger TargetType="Frame" Binding="{Binding Status}" Value="2">
+                                                <Setter Property="BackgroundColor" Value="#dc3545"/>
+                                                <Setter Property="IsVisible" Value="True"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger TargetType="Frame" Binding="{Binding Status}" Value="3">
+                                                <Setter Property="BackgroundColor" Value="#6c757d"/>
+                                                <Setter Property="IsVisible" Value="True"/>
+                                            </DataTrigger>
+                                        </Frame.Triggers>
+
+                                        <Label TextColor="White" FontSize="10" FontAttributes="Bold">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="2">
+                                                    <Setter Property="Text" Value="SPRZEDANE"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="3">
+                                                    <Setter Property="Text" Value="ZARCHIWIZOWANE"/>
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </Frame>
+
+                                    <Label Text="{Binding CreatedAt, StringFormat='Dodano: {0:dd.MM.yyyy}'}" FontSize="10" TextColor="Gray"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </SwipeView>
+
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 

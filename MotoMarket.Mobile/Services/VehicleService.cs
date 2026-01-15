@@ -216,6 +216,48 @@ namespace MotoMarket.Mobile.Services
         }
         #endregion
 
+        #region Status
+        public async Task<bool> ChangeListingStatusAsync(int id, ListingStatus newStatus)
+        {
+            try
+            {
+                var token = await SecureStorage.GetAsync("auth_token");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response;
+
+                if (newStatus == ListingStatus.Active)
+                {
+                    response = await _httpClient.PostAsync($"api/Listings/{id}/restore", null);
+                }
+                else
+                {
+                    var command = new
+                    {
+                        Id = id,
+                        Status = (int)newStatus
+                    };
+
+                    response = await _httpClient.PostAsJsonAsync($"api/Listings/{id}/status", command);
+                }
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"[STATUS API ERROR] {response.StatusCode}: {error}");
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[STATUS EXCEPTION] {ex.Message}");
+                return false;
+            }
+        }
+        #endregion
+
         #region Helpers
         public async Task<IEnumerable<DictionaryDto>> GetBrandsAsync()
         {
