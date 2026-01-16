@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 namespace MotoMarket.Mobile.Models.Listings
 {
     //przekopiowane z application
-    public class ListingDto
+    public partial class ListingDto : ObservableObject
     {
         // --- Podstawowe ---
         public int Id { get; set; }
@@ -42,6 +43,7 @@ namespace MotoMarket.Mobile.Models.Listings
         // --- Zdjęcia ---
         public string MainPhotoUrl { get; set; } = string.Empty;
 
-        public bool IsFavorite { get; set; }
+        [ObservableProperty]
+        bool isFavorite;
     }
 }

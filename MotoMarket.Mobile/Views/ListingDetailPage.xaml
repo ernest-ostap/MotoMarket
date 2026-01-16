@@ -9,17 +9,45 @@
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="15" Padding="0,0,0,20">
 
-                <CarouselView ItemsSource="{Binding Photos}" HeightRequest="250" IndicatorView="indicatorView">
-                    <CarouselView.ItemTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding .}" Aspect="AspectFill" />
-                        </DataTemplate>
-                    </CarouselView.ItemTemplate>
-                </CarouselView>
-                <IndicatorView x:Name="indicatorView" 
-                               IndicatorColor="LightGray"
-                               SelectedIndicatorColor="#ff6600"
-                               HorizontalOptions="Center" />
+                <Grid HeightRequest="250">
+                    <CarouselView ItemsSource="{Binding Photos}" IndicatorView="indicatorView">
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding .}" Aspect="AspectFill" />
+                            </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                    </CarouselView>
+
+                    <Button Text="❤"
+                            FontSize="22"
+                            TextColor="Gray"
+                            BackgroundColor="#CCFFFFFF"
+                            CornerRadius="25"
+                            HeightRequest="50"
+                            WidthRequest="50"
+                            Padding="0"
+                            HorizontalOptions="End"
+                            VerticalOptions="Start"
+                            Margin="15"
+                            Command="{Binding ToggleFavoriteCommand}">
+                        <Button.Shadow>
+                            <Shadow Brush="Black" Offset="2,2" Opacity="0.3" Radius="5"/>
+                        </Button.Shadow>
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding Listing.IsFavorite}" Value="True">
+                                <Setter Property="TextColor" Value="Red" />
+                                <Setter Property="BackgroundColor" Value="White" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <IndicatorView x:Name="indicatorView" 
+                                   IndicatorColor="White"
+                                   SelectedIndicatorColor="#ff6600"
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="End"
+                                   Margin="0,0,0,10"/>
+                </Grid>
 
                 <VerticalStackLayout Padding="20" Spacing="10">
                     <Label Text="{Binding Listing.Title}" FontSize="22" FontAttributes="Bold" />

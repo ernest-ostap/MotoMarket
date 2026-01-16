@@ -27,6 +27,12 @@ namespace MotoMarket.Mobile.ViewModels
         }
 
         [RelayCommand]
+        async Task GoToFavoritesAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new Views.FavoritesPage());
+        }
+
+        [RelayCommand]
         void Logout()
         {
             _authService.Logout(); // Usuwa token

@@ -61,7 +61,6 @@
                         Grid.Column="1"
                         WidthRequest="50"/>
             </Grid>
-
         </VerticalStackLayout>
 
         <ActivityIndicator Grid.Row="2" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="Orange" HeightRequest="40"/>
@@ -72,20 +71,50 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:ListingDto">
-                    <Frame Padding="0" CornerRadius="10" HasShadow="True" BorderColor="Transparent" BackgroundColor="White">
+                    <Frame Padding="0" CornerRadius="10" HasShadow="True" BorderColor="Transparent" BackgroundColor="White" IsClippedToBounds="True">
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer 
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ListingsViewModel}}, Path=GoToDetailsCommand}"
                                 CommandParameter="{Binding .}" />
                         </Frame.GestureRecognizers>
-                        <VerticalStackLayout>
-                            <Image Source="{Binding MainPhotoUrl}" Aspect="AspectFill" HeightRequest="120" WidthRequest="200" BackgroundColor="LightGray"/>
-                            <VerticalStackLayout Padding="10">
+
+                        <Grid RowDefinitions="120, Auto">
+                            <Image Grid.Row="0" 
+                                   Source="{Binding MainPhotoUrl}" 
+                                   Aspect="AspectFill" 
+                                   BackgroundColor="LightGray"/>
+
+                            <Button Grid.Row="0"
+                                    Text="❤"
+                                    FontSize="18"
+                                    BackgroundColor="#CCFFFFFF" 
+                                    TextColor="Gray"
+                                    CornerRadius="20"
+                                    HeightRequest="40"
+                                    WidthRequest="40"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Start"
+                                    Margin="8"
+                                    Padding="0"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ListingsViewModel}}, Path=ToggleFavoriteCommand}"
+                                    CommandParameter="{Binding .}">
+                                <Button.Shadow>
+                                    <Shadow Brush="Black" Offset="2,2" Opacity="0.3" Radius="3"/>
+                                </Button.Shadow>
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button" Binding="{Binding IsFavorite}" Value="True">
+                                        <Setter Property="TextColor" Value="Red" />
+                                        <Setter Property="BackgroundColor" Value="White"/>
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
+
+                            <VerticalStackLayout Grid.Row="1" Padding="10">
                                 <Label Text="{Binding Title}" FontAttributes="Bold" LineBreakMode="TailTruncation"/>
                                 <Label Text="{Binding Price, StringFormat='{0:N0} PLN'}" TextColor="#ff6600" FontAttributes="Bold"/>
                                 <Label Text="{Binding LocationCity}" FontSize="10" TextColor="Gray"/>
                             </VerticalStackLayout>
-                        </VerticalStackLayout>
+                        </Grid>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

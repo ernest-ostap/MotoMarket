@@ -88,5 +88,36 @@ namespace MotoMarket.Mobile.ViewModels
             await Application.Current.MainPage.Navigation.PushAsync(
                 new Views.ChatPage(Listing.UserId, Listing.Id));
         }
+
+        [RelayCommand]
+        async Task ToggleFavoriteAsync()
+        {
+            if (Listing == null) return;
+
+            // Sprawdź logowanie
+            var token = await SecureStorage.GetAsync("auth_token");
+            if (string.IsNullOrEmpty(token))
+            {
+                await Application.Current.MainPage.DisplayAlert("Info", "Zaloguj się, aby dodać do ulubionych.", "OK");
+                return;
+            }
+
+            // Optymistyczna zmiana UI
+            bool oldState = Listing.IsFavorite;
+            Listing.IsFavorite = !Listing.IsFavorite;
+
+            var result = await _vehicleService.ToggleFavoriteAsync(Listing.Id);
+
+            if (result.HasValue)
+            {
+                Listing.IsFavorite = result.Value;
+            }
+            else
+            {
+                // Cofnij w razie błędu
+                Listing.IsFavorite = oldState;
+                await Application.Current.MainPage.DisplayAlert("Błąd", "Nie udało się zmienić statusu ulubionych", "OK");
+            }
+        }
     }
 }

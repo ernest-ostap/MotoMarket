@@ -133,5 +133,39 @@ namespace MotoMarket.Mobile.ViewModels
             if (item == null) return;
             await Application.Current.MainPage.Navigation.PushAsync(new Views.ListingDetailPage(item.Id));
         }
+
+        [RelayCommand]
+        async Task ToggleFavoriteAsync(ListingDto item)
+        {
+            if (item == null) return;
+
+            // 1. Sprawdź czy zalogowany
+            var token = await SecureStorage.GetAsync("auth_token");
+            if (string.IsNullOrEmpty(token))
+            {
+                await Application.Current.MainPage.DisplayAlert("Info", "Zaloguj się, aby dodawać do ulubionych.", "OK");
+                await Application.Current.MainPage.Navigation.PushAsync(new Views.LoginPage());
+                return;
+            }
+
+            // 2. Optymistyczna aktualizacja UI (zmień od razu, żeby user czuł reakcję)
+            bool oldState = item.IsFavorite;
+            item.IsFavorite = !item.IsFavorite;
+
+            // 3. Strzał do API w tle
+            var result = await _vehicleService.ToggleFavoriteAsync(item.Id);
+
+            if (result.HasValue)
+            {
+                // Upewniamy się, że stan jest zgodny z serwerem
+                item.IsFavorite = result.Value;
+            }
+            else
+            {
+                // Błąd? Cofnij zmianę
+                item.IsFavorite = oldState;
+                await Application.Current.MainPage.DisplayAlert("Błąd", "Nie udało się zaktualizować ulubionych.", "OK");
+            }
+        }
     }
 }

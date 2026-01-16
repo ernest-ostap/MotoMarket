@@ -258,6 +258,54 @@ namespace MotoMarket.Mobile.Services
         }
         #endregion
 
+        #region Favorites
+        public async Task<bool?> ToggleFavoriteAsync(int listingId)
+        {
+            try
+            {
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (string.IsNullOrEmpty(token)) return null; // Nie zalogowany
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                // POST api/Favorites/{id}
+                var response = await _httpClient.PostAsync($"api/Favorites/{listingId}", null);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // API zwraca true (dodano) lub false (usunięto)
+                    var result = await response.Content.ReadAsStringAsync();
+                    return bool.Parse(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[FAV ERROR] {ex.Message}");
+            }
+            return null; // Błąd
+        }
+
+        public async Task<IEnumerable<ListingDto>> GetMyFavoritesAsync()
+        {
+            try
+            {
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (string.IsNullOrEmpty(token)) return new List<ListingDto>();
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await _httpClient.GetAsync("api/Favorites");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<ListingDto>>();
+                }
+            }
+            catch { }
+            return new List<ListingDto>();
+        }
+        #endregion
+
         #region Helpers
         public async Task<IEnumerable<DictionaryDto>> GetBrandsAsync()
         {

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MotoMarket.Mobile.ViewModels"
+             xmlns:model="clr-namespace:MotoMarket.Mobile.Models.Listings"
+             x:Class="MotoMarket.Mobile.Views.FavoritesPage"
+             Title="Moje Ulubione"
+             BackgroundColor="#f0f0f0">
+
+    <ContentPage.Behaviors>
+    </ContentPage.Behaviors>
+
+    <Grid>
+        <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                           IsVisible="{Binding IsBusy}" 
+                           HorizontalOptions="Center" VerticalOptions="Center" Color="Orange"/>
+
+        <CollectionView ItemsSource="{Binding Favorites}" Margin="10">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:ListingDto">
+                    <Frame Padding="0" CornerRadius="10" HasShadow="True" BorderColor="Transparent" BackgroundColor="White">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FavoritesViewModel}}, Path=GoToDetailsCommand}"
+                                                  CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+
+                        <Grid RowDefinitions="120, Auto">
+                            <Image Grid.Row="0" Source="{Binding MainPhotoUrl}" Aspect="AspectFill" BackgroundColor="LightGray"/>
+
+                            <Button Grid.Row="0" Text="🗑️" FontSize="16"
+                                    BackgroundColor="#AAFFFFFF" TextColor="Red"
+                                    CornerRadius="20" HeightRequest="40" WidthRequest="40"
+                                    HorizontalOptions="End" VerticalOptions="Start" Margin="5"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FavoritesViewModel}}, Path=RemoveFavoriteCommand}"
+                                    CommandParameter="{Binding .}"/>
+
+                            <VerticalStackLayout Grid.Row="1" Padding="10">
+                                <Label Text="{Binding Title}" FontAttributes="Bold" LineBreakMode="TailTruncation"/>
+                                <Label Text="{Binding Price, StringFormat='{0:N0} PLN'}" TextColor="#ff6600" FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                    <Label Text="💔" FontSize="50" HorizontalOptions="Center"/>
+                    <Label Text="Nie masz jeszcze ulubionych ogłoszeń" TextColor="Gray"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
+</ContentPage>

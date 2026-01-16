@@ -9,6 +9,15 @@
         <Image Source="dotnet_bot.png" HeightRequest="100" />
         <Label Text="Zalogowany użytkownik" HorizontalOptions="Center" FontSize="18"/>
 
+        <Button Text="❤️ Moje Ulubione" 
+                Command="{Binding GoToFavoritesCommand}" 
+                BackgroundColor="#dc3545" 
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="25"
+                HeightRequest="50"
+                Margin="0,0,0,10"/>
+
         <Button Text="📂 Moje ogłoszenia" 
                 Command="{Binding GoToMyListingsCommand}" 
                 BackgroundColor="#007bff"
