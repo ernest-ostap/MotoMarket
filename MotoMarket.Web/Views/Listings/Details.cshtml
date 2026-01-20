@@ -209,6 +209,12 @@
                         <div id="phoneDisplay" class="text-center fw-bold text-primary mt-2 fs-5" style="display:none;"></div>
                     </div>
 
+                    <div class="d-grid gap-2 mt-3">
+                        <a asp-action="DownloadPdf" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-lg">
+                            <i class="bi bi-file-earmark-pdf-fill me-2"></i>Pobierz ofertę PDF
+                        </a>
+                    </div>
+
                     <hr class="my-4" />
 
                     <div class="text-muted small text-center">

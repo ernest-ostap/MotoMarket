@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MotoMarket.Web.Models.ViewModels;
 using MotoMarket.Web.Services.Listings;
+using MotoMarket.Web.Services.PdfGenerator;
 
 namespace MotoMarket.Web.Controllers
 {
@@ -14,14 +15,17 @@ namespace MotoMarket.Web.Controllers
         private const int StatusArchived = 3;
 
         private readonly IVehicleService _vehicleService;
-        private readonly IDictionaryService _dictionaryService; 
+        private readonly IDictionaryService _dictionaryService;
+        private readonly IPdfGeneratorService _pdfService;
 
-        public ListingsController(IVehicleService vehicleService, IDictionaryService dictionaryService)
+        public ListingsController(IVehicleService vehicleService, IDictionaryService dictionaryService, IPdfGeneratorService pdfGeneratorService)
         {
             _vehicleService = vehicleService;
             _dictionaryService = dictionaryService;
+            _pdfService = pdfGeneratorService;
         }
 
+        #region Get
         // GET: Listings
         public async Task<IActionResult> Index(ListingsFilterViewModel filter) // MVC samo zmapuje parametry z URL
         {
@@ -55,6 +59,24 @@ namespace MotoMarket.Web.Controllers
             return View(listing);
         }
 
+        // GET: Listings/MyListings
+        [Authorize]
+        public async Task<IActionResult> MyListings()
+        {
+            var listings = await _vehicleService.GetMyListings();
+            return View(listings);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Favorites()
+        {
+            var favorites = await _vehicleService.GetMyFavorites();
+            return View(favorites);
+        }
+        #endregion
+
+        #region Create
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -80,22 +102,7 @@ namespace MotoMarket.Web.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-        // GET: Listings/MyListings
-        [Authorize]
-        public async Task<IActionResult> MyListings()
-        {
-            var listings = await _vehicleService.GetMyListings();
-            return View(listings);
-        }
-
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Favorites()
-        {
-            var favorites = await _vehicleService.GetMyFavorites();
-            return View(favorites);
-        }
+        #endregion
 
         #region Edit
         [Authorize]
@@ -233,6 +240,34 @@ namespace MotoMarket.Web.Controllers
         }
         #endregion
 
+        #region PdfGenerator
+        public async Task<IActionResult> DownloadPdf(int id)
+        {
+            // 1. Pobieramy dane auta (tą samą metodą co do widoku Details)
+            var listing = await _vehicleService.GetListingDetail(id);
+
+            if (listing == null) return NotFound();
+
+            // 2. Definiujemy układ bloków (Spełnienie wymogu "zmienialnego układu")
+            // Możesz tu zrobić if-a: if (userWoliZdjeciaNaDole) ...
+            var layout = new List<string>
+        {
+            "Specs",       // Najpierw tabelka
+            "Photo",       // Potem zdjęcie
+            "Description", // Opis
+            "Features"     // Wyposażenie
+        };
+
+            // 3. Generujemy PDF
+            var pdfBytes = await _pdfService.GenerateListingPdfAsync(listing, layout);
+
+            // 4. Zwracamy plik
+            var fileName = $"Oferta_{listing.BrandName}_{listing.ModelName}_{id}.pdf";
+            return File(pdfBytes, "application/pdf", fileName);
+        }
+        #endregion
+
+        #region Helpers and other
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> ToggleFavoriteJson(int id)
@@ -287,5 +322,9 @@ namespace MotoMarket.Web.Controllers
                 model.Models = models.Select(x => new SelectListItem(x.Name, x.Id));
             }
         }
+
+
+
+        #endregion
     }
 }
