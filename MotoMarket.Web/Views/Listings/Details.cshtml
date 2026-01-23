@@ -16,7 +16,6 @@
 
     <div class="row">
         <div class="col-lg-8">
-            <!-- Photo Gallery -->
             <div class="card mb-4 border-0 shadow-lg overflow-hidden">
                 @if (Model.PhotoUrls != null && Model.PhotoUrls.Any())
                 {
@@ -61,7 +60,6 @@
                 }
             </div>
 
-            <!-- Description -->
             <div class="card mb-4 border-0 shadow-lg">
                 <div class="card-header bg-white border-0 pb-0">
                     <h5 class="mb-0 fw-bold">
@@ -73,7 +71,6 @@
                 </div>
             </div>
 
-            <!-- Technical Data -->
             <div class="card mb-4 border-0 shadow-lg">
                 <div class="card-header bg-white border-0 pb-0">
                     <h5 class="mb-0 fw-bold">
@@ -132,7 +129,6 @@
                 </div>
             </div>
 
-            <!-- Features -->
             @if (Model.Features != null && Model.Features.Any())
             {
                 <div class="card mb-4 border-0 shadow-lg">
@@ -153,7 +149,6 @@
             }
         </div>
 
-        <!-- Sidebar -->
         <div class="col-lg-4">
             <div class="card shadow-lg sticky-top border-0" style="top: 2rem; border-radius: var(--radius-xl);">
                 <div class="card-body p-4">
@@ -210,9 +205,9 @@
                     </div>
 
                     <div class="d-grid gap-2 mt-3">
-                        <a asp-action="DownloadPdf" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-lg">
-                            <i class="bi bi-file-earmark-pdf-fill me-2"></i>Pobierz ofertę PDF
-                        </a>
+                        <button type="button" class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#pdfModal">
+                            <i class="bi bi-file-earmark-pdf-fill me-2"></i>Generuj PDF
+                        </button>
                     </div>
 
                     <hr class="my-4" />
@@ -227,6 +222,58 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pdfModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Konfiguracja Wydruku</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form asp-action="DownloadPdf" method="post" target="_blank">
+                <div class="modal-body">
+                    <input type="hidden" name="ListingId" value="@Model.Id" />
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tytuł nagłówka (opcjonalne)</label>
+                        <input type="text" name="CustomTitle" class="form-control" placeholder="np. Oferta dla Klienta" />
+                    </div>
+
+                    <hr />
+                    <h6 class="fw-bold mb-3">Wybierz sekcje:</h6>
+
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" name="IncludePrice" value="true" checked id="chkPrice">
+                        <label class="form-check-label" for="chkPrice">Pokaż Cenę</label>
+                    </div>
+
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" name="IncludePhotos" value="true" checked id="chkPhotos">
+                        <label class="form-check-label" for="chkPhotos">Dołącz Zdjęcie</label>
+                    </div>
+
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" name="IncludeDescription" value="true" checked id="chkDesc">
+                        <label class="form-check-label" for="chkDesc">Dołącz Opis</label>
+                    </div>
+
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="IncludeFeatures" value="true" checked id="chkFeat">
+                        <label class="form-check-label" for="chkFeat">Dołącz Wyposażenie</label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-printer me-2"></i>Pobierz PDF
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

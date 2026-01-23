@@ -1,4 +1,5 @@
-﻿using MotoMarket.Web.Models.DTOs;
+﻿using MotoMarket.Web.Models.Other;
+using MotoMarket.Web.Models.DTOs;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -14,7 +15,7 @@ namespace MotoMarket.Web.Services.PdfGenerator
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<byte[]> GenerateListingPdfAsync(ListingDetailDto model, List<string> sectionOrder)
+        public async Task<byte[]> GenerateListingPdfAsync(ListingDetailDto model, PdfGenerationOptions options)
         {
             // Pobieramy główne zdjęcie (jeśli jest) jako bajty
             byte[] mainImageBytes = null;
@@ -38,11 +39,10 @@ namespace MotoMarket.Web.Services.PdfGenerator
                     page.PageColor(Colors.White);
                     page.DefaultTextStyle(x => x.FontSize(11).FontFamily("Arial")); // Ustawienie czcionki
 
-                    page.Header().Element(c => ComposeHeader(c, model));
+                    page.Header().Element(c => ComposeHeader(c, model, options));
 
                     // TUTAJ DZIEJE SIĘ MAGIA "PRZESTAWIALNYCH BLOKÓW"
-                    page.Content().Element(c => ComposeContent(c, model, mainImageBytes, sectionOrder));
-
+                    page.Content().Element(c => ComposeContent(c, model, mainImageBytes, options));
                     page.Footer().AlignCenter().Text(x =>
                     {
                         x.CurrentPageNumber();
@@ -58,56 +58,65 @@ namespace MotoMarket.Web.Services.PdfGenerator
 
         // --- KOMPONENTY PDF ---
 
-        void ComposeHeader(IContainer container, ListingDetailDto model)
+        void ComposeHeader(IContainer container, ListingDetailDto model, PdfGenerationOptions options)
         {
             container.Row(row =>
             {
                 row.RelativeItem().Column(column =>
                 {
-                    column.Item().Text($"{model.BrandName} {model.ModelName}").FontSize(24).SemiBold().FontColor(Colors.Blue.Medium);
-                    column.Item().Text(model.Title).FontSize(14).Italic();
+                    // WYMÓG: "Wstrzykiwanie kluczami" -> Customowy tytuł
+                    if (!string.IsNullOrWhiteSpace(options.CustomTitle))
+                    {
+                        column.Item().Text(options.CustomTitle).FontSize(24).SemiBold().FontColor(Colors.Blue.Medium);
+                        column.Item().Text($"Oryginał: {model.BrandName} {model.ModelName}").FontSize(10).Italic().FontColor(Colors.Grey.Medium);
+                    }
+                    else
+                    {
+                        column.Item().Text($"{model.BrandName} {model.ModelName}").FontSize(24).SemiBold().FontColor(Colors.Blue.Medium);
+                        column.Item().Text(model.Title).FontSize(14).Italic();
+                    }
                 });
 
-                row.ConstantItem(150).Column(column =>
+                // WYMÓG: Ukrywanie ceny (zmiana szablonu)
+                if (options.IncludePrice)
                 {
-                    column.Item().AlignRight().Text($"{model.Price:N0} PLN").FontSize(24).Bold().FontColor(Colors.Red.Medium);
-                    column.Item().AlignRight().Text($"{model.LocationCity}").FontSize(10).FontColor(Colors.Grey.Medium);
-                });
+                    row.ConstantItem(150).Column(column =>
+                    {
+                        column.Item().AlignRight().Text($"{model.Price:N0} PLN").FontSize(24).Bold().FontColor(Colors.Red.Medium);
+                        column.Item().AlignRight().Text($"{model.LocationCity}").FontSize(10).FontColor(Colors.Grey.Medium);
+                    });
+                }
             });
         }
 
-        void ComposeContent(IContainer container, ListingDetailDto model, byte[] imageBytes, List<string> sections)
+        void ComposeContent(IContainer container, ListingDetailDto model, byte[] imageBytes, PdfGenerationOptions options)
         {
             container.PaddingVertical(20).Column(column =>
             {
                 column.Spacing(20);
 
-                // Iterujemy po liście sekcji zdefiniowanej przez użytkownika/kontroler
-                foreach (var section in sections)
+                // Zawsze pokazujemy tabelkę techniczną (chyba że też chcesz checkboxa)
+                column.Item().Element(c => ComposeSpecsTable(c, model));
+
+                // WYMÓG: "Zmiana szablonu przez użytkownika" (if-y sterujące układem)
+
+                if (options.IncludePhotos && imageBytes != null)
                 {
-                    switch (section.ToLower())
+                    column.Item().Image(imageBytes).FitArea();
+                }
+
+                if (options.IncludeDescription)
+                {
+                    column.Item().Column(c =>
                     {
-                        case "photo":
-                            if (imageBytes != null)
-                                column.Item().Image(imageBytes).FitArea();
-                            break;
+                        c.Item().Text("Opis pojazdu").FontSize(16).SemiBold();
+                        c.Item().Text(model.Description ?? "Brak opisu").Justify();
+                    });
+                }
 
-                        case "specs":
-                            column.Item().Element(c => ComposeSpecsTable(c, model));
-                            break;
-
-                        case "description":
-                            column.Item().Column(c =>
-                            {
-                                c.Item().Text("Opis pojazdu").FontSize(16).SemiBold();
-                                c.Item().Text(model.Description ?? "Brak opisu").Justify();
-                            });
-                            break;
-
-                        case "features":
-                            column.Item().Element(c => ComposeFeatures(c, model));
-                            break;
-                    }
+                if (options.IncludeFeatures)
+                {
+                    column.Item().Element(c => ComposeFeatures(c, model));
                 }
             });
         }

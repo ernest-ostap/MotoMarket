@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MotoMarket.Web.Models.Other;
 using MotoMarket.Web.Models.ViewModels;
 using MotoMarket.Web.Services.Listings;
 using MotoMarket.Web.Services.PdfGenerator;
@@ -241,28 +242,19 @@ namespace MotoMarket.Web.Controllers
         #endregion
 
         #region PdfGenerator
-        public async Task<IActionResult> DownloadPdf(int id)
+        [HttpPost] // Zmieniamy na POST, bo przyjdzie formularz
+        public async Task<IActionResult> DownloadPdf(PdfGenerationOptions options)
         {
-            // 1. Pobieramy dane auta (tą samą metodą co do widoku Details)
-            var listing = await _vehicleService.GetListingDetail(id);
-
+            var listing = await _vehicleService.GetListingDetail(options.ListingId);
             if (listing == null) return NotFound();
 
-            // 2. Definiujemy układ bloków (Spełnienie wymogu "zmienialnego układu")
-            // Możesz tu zrobić if-a: if (userWoliZdjeciaNaDole) ...
-            var layout = new List<string>
-        {
-            "Specs",       // Najpierw tabelka
-            "Photo",       // Potem zdjęcie
-            "Description", // Opis
-            "Features"     // Wyposażenie
-        };
+            // Przekazujemy opcje usera do serwisu
+            var pdfBytes = await _pdfService.GenerateListingPdfAsync(listing, options);
 
-            // 3. Generujemy PDF
-            var pdfBytes = await _pdfService.GenerateListingPdfAsync(listing, layout);
+            // Dodajemy tytuł do nazwy pliku dla bajeru
+            var safeTitle = string.IsNullOrWhiteSpace(options.CustomTitle) ? "Oferta" : options.CustomTitle.Replace(" ", "_");
+            var fileName = $"{safeTitle}_{listing.BrandName}_{listing.Id}.pdf";
 
-            // 4. Zwracamy plik
-            var fileName = $"Oferta_{listing.BrandName}_{listing.ModelName}_{id}.pdf";
             return File(pdfBytes, "application/pdf", fileName);
         }
         #endregion
