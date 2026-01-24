@@ -113,5 +113,11 @@ namespace MotoMarket.Web.Controllers
             TempData[success ? "Success" : "Error"] = success ? "Hasło zostało zmienione." : "Błąd zmiany hasła.";
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

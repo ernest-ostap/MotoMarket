@@ -20,6 +20,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/Auth/Login"; // Gdzie przekierowaæ niezalogowanego?
+
+        options.AccessDeniedPath = "/Auth/AccessDenied";
+
         options.ExpireTimeSpan = TimeSpan.FromDays(7);
     });
 

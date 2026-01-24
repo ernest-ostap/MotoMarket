@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Brak dostępu";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="text-center">
+        <div class="mb-4">
+            <i class="bi bi-shield-lock-fill text-danger" style="font-size: 5rem;"></i>
+        </div>
+
+        <h1 class="fw-bold mb-3">Brak dostępu</h1>
+
+        <p class="lead text-muted mb-4">
+            Przykro nam, ale nie masz uprawnień do przeglądania tej strony.
+        </p>
+
+        <div class="d-flex justify-content-center gap-3">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary px-4 py-2">
+                <i class="bi bi-house-door me-2"></i>Strona główna
+            </a>
+
+            <a asp-controller="Auth" asp-action="Logout" class="btn btn-danger px-4 py-2">
+                <i class="bi bi-box-arrow-right me-2"></i>Wyloguj się
+            </a>
+        </div>
+    </div>
+</div>
