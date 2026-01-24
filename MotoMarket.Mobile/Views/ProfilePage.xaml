@@ -2,39 +2,150 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MotoMarket.Mobile.Views.ProfilePage"
-             Title="Mój Profil">
+             Title="Mój Profil"
+             BackgroundColor="{StaticResource BackgroundSecondary}">
 
-    <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="24" VerticalOptions="Start">
 
-        <Image Source="dotnet_bot.png" HeightRequest="100" />
-        <Label Text="Zalogowany użytkownik" HorizontalOptions="Center" FontSize="18"/>
+            <!-- Profile Header Card -->
+            <Frame Style="{StaticResource CardFrame}" Padding="24" Margin="0,20,0,0">
+                <VerticalStackLayout Spacing="16" HorizontalOptions="Center">
+                    <!-- Avatar -->
+                    <Border StrokeShape="RoundRectangle 50"
+                            StrokeThickness="3"
+                            Stroke="{StaticResource Primary}"
+                            HeightRequest="100"
+                            WidthRequest="100"
+                            HorizontalOptions="Center">
+                        <Image Source="dotnet_bot.png" 
+                               Aspect="AspectFill"/>
+                    </Border>
+                    
+                    <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                        <Label Text="Zalogowany użytkownik" 
+                               Style="{StaticResource SubHeadline}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Witaj w MotoMarket!" 
+                               Style="{StaticResource MutedLabel}"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
 
-        <Button Text="❤️ Moje Ulubione" 
-                Command="{Binding GoToFavoritesCommand}" 
-                BackgroundColor="#dc3545" 
-                TextColor="White"
-                FontAttributes="Bold"
-                CornerRadius="25"
-                HeightRequest="50"
-                Margin="0,0,0,10"/>
+            <!-- Menu Options -->
+            <Label Text="Menu" 
+                   Style="{StaticResource SubHeadline}"
+                   Margin="0,16,0,8"/>
 
-        <Button Text="📂 Moje ogłoszenia" 
-                Command="{Binding GoToMyListingsCommand}" 
-                BackgroundColor="#007bff"
-                HeightRequest="50"
-                CornerRadius="25"/>
-        
-        <Button Text="💬 Moje Wiadomości" 
-                Command="{Binding GoToChatsCommand}" 
-                BackgroundColor="#17a2b8"
-                HeightRequest="50"
-                CornerRadius="25"/>
+            <!-- Favorites -->
+            <Frame Style="{StaticResource CardFrame}" Padding="0">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToFavoritesCommand}"/>
+                </Frame.GestureRecognizers>
+                <Grid ColumnDefinitions="Auto, *, Auto" Padding="16">
+                    <Border Grid.Column="0"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="0"
+                            BackgroundColor="{StaticResource DangerLight}"
+                            HeightRequest="48"
+                            WidthRequest="48">
+                        <Label Text="❤️" 
+                               FontSize="22" 
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" 
+                                         VerticalOptions="Center"
+                                         Margin="16,0,0,0">
+                        <Label Text="Moje Ulubione" 
+                               FontAttributes="Bold"
+                               FontSize="16"/>
+                        <Label Text="Przeglądaj zapisane ogłoszenia" 
+                               Style="{StaticResource MutedLabel}"/>
+                    </VerticalStackLayout>
+                    <Label Grid.Column="2" 
+                           Text="›" 
+                           FontSize="24"
+                           TextColor="{StaticResource Gray400}"
+                           VerticalOptions="Center"/>
+                </Grid>
+            </Frame>
 
-        <Button Text="🔒 Wyloguj się" 
-                Command="{Binding LogoutCommand}" 
-                BackgroundColor="#dc3545"
-                HeightRequest="50"
-                CornerRadius="25"/>
+            <!-- My Listings -->
+            <Frame Style="{StaticResource CardFrame}" Padding="0">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToMyListingsCommand}"/>
+                </Frame.GestureRecognizers>
+                <Grid ColumnDefinitions="Auto, *, Auto" Padding="16">
+                    <Border Grid.Column="0"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="0"
+                            BackgroundColor="{StaticResource InfoLight}"
+                            HeightRequest="48"
+                            WidthRequest="48">
+                        <Label Text="📂" 
+                               FontSize="22" 
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" 
+                                         VerticalOptions="Center"
+                                         Margin="16,0,0,0">
+                        <Label Text="Moje ogłoszenia" 
+                               FontAttributes="Bold"
+                               FontSize="16"/>
+                        <Label Text="Zarządzaj swoimi ogłoszeniami" 
+                               Style="{StaticResource MutedLabel}"/>
+                    </VerticalStackLayout>
+                    <Label Grid.Column="2" 
+                           Text="›" 
+                           FontSize="24"
+                           TextColor="{StaticResource Gray400}"
+                           VerticalOptions="Center"/>
+                </Grid>
+            </Frame>
 
-    </VerticalStackLayout>
+            <!-- My Messages -->
+            <Frame Style="{StaticResource CardFrame}" Padding="0">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToChatsCommand}"/>
+                </Frame.GestureRecognizers>
+                <Grid ColumnDefinitions="Auto, *, Auto" Padding="16">
+                    <Border Grid.Column="0"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="0"
+                            BackgroundColor="{StaticResource SuccessLight}"
+                            HeightRequest="48"
+                            WidthRequest="48">
+                        <Label Text="💬" 
+                               FontSize="22" 
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" 
+                                         VerticalOptions="Center"
+                                         Margin="16,0,0,0">
+                        <Label Text="Moje Wiadomości" 
+                               FontAttributes="Bold"
+                               FontSize="16"/>
+                        <Label Text="Konwersacje ze sprzedawcami" 
+                               Style="{StaticResource MutedLabel}"/>
+                    </VerticalStackLayout>
+                    <Label Grid.Column="2" 
+                           Text="›" 
+                           FontSize="24"
+                           TextColor="{StaticResource Gray400}"
+                           VerticalOptions="Center"/>
+                </Grid>
+            </Frame>
+
+            <!-- Logout -->
+            <Button Text="Wyloguj się" 
+                    Command="{Binding LogoutCommand}" 
+                    Style="{StaticResource DangerButton}"
+                    Margin="0,24,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

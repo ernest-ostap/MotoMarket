@@ -4,41 +4,74 @@
              xmlns:vm="clr-namespace:MotoMarket.Mobile.ViewModels"
              x:Class="MotoMarket.Mobile.Views.LoginPage"
              Title="Logowanie"
-             BackgroundColor="#f4f4f4">
+             BackgroundColor="{StaticResource BackgroundSecondary}">
 
     <ScrollView>
-        <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+        <VerticalStackLayout Spacing="24" Padding="24" VerticalOptions="Center">
             
-            <Label Text="Witaj w MotoMarket!"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="#333"/>
+            <!-- Logo/Header -->
+            <VerticalStackLayout Spacing="8" Margin="0,0,0,20">
+                <Label Text="MotoMarket"
+                       Style="{StaticResource Headline}"
+                       TextColor="{StaticResource Primary}"
+                       HorizontalOptions="Center"/>
+                <Label Text="Zaloguj się do swojego konta"
+                       Style="{StaticResource SecondaryLabel}"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
 
-            <Entry Placeholder="Email"
-                   Text="{Binding Email}" 
-                   Keyboard="Email"
-                   BackgroundColor="White" />
+            <!-- Login Form Card -->
+            <Frame Style="{StaticResource CardFrame}" Padding="20">
+                <VerticalStackLayout Spacing="16">
+                    
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Email" 
+                               Style="{StaticResource SecondaryLabel}"
+                               FontAttributes="Bold"/>
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 12"
+                                Padding="12,0">
+                            <Entry Placeholder="Wpisz swój email"
+                                   Text="{Binding Email}" 
+                                   Keyboard="Email"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
 
-            <Entry Placeholder="Hasło"
-                   Text="{Binding Password}"
-                   IsPassword="True"
-                   BackgroundColor="White" />
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Hasło" 
+                               Style="{StaticResource SecondaryLabel}"
+                               FontAttributes="Bold"/>
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 12"
+                                Padding="12,0">
+                            <Entry Placeholder="Wpisz swoje hasło"
+                                   Text="{Binding Password}"
+                                   IsPassword="True"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
 
-            <ActivityIndicator IsRunning="{Binding IsBusy}" 
-                               IsVisible="{Binding IsBusy}"
-                               Color="Orange" />
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                                       IsVisible="{Binding IsBusy}"/>
 
-            <Button Text="Zaloguj się"
-                    Command="{Binding LoginCommand}"
-                    BackgroundColor="#ff6600"
-                    FontAttributes="Bold"
-                    CornerRadius="10"
-                    HeightRequest="50"/>
-            <Button Text="Załóż konto" 
-                    Command="{Binding GoToRegisterCommand}" 
-                    BackgroundColor="Transparent" 
-                    TextColor="#ff6600"/>       
+                    <Button Text="Zaloguj się"
+                            Command="{Binding LoginCommand}"
+                            Margin="0,8,0,0"/>
+                    
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Register Link -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                <Label Text="Nie masz konta?" 
+                       Style="{StaticResource SecondaryLabel}"
+                       VerticalOptions="Center"/>
+                <Button Text="Załóż konto" 
+                        Command="{Binding GoToRegisterCommand}" 
+                        Style="{StaticResource GhostButton}"
+                        Padding="8,0"/>
+            </HorizontalStackLayout>
 
         </VerticalStackLayout>
     </ScrollView>

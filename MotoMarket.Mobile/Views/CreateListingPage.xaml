@@ -5,143 +5,316 @@
              xmlns:model="clr-namespace:MotoMarket.Mobile.Models.Listings"
              x:Class="MotoMarket.Mobile.Views.CreateListingPage"
              Title="Dodaj ogłoszenie"
-             BackgroundColor="#f8f9fa">
+             BackgroundColor="{StaticResource BackgroundSecondary}">
 
     <ScrollView>
-        <VerticalStackLayout Spacing="20" Padding="20">
+        <VerticalStackLayout Spacing="16" Padding="16">
 
-            <Label Text="Nowe Ogłoszenie" FontSize="24" FontAttributes="Bold" TextColor="#333"/>
+            <!-- Header -->
+            <Label Text="Nowe Ogłoszenie" 
+                   Style="{StaticResource Headline}"
+                   Margin="0,8,0,8"/>
 
-            <Frame BorderColor="Transparent" CornerRadius="10" HasShadow="True" Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Zdjęcia pojazdu" FontAttributes="Bold" TextColor="#666"/>
+            <!-- Photos Section -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Zdjęcia pojazdu" 
+                           Style="{StaticResource SubHeadline}"/>
+                    <Label Text="Dodaj zdjęcia swojego pojazdu (max. 10)" 
+                           Style="{StaticResource MutedLabel}"/>
 
                     <Button Text="📷 Wybierz zdjęcia z galerii" 
                             Command="{Binding PickPhotosCommand}"
-                            BackgroundColor="#0d6efd" 
-                            TextColor="White"/>
+                            Style="{StaticResource InfoButton}"/>
 
                     <CollectionView ItemsSource="{Binding PhotosPreview}" 
                                     HeightRequest="120"
                                     ItemsLayout="HorizontalList">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding .}" 
-                                       Aspect="AspectFill" 
-                                       WidthRequest="120" 
-                                       HeightRequest="120" 
-                                       Margin="0,0,10,0"/>
+                                <Border StrokeShape="RoundRectangle 12"
+                                        StrokeThickness="0"
+                                        Margin="0,0,10,0">
+                                    <Image Source="{Binding .}" 
+                                           Aspect="AspectFill" 
+                                           WidthRequest="120" 
+                                           HeightRequest="120"/>
+                                </Border>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                         <CollectionView.EmptyView>
-                            <Label Text="Brak wybranych zdjęć" TextColor="Gray" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="50"/>
+                            <Border StrokeShape="RoundRectangle 12"
+                                    Stroke="{StaticResource BorderColor}"
+                                    BackgroundColor="{StaticResource Gray50}"
+                                    HeightRequest="100"
+                                    StrokeThickness="2"
+                                    StrokeDashArray="4,4">
+                                <Label Text="Brak wybranych zdjęć" 
+                                       Style="{StaticResource MutedLabel}"
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"/>
+                            </Border>
                         </CollectionView.EmptyView>
                     </CollectionView>
                 </VerticalStackLayout>
             </Frame>
 
-            <Frame BorderColor="Transparent" CornerRadius="10" HasShadow="True" Padding="15">
-                <VerticalStackLayout Spacing="15">
-                    <Label Text="Informacje podstawowe" FontAttributes="Bold" TextColor="#666"/>
+            <!-- Basic Info Section -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Informacje podstawowe" 
+                           Style="{StaticResource SubHeadline}"/>
 
-                    <Label Text="Marka *" FontSize="12"/>
-                    <Picker Title="Wybierz markę"
-                            ItemsSource="{Binding Brands}"
-                            ItemDisplayBinding="{Binding Name}"
-                            SelectedItem="{Binding SelectedBrand}"
-                            BackgroundColor="#f0f0f0"/>
+                    <!-- Brand -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Marka *" 
+                               Style="{StaticResource SecondaryLabel}"
+                               FontAttributes="Bold"/>
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 12"
+                                Padding="12,0">
+                            <Picker Title="Wybierz markę"
+                                    ItemsSource="{Binding Brands}"
+                                    ItemDisplayBinding="{Binding Name}"
+                                    SelectedItem="{Binding SelectedBrand}"
+                                    BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
 
-                    <Label Text="Model *" FontSize="12"/>
-                    <Picker Title="Wybierz model"
-                            ItemsSource="{Binding Models}"
-                            ItemDisplayBinding="{Binding Name}"
-                            SelectedItem="{Binding SelectedModel}"
-                            BackgroundColor="#f0f0f0"/>
+                    <!-- Model -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Model *" 
+                               Style="{StaticResource SecondaryLabel}"
+                               FontAttributes="Bold"/>
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 12"
+                                Padding="12,0">
+                            <Picker Title="Wybierz model"
+                                    ItemsSource="{Binding Models}"
+                                    ItemDisplayBinding="{Binding Name}"
+                                    SelectedItem="{Binding SelectedModel}"
+                                    BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
 
-                    <Label Text="Tytuł ogłoszenia *" FontSize="12"/>
-                    <Entry Placeholder="np. Audi A4 S-Line" Text="{Binding Title}" BackgroundColor="#f0f0f0"/>
+                    <!-- Title -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Tytuł ogłoszenia *" 
+                               Style="{StaticResource SecondaryLabel}"
+                               FontAttributes="Bold"/>
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 12"
+                                Padding="12,0">
+                            <Entry Placeholder="np. Audi A4 S-Line 2.0 TDI" 
+                                   Text="{Binding Title}"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
 
-                    <Label Text="Opis *" FontSize="12"/>
-                    <Editor Placeholder="Opisz swój pojazd..." 
-                            Text="{Binding Description}" 
-                            HeightRequest="100" 
-                            BackgroundColor="#f0f0f0"/>
+                    <!-- Description -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Opis *" 
+                               Style="{StaticResource SecondaryLabel}"
+                               FontAttributes="Bold"/>
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 12"
+                                Padding="12">
+                            <Editor Placeholder="Opisz swój pojazd szczegółowo..." 
+                                    Text="{Binding Description}" 
+                                    HeightRequest="120"
+                                    BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
             </Frame>
 
-            <Frame BorderColor="Transparent" CornerRadius="10" HasShadow="True" Padding="15">
-                <VerticalStackLayout Spacing="15">
-                    <Label Text="Szczegóły techniczne" FontAttributes="Bold" TextColor="#666"/>
+            <!-- Technical Details Section -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Szczegóły techniczne" 
+                           Style="{StaticResource SubHeadline}"/>
 
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="15" ColumnSpacing="10">
+                    <Grid ColumnDefinitions="*,*" 
+                          RowDefinitions="Auto,Auto,Auto" 
+                          RowSpacing="16" 
+                          ColumnSpacing="12">
 
-                        <VerticalStackLayout Grid.Row="0" Grid.Column="0">
-                            <Label Text="Cena (PLN) *" FontSize="12"/>
-                            <Entry Keyboard="Numeric" Text="{Binding Price}" Placeholder="0" BackgroundColor="#f0f0f0"/>
+                        <!-- Price -->
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="6">
+                            <Label Text="Cena (PLN) *" 
+                                   Style="{StaticResource SecondaryLabel}"
+                                   FontAttributes="Bold"/>
+                            <Border Stroke="{StaticResource BorderColor}" 
+                                    StrokeShape="RoundRectangle 12"
+                                    Padding="12,0">
+                                <Entry Keyboard="Numeric" 
+                                       Text="{Binding Price}" 
+                                       Placeholder="0"
+                                       BackgroundColor="Transparent"/>
+                            </Border>
                         </VerticalStackLayout>
 
-                        <VerticalStackLayout Grid.Row="0" Grid.Column="1">
-                            <Label Text="Rok produkcji *" FontSize="12"/>
-                            <Entry Keyboard="Numeric" Text="{Binding ProductionYear}" Placeholder="2020" BackgroundColor="#f0f0f0"/>
+                        <!-- Year -->
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="6">
+                            <Label Text="Rok produkcji *" 
+                                   Style="{StaticResource SecondaryLabel}"
+                                   FontAttributes="Bold"/>
+                            <Border Stroke="{StaticResource BorderColor}" 
+                                    StrokeShape="RoundRectangle 12"
+                                    Padding="12,0">
+                                <Entry Keyboard="Numeric" 
+                                       Text="{Binding ProductionYear}" 
+                                       Placeholder="2020"
+                                       BackgroundColor="Transparent"/>
+                            </Border>
                         </VerticalStackLayout>
 
-                        <VerticalStackLayout Grid.Row="1" Grid.Column="0">
-                            <Label Text="Przebieg (km) *" FontSize="12"/>
-                            <Entry Keyboard="Numeric" Text="{Binding Mileage}" Placeholder="0" BackgroundColor="#f0f0f0"/>
+                        <!-- Mileage -->
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="6">
+                            <Label Text="Przebieg (km) *" 
+                                   Style="{StaticResource SecondaryLabel}"
+                                   FontAttributes="Bold"/>
+                            <Border Stroke="{StaticResource BorderColor}" 
+                                    StrokeShape="RoundRectangle 12"
+                                    Padding="12,0">
+                                <Entry Keyboard="Numeric" 
+                                       Text="{Binding Mileage}" 
+                                       Placeholder="0"
+                                       BackgroundColor="Transparent"/>
+                            </Border>
                         </VerticalStackLayout>
 
-                        <VerticalStackLayout Grid.Row="1" Grid.Column="1">
-                            <Label Text="VIN" FontSize="12"/>
-                            <Entry Text="{Binding Vin}" Placeholder="VIN" BackgroundColor="#f0f0f0"/>
+                        <!-- VIN -->
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="6">
+                            <Label Text="VIN" 
+                                   Style="{StaticResource SecondaryLabel}"
+                                   FontAttributes="Bold"/>
+                            <Border Stroke="{StaticResource BorderColor}" 
+                                    StrokeShape="RoundRectangle 12"
+                                    Padding="12,0">
+                                <Entry Text="{Binding Vin}" 
+                                       Placeholder="VIN"
+                                       BackgroundColor="Transparent"/>
+                            </Border>
                         </VerticalStackLayout>
 
-                        <VerticalStackLayout Grid.Row="2" Grid.Column="0">
-                            <Label Text="Miasto" FontSize="12"/>
-                            <Entry Text="{Binding City}" Placeholder="Warszawa" BackgroundColor="#f0f0f0"/>
+                        <!-- City -->
+                        <VerticalStackLayout Grid.Row="2" Grid.Column="0" Spacing="6">
+                            <Label Text="Miasto" 
+                                   Style="{StaticResource SecondaryLabel}"
+                                   FontAttributes="Bold"/>
+                            <Border Stroke="{StaticResource BorderColor}" 
+                                    StrokeShape="RoundRectangle 12"
+                                    Padding="12,0">
+                                <Entry Text="{Binding City}" 
+                                       Placeholder="Warszawa"
+                                       BackgroundColor="Transparent"/>
+                            </Border>
                         </VerticalStackLayout>
 
-                        <VerticalStackLayout Grid.Row="2" Grid.Column="1">
-                            <Label Text="Województwo" FontSize="12"/>
-                            <Entry Text="{Binding Region}" Placeholder="Mazowieckie" BackgroundColor="#f0f0f0"/>
+                        <!-- Region -->
+                        <VerticalStackLayout Grid.Row="2" Grid.Column="1" Spacing="6">
+                            <Label Text="Województwo" 
+                                   Style="{StaticResource SecondaryLabel}"
+                                   FontAttributes="Bold"/>
+                            <Border Stroke="{StaticResource BorderColor}" 
+                                    StrokeShape="RoundRectangle 12"
+                                    Padding="12,0">
+                                <Entry Text="{Binding Region}" 
+                                       Placeholder="Mazowieckie"
+                                       BackgroundColor="Transparent"/>
+                            </Border>
                         </VerticalStackLayout>
-
                     </Grid>
 
-                    <Label Text="Paliwo" FontSize="12"/>
-                    <Picker ItemsSource="{Binding FuelTypes}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedFuel}" BackgroundColor="#f0f0f0"/>
+                    <!-- Fuel Type -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Paliwo" 
+                               Style="{StaticResource SecondaryLabel}"
+                               FontAttributes="Bold"/>
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 12"
+                                Padding="12,0">
+                            <Picker ItemsSource="{Binding FuelTypes}" 
+                                    ItemDisplayBinding="{Binding Name}" 
+                                    SelectedItem="{Binding SelectedFuel}"
+                                    BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
 
-                    <Label Text="Skrzynia biegów" FontSize="12"/>
-                    <Picker ItemsSource="{Binding GearboxTypes}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedGearbox}" BackgroundColor="#f0f0f0"/>
+                    <!-- Gearbox -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Skrzynia biegów" 
+                               Style="{StaticResource SecondaryLabel}"
+                               FontAttributes="Bold"/>
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 12"
+                                Padding="12,0">
+                            <Picker ItemsSource="{Binding GearboxTypes}" 
+                                    ItemDisplayBinding="{Binding Name}" 
+                                    SelectedItem="{Binding SelectedGearbox}"
+                                    BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
 
-                    <Label Text="Nadwozie" FontSize="12"/>
-                    <Picker ItemsSource="{Binding BodyTypes}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedBody}" BackgroundColor="#f0f0f0"/>
+                    <!-- Body Type -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Nadwozie" 
+                               Style="{StaticResource SecondaryLabel}"
+                               FontAttributes="Bold"/>
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 12"
+                                Padding="12,0">
+                            <Picker ItemsSource="{Binding BodyTypes}" 
+                                    ItemDisplayBinding="{Binding Name}" 
+                                    SelectedItem="{Binding SelectedBody}"
+                                    BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
 
-                    <Label Text="Napęd *" FontSize="12"/>
-                    <Picker Title="Wybierz napęd"
-                            ItemsSource="{Binding DriveTypes}" 
-                            ItemDisplayBinding="{Binding Name}" 
-                            SelectedItem="{Binding SelectedDrive}" 
-                            BackgroundColor="#f0f0f0"/>
+                    <!-- Drive Type -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Napęd *" 
+                               Style="{StaticResource SecondaryLabel}"
+                               FontAttributes="Bold"/>
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 12"
+                                Padding="12,0">
+                            <Picker Title="Wybierz napęd"
+                                    ItemsSource="{Binding DriveTypes}" 
+                                    ItemDisplayBinding="{Binding Name}" 
+                                    SelectedItem="{Binding SelectedDrive}"
+                                    BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
 
-                    <Label Text="Kategoria pojazdu *" FontSize="12"/>
-                    <Picker Title="Wybierz kategorię"
-                            ItemsSource="{Binding Categories}" 
-                            ItemDisplayBinding="{Binding Name}" 
-                            SelectedItem="{Binding SelectedCategory}" 
-                            BackgroundColor="#f0f0f0"/>
-
+                    <!-- Category -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Kategoria pojazdu *" 
+                               Style="{StaticResource SecondaryLabel}"
+                               FontAttributes="Bold"/>
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 12"
+                                Padding="12,0">
+                            <Picker Title="Wybierz kategorię"
+                                    ItemsSource="{Binding Categories}" 
+                                    ItemDisplayBinding="{Binding Name}" 
+                                    SelectedItem="{Binding SelectedCategory}"
+                                    BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
             </Frame>
 
+            <!-- Submit Button -->
             <Button Text="Dodaj ogłoszenie" 
                     Command="{Binding SubmitCommand}" 
-                    BackgroundColor="#198754" 
-                    FontAttributes="Bold"
-                    HeightRequest="50"
-                    CornerRadius="25"
-                    Margin="0,0,0,20"/>
+                    Style="{StaticResource SuccessButton}"
+                    HeightRequest="56"
+                    Margin="0,8,0,24"/>
 
-            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="Green"/>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                               IsVisible="{Binding IsBusy}"/>
 
         </VerticalStackLayout>
     </ScrollView>

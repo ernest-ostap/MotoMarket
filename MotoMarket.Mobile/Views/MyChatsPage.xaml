@@ -3,24 +3,91 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MotoMarket.Mobile.Views.MyChatsPage"
              xmlns:vm="clr-namespace:MotoMarket.Mobile.ViewModels"
-             Title="Wiadomości">
+             Title="Wiadomości"
+             BackgroundColor="{StaticResource BackgroundSecondary}">
 
-    <CollectionView ItemsSource="{Binding Conversations}">
+    <CollectionView ItemsSource="{Binding Conversations}" Margin="12">
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <Frame Padding="15" Margin="5" HasShadow="True">
-                    <Frame.GestureRecognizers>
+                <Border Stroke="{StaticResource BorderColor}"
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="{StaticResource White}"
+                        Margin="0,0,0,12"
+                        Padding="0">
+                    <Border.Shadow>
+                        <Shadow Brush="{StaticResource BlackBrush}" 
+                                Offset="0,2" 
+                                Opacity="0.06" 
+                                Radius="6"/>
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MyChatsViewModel}}, Path=OpenChatCommand}"
                                               CommandParameter="{Binding .}"/>
-                    </Frame.GestureRecognizers>
+                    </Border.GestureRecognizers>
 
-                    <VerticalStackLayout>
-                        <Label Text="{Binding DisplayName}" FontAttributes="Bold" FontSize="16"/>
-                        <Label Text="{Binding LastMessage}" TextColor="Gray" LineBreakMode="TailTruncation"/>
-                        <Label Text="{Binding SentAt, StringFormat='{0:dd.MM HH:mm}'}" FontSize="10" HorizontalOptions="End"/>
-                    </VerticalStackLayout>
-                </Frame>
+                    <Grid ColumnDefinitions="Auto, *, Auto" Padding="16">
+                        <!-- Avatar -->
+                        <Border Grid.Column="0"
+                                StrokeShape="RoundRectangle 24"
+                                StrokeThickness="0"
+                                BackgroundColor="{StaticResource Gray100}"
+                                HeightRequest="48"
+                                WidthRequest="48">
+                            <Label Text="👤" 
+                                   FontSize="22" 
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Border>
+
+                        <!-- Content -->
+                        <VerticalStackLayout Grid.Column="1" 
+                                             VerticalOptions="Center"
+                                             Margin="12,0,0,0"
+                                             Spacing="4">
+                            <Label Text="{Binding DisplayName}" 
+                                   FontAttributes="Bold" 
+                                   FontSize="16"/>
+                            <Label Text="{Binding LastMessage}" 
+                                   Style="{StaticResource MutedLabel}"
+                                   LineBreakMode="TailTruncation"
+                                   MaxLines="1"/>
+                        </VerticalStackLayout>
+
+                        <!-- Time -->
+                        <Label Grid.Column="2" 
+                               Text="{Binding SentAt, StringFormat='{0:dd.MM HH:mm}'}" 
+                               Style="{StaticResource MutedLabel}"
+                               FontSize="12"
+                               VerticalOptions="Start"/>
+                    </Grid>
+                </Border>
             </DataTemplate>
         </CollectionView.ItemTemplate>
+
+        <CollectionView.EmptyView>
+            <VerticalStackLayout HorizontalOptions="Center" 
+                                 VerticalOptions="Center"
+                                 Spacing="16"
+                                 Padding="40">
+                <Border StrokeShape="RoundRectangle 40"
+                        StrokeThickness="0"
+                        BackgroundColor="{StaticResource SuccessLight}"
+                        HeightRequest="80"
+                        WidthRequest="80"
+                        HorizontalOptions="Center">
+                    <Label Text="💬" 
+                           FontSize="36" 
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Border>
+                <Label Text="Brak wiadomości" 
+                       Style="{StaticResource SubHeadline}"
+                       HorizontalOptions="Center"/>
+                <Label Text="Nie masz jeszcze żadnych konwersacji. Napisz do sprzedawcy, aby rozpocząć czat." 
+                       Style="{StaticResource MutedLabel}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+        </CollectionView.EmptyView>
     </CollectionView>
 </ContentPage>

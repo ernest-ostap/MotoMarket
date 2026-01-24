@@ -5,51 +5,111 @@
              xmlns:model="clr-namespace:MotoMarket.Mobile.Models.Listings"
              x:Class="MotoMarket.Mobile.Views.FavoritesPage"
              Title="Moje Ulubione"
-             BackgroundColor="#f0f0f0">
-
-    <ContentPage.Behaviors>
-    </ContentPage.Behaviors>
+             BackgroundColor="{StaticResource BackgroundSecondary}">
 
     <Grid>
+        <!-- Loading Indicator -->
         <ActivityIndicator IsRunning="{Binding IsBusy}" 
                            IsVisible="{Binding IsBusy}" 
-                           HorizontalOptions="Center" VerticalOptions="Center" Color="Orange"/>
+                           HorizontalOptions="Center" 
+                           VerticalOptions="Center"/>
 
-        <CollectionView ItemsSource="{Binding Favorites}" Margin="10">
+        <!-- Favorites Grid -->
+        <CollectionView ItemsSource="{Binding Favorites}" Margin="12">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="10"/>
+                <GridItemsLayout Orientation="Vertical" 
+                                 Span="2" 
+                                 HorizontalItemSpacing="12" 
+                                 VerticalItemSpacing="12"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:ListingDto">
-                    <Frame Padding="0" CornerRadius="10" HasShadow="True" BorderColor="Transparent" BackgroundColor="White">
-                        <Frame.GestureRecognizers>
+                    <Border Stroke="{StaticResource BorderColor}"
+                            StrokeShape="RoundRectangle 16"
+                            BackgroundColor="{StaticResource White}">
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource BlackBrush}" 
+                                    Offset="0,2" 
+                                    Opacity="0.08" 
+                                    Radius="8"/>
+                        </Border.Shadow>
+                        <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FavoritesViewModel}}, Path=GoToDetailsCommand}"
                                                   CommandParameter="{Binding .}" />
-                        </Frame.GestureRecognizers>
+                        </Border.GestureRecognizers>
 
                         <Grid RowDefinitions="120, Auto">
-                            <Image Grid.Row="0" Source="{Binding MainPhotoUrl}" Aspect="AspectFill" BackgroundColor="LightGray"/>
+                            <!-- Image -->
+                            <Border Grid.Row="0" 
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 16,16,0,0">
+                                <Image Source="{Binding MainPhotoUrl}" 
+                                       Aspect="AspectFill" 
+                                       BackgroundColor="{StaticResource Gray100}"/>
+                            </Border>
 
-                            <Button Grid.Row="0" Text="🗑️" FontSize="16"
-                                    BackgroundColor="#AAFFFFFF" TextColor="Red"
-                                    CornerRadius="20" HeightRequest="40" WidthRequest="40"
-                                    HorizontalOptions="End" VerticalOptions="Start" Margin="5"
+                            <!-- Remove Button -->
+                            <Button Grid.Row="0" 
+                                    Text="🗑️" 
+                                    FontSize="14"
+                                    BackgroundColor="{StaticResource White}" 
+                                    TextColor="{StaticResource Danger}"
+                                    CornerRadius="20" 
+                                    HeightRequest="40" 
+                                    WidthRequest="40"
+                                    HorizontalOptions="End" 
+                                    VerticalOptions="Start" 
+                                    Margin="8"
+                                    Padding="0"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FavoritesViewModel}}, Path=RemoveFavoriteCommand}"
-                                    CommandParameter="{Binding .}"/>
+                                    CommandParameter="{Binding .}">
+                                <Button.Shadow>
+                                    <Shadow Brush="{StaticResource BlackBrush}" 
+                                            Offset="0,2" 
+                                            Opacity="0.15" 
+                                            Radius="4"/>
+                                </Button.Shadow>
+                            </Button>
 
-                            <VerticalStackLayout Grid.Row="1" Padding="10">
-                                <Label Text="{Binding Title}" FontAttributes="Bold" LineBreakMode="TailTruncation"/>
-                                <Label Text="{Binding Price, StringFormat='{0:N0} PLN'}" TextColor="#ff6600" FontAttributes="Bold"/>
+                            <!-- Content -->
+                            <VerticalStackLayout Grid.Row="1" Padding="12" Spacing="4">
+                                <Label Text="{Binding Title}" 
+                                       Style="{StaticResource CardTitle}"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="1"/>
+                                <Label Text="{Binding Price, StringFormat='{0:N0} PLN'}" 
+                                       Style="{StaticResource PriceLabel}"/>
+                                <Label Text="{Binding LocationCity}" 
+                                       Style="{StaticResource MutedLabel}"/>
                             </VerticalStackLayout>
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
             <CollectionView.EmptyView>
-                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
-                    <Label Text="💔" FontSize="50" HorizontalOptions="Center"/>
-                    <Label Text="Nie masz jeszcze ulubionych ogłoszeń" TextColor="Gray"/>
+                <VerticalStackLayout HorizontalOptions="Center" 
+                                     VerticalOptions="Center" 
+                                     Spacing="16"
+                                     Padding="40">
+                    <Border StrokeShape="RoundRectangle 40"
+                            StrokeThickness="0"
+                            BackgroundColor="{StaticResource DangerLight}"
+                            HeightRequest="80"
+                            WidthRequest="80"
+                            HorizontalOptions="Center">
+                        <Label Text="💔" 
+                               FontSize="36" 
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Label Text="Brak ulubionych" 
+                           Style="{StaticResource SubHeadline}"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Nie masz jeszcze żadnych ulubionych ogłoszeń. Kliknij serduszko przy ogłoszeniu, aby je zapisać." 
+                           Style="{StaticResource MutedLabel}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
         </CollectionView>

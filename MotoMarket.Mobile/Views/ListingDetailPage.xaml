@@ -3,96 +3,177 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MotoMarket.Mobile.Views.ListingDetailPage"
              Title="Szczegóły"
-             BackgroundColor="White">
+             BackgroundColor="{StaticResource BackgroundSecondary}">
 
     <Grid RowDefinitions="*, Auto">
         <ScrollView Grid.Row="0">
-            <VerticalStackLayout Spacing="15" Padding="0,0,0,20">
+            <VerticalStackLayout Spacing="0">
 
-                <Grid HeightRequest="250">
-                    <CarouselView ItemsSource="{Binding Photos}" IndicatorView="indicatorView">
+                <!-- Image Carousel -->
+                <Grid HeightRequest="280">
+                    <CarouselView ItemsSource="{Binding Photos}" 
+                                  IndicatorView="indicatorView">
                         <CarouselView.ItemTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding .}" Aspect="AspectFill" />
+                                <Image Source="{Binding .}" 
+                                       Aspect="AspectFill"
+                                       BackgroundColor="{StaticResource Gray100}"/>
                             </DataTemplate>
                         </CarouselView.ItemTemplate>
                     </CarouselView>
 
+                    <!-- Favorite Button -->
                     <Button Text="❤"
-                            FontSize="22"
-                            TextColor="Gray"
-                            BackgroundColor="#CCFFFFFF"
-                            CornerRadius="25"
-                            HeightRequest="50"
-                            WidthRequest="50"
+                            FontSize="20"
+                            TextColor="{StaticResource Gray400}"
+                            BackgroundColor="{StaticResource White}"
+                            CornerRadius="24"
+                            HeightRequest="48"
+                            WidthRequest="48"
                             Padding="0"
                             HorizontalOptions="End"
                             VerticalOptions="Start"
-                            Margin="15"
+                            Margin="16"
                             Command="{Binding ToggleFavoriteCommand}">
                         <Button.Shadow>
-                            <Shadow Brush="Black" Offset="2,2" Opacity="0.3" Radius="5"/>
+                            <Shadow Brush="{StaticResource BlackBrush}" 
+                                    Offset="0,2" 
+                                    Opacity="0.15" 
+                                    Radius="6"/>
                         </Button.Shadow>
                         <Button.Triggers>
                             <DataTrigger TargetType="Button" Binding="{Binding Listing.IsFavorite}" Value="True">
-                                <Setter Property="TextColor" Value="Red" />
-                                <Setter Property="BackgroundColor" Value="White" />
+                                <Setter Property="TextColor" Value="{StaticResource Primary}" />
                             </DataTrigger>
                         </Button.Triggers>
                     </Button>
 
+                    <!-- Page Indicator -->
                     <IndicatorView x:Name="indicatorView" 
-                                   IndicatorColor="White"
-                                   SelectedIndicatorColor="#ff6600"
+                                   IndicatorColor="{StaticResource Gray300}"
+                                   SelectedIndicatorColor="{StaticResource Primary}"
                                    HorizontalOptions="Center" 
                                    VerticalOptions="End"
-                                   Margin="0,0,0,10"/>
+                                   Margin="0,0,0,12"/>
                 </Grid>
 
-                <VerticalStackLayout Padding="20" Spacing="10">
-                    <Label Text="{Binding Listing.Title}" FontSize="22" FontAttributes="Bold" />
-                    <Label Text="{Binding Listing.Price, StringFormat='{0:N0} PLN'}" FontSize="24" TextColor="#ff6600" FontAttributes="Bold" />
+                <!-- Content -->
+                <VerticalStackLayout Padding="20" Spacing="16">
+                    
+                    <!-- Title and Price -->
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Listing.Title}" 
+                               Style="{StaticResource Headline}"/>
+                        <Label Text="{Binding Listing.Price, StringFormat='{0:N0} PLN'}" 
+                               Style="{StaticResource PriceLabel}"
+                               FontSize="26"/>
+                    </VerticalStackLayout>
 
-                    <Label Text="{Binding Listing.LocationCity}" TextColor="Gray">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="📍 " />
-                                <Span Text="{Binding Listing.LocationCity}" />
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                    <!-- Location -->
+                    <HorizontalStackLayout Spacing="6">
+                        <Label Text="📍" FontSize="16"/>
+                        <Label Text="{Binding Listing.LocationCity}" 
+                               Style="{StaticResource SecondaryLabel}"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
 
-                    <Frame BackgroundColor="#f8f9fa" BorderColor="Transparent" CornerRadius="10" Padding="15">
-                        <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto" RowSpacing="10">
-                            <Label Text="{Binding Listing.ProductionYear, StringFormat='📅 {0}'}" Grid.Row="0" Grid.Column="0"/>
-                            <Label Text="{Binding Listing.Mileage, StringFormat='🚗 {0} km'}" Grid.Row="0" Grid.Column="1"/>
-                            <Label Text="{Binding Listing.FuelType, StringFormat='⛽ {0}'}" Grid.Row="1" Grid.Column="0"/>
+                    <!-- Quick Info Card -->
+                    <Frame BackgroundColor="{StaticResource BackgroundSecondary}" 
+                           BorderColor="{StaticResource BorderColor}" 
+                           CornerRadius="16" 
+                           Padding="16">
+                        <Grid ColumnDefinitions="*, *" 
+                              RowDefinitions="Auto, Auto" 
+                              RowSpacing="16"
+                              ColumnSpacing="16">
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="8">
+                                <Label Text="📅" FontSize="18"/>
+                                <VerticalStackLayout>
+                                    <Label Text="Rok" Style="{StaticResource MutedLabel}"/>
+                                    <Label Text="{Binding Listing.ProductionYear}" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="1" Spacing="8">
+                                <Label Text="🚗" FontSize="18"/>
+                                <VerticalStackLayout>
+                                    <Label Text="Przebieg" Style="{StaticResource MutedLabel}"/>
+                                    <Label Text="{Binding Listing.Mileage, StringFormat='{0:N0} km'}" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Row="1" Grid.Column="0" Spacing="8">
+                                <Label Text="⛽" FontSize="18"/>
+                                <VerticalStackLayout>
+                                    <Label Text="Paliwo" Style="{StaticResource MutedLabel}"/>
+                                    <Label Text="{Binding Listing.FuelType}" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
                         </Grid>
                     </Frame>
 
-                    <Label Text="Opis pojazdu" FontAttributes="Bold" FontSize="18" Margin="0,10,0,0"/>
-                    <Label Text="{Binding Listing.Description}" TextColor="#333" LineHeight="1.2"/>
+                    <!-- Description -->
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Opis pojazdu" 
+                               Style="{StaticResource SubHeadline}"/>
+                        <Label Text="{Binding Listing.Description}" 
+                               Style="{StaticResource SecondaryLabel}"
+                               LineHeight="1.4"/>
+                    </VerticalStackLayout>
 
-                    <Label Text="{Binding Listing.SellerName, StringFormat='Sprzedawca: {0}'}" TextColor="Gray" Margin="0,10,0,0"/>
+                    <!-- Seller Info -->
+                    <Frame BackgroundColor="{StaticResource BackgroundSecondary}" 
+                           BorderColor="{StaticResource BorderColor}" 
+                           CornerRadius="16" 
+                           Padding="16">
+                        <HorizontalStackLayout Spacing="12">
+                            <Border StrokeShape="RoundRectangle 24"
+                                    StrokeThickness="0"
+                                    BackgroundColor="{StaticResource Gray200}"
+                                    HeightRequest="48"
+                                    WidthRequest="48">
+                                <Label Text="👤" 
+                                       FontSize="24" 
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            <VerticalStackLayout VerticalOptions="Center">
+                                <Label Text="Sprzedawca" Style="{StaticResource MutedLabel}"/>
+                                <Label Text="{Binding Listing.SellerName}" 
+                                       FontAttributes="Bold"
+                                       FontSize="16"/>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </Frame>
+
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                                       IsVisible="{Binding IsBusy}"/>
                 </VerticalStackLayout>
-
-                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="Orange"/>
             </VerticalStackLayout>
         </ScrollView>
 
-        <Grid Grid.Row="1" ColumnDefinitions="*,*" Padding="15" ColumnSpacing="10" BackgroundColor="White" Shadow="{Shadow Radius=10}">
+        <!-- Bottom Action Bar -->
+        <Border Grid.Row="1" 
+                BackgroundColor="{StaticResource White}"
+                StrokeThickness="0"
+                Padding="16">
+            <Border.Shadow>
+                <Shadow Brush="{StaticResource BlackBrush}" 
+                        Offset="0,-2" 
+                        Opacity="0.08" 
+                        Radius="10"/>
+            </Border.Shadow>
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <Button Text="📞 Zadzwoń" 
+                        Grid.Column="0"
+                        Command="{Binding CallSellerCommand}" 
+                        Style="{StaticResource SuccessButton}"/>
 
-            <Button Text="📞 Zadzwoń" 
-                    Grid.Column="0"
-                    Command="{Binding CallSellerCommand}" 
-                    BackgroundColor="#28a745" 
-                    FontAttributes="Bold"/>
-
-            <Button Text="💬 Wiadomość" 
-                    Grid.Column="1"
-                    Command="{Binding OpenChatCommand}"
-                    BackgroundColor="#007bff" 
-                    FontAttributes="Bold"/>
-        </Grid>
+                <Button Text="💬 Wiadomość" 
+                        Grid.Column="1"
+                        Command="{Binding OpenChatCommand}"
+                        Style="{StaticResource InfoButton}"/>
+            </Grid>
+        </Border>
     </Grid>
 </ContentPage>

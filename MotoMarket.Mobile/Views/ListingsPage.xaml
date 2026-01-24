@@ -5,7 +5,7 @@
              xmlns:model="clr-namespace:MotoMarket.Mobile.Models.Listings"
              x:Class="MotoMarket.Mobile.Views.ListingsPage"
              Title="Ogłoszenia"
-             BackgroundColor="#f0f0f0">
+             BackgroundColor="{StaticResource BackgroundSecondary}">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Konto" Command="{Binding CheckProfileCommand}" />
@@ -13,82 +13,164 @@
 
     <Grid RowDefinitions="Auto, Auto, *">
 
-        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="10" BackgroundColor="White">
-            <SearchBar Placeholder="Szukaj auta..." 
-                       Text="{Binding SearchText}"
-                       SearchCommand="{Binding SearchCommand}"
-                       Grid.Column="0"/>
+        <!-- Search Bar -->
+        <Border Grid.Row="0" 
+                Stroke="{StaticResource BorderColor}" 
+                StrokeShape="RoundRectangle 12"
+                BackgroundColor="{StaticResource White}"
+                Margin="12,12,12,0"
+                Padding="4">
+            <Grid ColumnDefinitions="*, Auto">
+                <SearchBar Placeholder="Szukaj auta..." 
+                           Text="{Binding SearchText}"
+                           SearchCommand="{Binding SearchCommand}"
+                           BackgroundColor="Transparent"
+                           Grid.Column="0"/>
 
-            <Button Text="Filtry" 
-                    Command="{Binding ToggleFiltersCommand}"
-                    BackgroundColor="Gray"
-                    TextColor="White"
-                    HeightRequest="40"
-                    Margin="5,0,0,0"
-                    Grid.Column="1"/>
-        </Grid>
-
-        <VerticalStackLayout Grid.Row="1" 
-                             IsVisible="{Binding AreFiltersVisible}" 
-                             Padding="15" 
-                             Spacing="10"
-                             BackgroundColor="#e9ecef">
-
-            <Label Text="Cena (PLN):" FontAttributes="Bold" FontSize="12"/>
-            <Grid ColumnDefinitions="*,*">
-                <Entry Placeholder="Min" Text="{Binding MinPrice}" Keyboard="Numeric" Grid.Column="0" Margin="0,0,5,0" BackgroundColor="White"/>
-                <Entry Placeholder="Max" Text="{Binding MaxPrice}" Keyboard="Numeric" Grid.Column="1" Margin="5,0,0,0" BackgroundColor="White"/>
+                <Button Text="Filtry" 
+                        Command="{Binding ToggleFiltersCommand}"
+                        Style="{StaticResource SecondaryButton}"
+                        Padding="16,8"
+                        Margin="0,0,4,0"
+                        Grid.Column="1"/>
             </Grid>
+        </Border>
 
-            <Label Text="Rok produkcji (od):" FontAttributes="Bold" FontSize="12"/>
-            <Grid ColumnDefinitions="*,*">
-                <Entry Placeholder="np. 2015" Text="{Binding YearMin}" Keyboard="Numeric" Grid.Column="0" Margin="0,0,5,0" BackgroundColor="White"/>
-            </Grid>
+        <!-- Filters Panel -->
+        <Frame Grid.Row="1" 
+               IsVisible="{Binding AreFiltersVisible}" 
+               BackgroundColor="{StaticResource White}"
+               BorderColor="{StaticResource BorderColor}"
+               CornerRadius="16"
+               Margin="12,12,12,0"
+               Padding="16">
+            <VerticalStackLayout Spacing="16">
 
-            <Label Text="Marka pojazdu:" FontAttributes="Bold" FontSize="12"/>
-            <Picker Title="Wybierz markę"
-                    ItemsSource="{Binding Brands}"
-                    ItemDisplayBinding="{Binding Name}"
-                    SelectedItem="{Binding SelectedBrand}"
-                    BackgroundColor="White" />
+                <Label Text="Filtry wyszukiwania" 
+                       Style="{StaticResource SubHeadline}"/>
 
-            <Grid ColumnDefinitions="*, Auto" Margin="0,10,0,0">
-                <Button Text="Szukaj" Command="{Binding SearchCommand}" BackgroundColor="#ff6600" Grid.Column="0" Margin="0,0,5,0"/>
+                <!-- Price Range -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Cena (PLN)" 
+                           Style="{StaticResource SecondaryLabel}"
+                           FontAttributes="Bold"/>
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 10"
+                                Padding="12,0"
+                                Grid.Column="0">
+                            <Entry Placeholder="Min" 
+                                   Text="{Binding MinPrice}" 
+                                   Keyboard="Numeric"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 10"
+                                Padding="12,0"
+                                Grid.Column="1">
+                            <Entry Placeholder="Max" 
+                                   Text="{Binding MaxPrice}" 
+                                   Keyboard="Numeric"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
 
-                <Button Text="❌" 
-                        Command="{Binding ClearFiltersCommand}" 
-                        BackgroundColor="Gray" 
-                        Grid.Column="1"
-                        WidthRequest="50"/>
-            </Grid>
-        </VerticalStackLayout>
+                <!-- Year -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Rok produkcji (od)" 
+                           Style="{StaticResource SecondaryLabel}"
+                           FontAttributes="Bold"/>
+                    <Border Stroke="{StaticResource BorderColor}" 
+                            StrokeShape="RoundRectangle 10"
+                            Padding="12,0">
+                        <Entry Placeholder="np. 2015" 
+                               Text="{Binding YearMin}" 
+                               Keyboard="Numeric"
+                               BackgroundColor="Transparent"/>
+                    </Border>
+                </VerticalStackLayout>
 
-        <ActivityIndicator Grid.Row="2" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="Orange" HeightRequest="40"/>
+                <!-- Brand -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Marka pojazdu" 
+                           Style="{StaticResource SecondaryLabel}"
+                           FontAttributes="Bold"/>
+                    <Border Stroke="{StaticResource BorderColor}" 
+                            StrokeShape="RoundRectangle 10"
+                            Padding="12,0">
+                        <Picker Title="Wybierz markę"
+                                ItemsSource="{Binding Brands}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedItem="{Binding SelectedBrand}"
+                                BackgroundColor="Transparent"/>
+                    </Border>
+                </VerticalStackLayout>
 
-        <CollectionView Grid.Row="2" ItemsSource="{Binding Listings}" Margin="10">
+                <!-- Filter Buttons -->
+                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="12" Margin="0,8,0,0">
+                    <Button Text="Szukaj" 
+                            Command="{Binding SearchCommand}" 
+                            Grid.Column="0"/>
+
+                    <Button Text="Wyczyść" 
+                            Command="{Binding ClearFiltersCommand}" 
+                            Style="{StaticResource SecondaryButton}"
+                            Grid.Column="1"/>
+                </Grid>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Loading Indicator -->
+        <ActivityIndicator Grid.Row="2" 
+                           IsRunning="{Binding IsBusy}" 
+                           IsVisible="{Binding IsBusy}" 
+                           HeightRequest="40"
+                           VerticalOptions="Center"/>
+
+        <!-- Listings Grid -->
+        <CollectionView Grid.Row="2" 
+                        ItemsSource="{Binding Listings}" 
+                        Margin="12">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="10"/>
+                <GridItemsLayout Orientation="Vertical" 
+                                 Span="2" 
+                                 HorizontalItemSpacing="12" 
+                                 VerticalItemSpacing="12"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:ListingDto">
-                    <Frame Padding="0" CornerRadius="10" HasShadow="True" BorderColor="Transparent" BackgroundColor="White" IsClippedToBounds="True">
-                        <Frame.GestureRecognizers>
+                    <Border Stroke="{StaticResource BorderColor}"
+                            StrokeShape="RoundRectangle 16"
+                            BackgroundColor="{StaticResource White}">
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource BlackBrush}" 
+                                    Offset="0,2" 
+                                    Opacity="0.08" 
+                                    Radius="8"/>
+                        </Border.Shadow>
+                        <Border.GestureRecognizers>
                             <TapGestureRecognizer 
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ListingsViewModel}}, Path=GoToDetailsCommand}"
                                 CommandParameter="{Binding .}" />
-                        </Frame.GestureRecognizers>
+                        </Border.GestureRecognizers>
 
                         <Grid RowDefinitions="120, Auto">
-                            <Image Grid.Row="0" 
-                                   Source="{Binding MainPhotoUrl}" 
-                                   Aspect="AspectFill" 
-                                   BackgroundColor="LightGray"/>
+                            <!-- Image -->
+                            <Border Grid.Row="0" 
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 16,16,0,0">
+                                <Image Source="{Binding MainPhotoUrl}" 
+                                       Aspect="AspectFill" 
+                                       BackgroundColor="{StaticResource Gray100}"/>
+                            </Border>
 
+                            <!-- Favorite Button -->
                             <Button Grid.Row="0"
                                     Text="❤"
-                                    FontSize="18"
-                                    BackgroundColor="#CCFFFFFF" 
-                                    TextColor="Gray"
+                                    FontSize="16"
+                                    BackgroundColor="{StaticResource White}" 
+                                    TextColor="{StaticResource Gray400}"
                                     CornerRadius="20"
                                     HeightRequest="40"
                                     WidthRequest="40"
@@ -99,25 +181,49 @@
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ListingsViewModel}}, Path=ToggleFavoriteCommand}"
                                     CommandParameter="{Binding .}">
                                 <Button.Shadow>
-                                    <Shadow Brush="Black" Offset="2,2" Opacity="0.3" Radius="3"/>
+                                    <Shadow Brush="{StaticResource BlackBrush}" 
+                                            Offset="0,2" 
+                                            Opacity="0.15" 
+                                            Radius="4"/>
                                 </Button.Shadow>
                                 <Button.Triggers>
                                     <DataTrigger TargetType="Button" Binding="{Binding IsFavorite}" Value="True">
-                                        <Setter Property="TextColor" Value="Red" />
-                                        <Setter Property="BackgroundColor" Value="White"/>
+                                        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+                                        <Setter Property="BackgroundColor" Value="{StaticResource White}"/>
                                     </DataTrigger>
                                 </Button.Triggers>
                             </Button>
 
-                            <VerticalStackLayout Grid.Row="1" Padding="10">
-                                <Label Text="{Binding Title}" FontAttributes="Bold" LineBreakMode="TailTruncation"/>
-                                <Label Text="{Binding Price, StringFormat='{0:N0} PLN'}" TextColor="#ff6600" FontAttributes="Bold"/>
-                                <Label Text="{Binding LocationCity}" FontSize="10" TextColor="Gray"/>
+                            <!-- Content -->
+                            <VerticalStackLayout Grid.Row="1" Padding="12" Spacing="4">
+                                <Label Text="{Binding Title}" 
+                                       Style="{StaticResource CardTitle}"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="1"/>
+                                <Label Text="{Binding Price, StringFormat='{0:N0} PLN'}" 
+                                       Style="{StaticResource PriceLabel}"/>
+                                <Label Text="{Binding LocationCity}" 
+                                       Style="{StaticResource MutedLabel}"/>
                             </VerticalStackLayout>
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" 
+                                     VerticalOptions="Center" 
+                                     Spacing="12"
+                                     Padding="20">
+                    <Label Text="🚗" FontSize="48" HorizontalOptions="Center"/>
+                    <Label Text="Nie znaleziono ogłoszeń" 
+                           Style="{StaticResource SubHeadline}"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Spróbuj zmienić filtry wyszukiwania" 
+                           Style="{StaticResource MutedLabel}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
         </CollectionView>
     </Grid>
 </ContentPage>
