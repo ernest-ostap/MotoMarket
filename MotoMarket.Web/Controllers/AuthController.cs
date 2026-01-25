@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Web.Models.ViewModels;
 using MotoMarket.Web.Services.Auth;
 
@@ -100,18 +100,29 @@ namespace MotoMarket.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                TempData["Error"] = "Nieprawidłowe dane hasła.";
-                return RedirectToAction("Index", "Home");
+                return View(model);
             }
 
             var success = await _authService.ChangePassword(model);
-            TempData[success ? "Success" : "Error"] = success ? "Hasło zostało zmienione." : "Błąd zmiany hasła.";
-            return RedirectToAction("Index", "Home");
+            if (success)
+            {
+                TempData["Success"] = "Hasło zostało zmienione.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            ModelState.AddModelError("", "Błąd zmiany hasła. Sprawdź, czy obecne hasło jest poprawne.");
+            return View(model);
         }
 
         [HttpGet]

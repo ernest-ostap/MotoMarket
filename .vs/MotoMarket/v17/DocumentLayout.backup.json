@@ -7,39 +7,20 @@
       "RelativeMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|solutionrelative:motomarket.mobile\\views\\listingdetailpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|e:\\programowanie\\motomarket\\motomarket.mobile\\models\\listings\\listingdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|solutionrelative:motomarket.mobile\\models\\listings\\listingdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|e:\\programowanie\\motomarket\\motomarket.mobile\\services\\vehicleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|solutionrelative:motomarket.mobile\\services\\vehicleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|e:\\programowanie\\motomarket\\motomarket.mobile\\views\\listingdetailpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|solutionrelative:motomarket.mobile\\views\\listingdetailpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|e:\\programowanie\\motomarket\\motomarket.mobile\\viewmodels\\listingdetailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|solutionrelative:motomarket.mobile\\viewmodels\\listingdetailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|e:\\programowanie\\motomarket\\motomarket.mobile\\views\\listingdetailpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|solutionrelative:motomarket.mobile\\views\\listingdetailpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|e:\\programowanie\\motomarket\\motomarket.mobile\\models\\listings\\listingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|solutionrelative:motomarket.mobile\\models\\listings\\listingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|e:\\programowanie\\motomarket\\motomarket.application\\listings\\queries\\getlistingdetail\\getlistingdetailquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\listings\\queries\\getlistingdetail\\getlistingdetailquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|e:\\programowanie\\motomarket\\motomarket.application\\listings\\queries\\getlistingdetail\\listingdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\listings\\queries\\getlistingdetail\\listingdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|e:\\programowanie\\motomarket\\motomarket.application\\listings\\queries\\getlistingdetail\\getlistingdetailqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{34F53A9B-450C-476A-81D2-F3398EBF0D69}|MotoMarket.Application\\MotoMarket.Application.csproj|solutionrelative:motomarket.application\\listings\\queries\\getlistingdetail\\getlistingdetailqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/MotoMarketDb/True/SqlTable/dbo.AspNetUsers.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+      "AbsoluteMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|e:\\programowanie\\motomarket\\motomarket.mobile\\models\\listings\\listingdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E275F4C1-4CFB-48B0-BB76-A2B511064D1E}|MotoMarket.Mobile\\MotoMarket.Mobile.csproj|solutionrelative:motomarket.mobile\\models\\listings\\listingdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -49,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -57,7 +38,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
+              "Title": "ListingDetailViewModel.cs",
+              "DocumentMoniker": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\ViewModels\\ListingDetailViewModel.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Mobile\\ViewModels\\ListingDetailViewModel.cs",
+              "ToolTip": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\ViewModels\\ListingDetailViewModel.cs",
+              "RelativeToolTip": "MotoMarket.Mobile\\ViewModels\\ListingDetailViewModel.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-25T11:50:31.057Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "ListingDetailPage.xaml.cs",
               "DocumentMoniker": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\Views\\ListingDetailPage.xaml.cs",
               "RelativeDocumentMoniker": "MotoMarket.Mobile\\Views\\ListingDetailPage.xaml.cs",
@@ -70,116 +64,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ListingDetailViewModel.cs",
-              "DocumentMoniker": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\ViewModels\\ListingDetailViewModel.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Mobile\\ViewModels\\ListingDetailViewModel.cs",
-              "ToolTip": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\ViewModels\\ListingDetailViewModel.cs",
-              "RelativeToolTip": "MotoMarket.Mobile\\ViewModels\\ListingDetailViewModel.cs",
-              "ViewState": "AgIAAGgAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-25T11:17:20.299Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "VehicleService.cs",
-              "DocumentMoniker": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\Services\\VehicleService.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Mobile\\Services\\VehicleService.cs",
-              "ToolTip": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\Services\\VehicleService.cs",
-              "RelativeToolTip": "MotoMarket.Mobile\\Services\\VehicleService.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAwwBMAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-25T11:16:34.403Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "dbo.AspNetUsers [Data]",
-              "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/MotoMarketDb/True/SqlTable/dbo.AspNetUsers.sql",
-              "ToolTip": "dbo.AspNetUsers [Data]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2026-01-25T11:15:26.61Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "GetListingDetailQueryHandler.cs",
-              "DocumentMoniker": "E:\\programowanie\\MotoMarket\\MotoMarket.Application\\Listings\\Queries\\GetListingDetail\\GetListingDetailQueryHandler.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Application\\Listings\\Queries\\GetListingDetail\\GetListingDetailQueryHandler.cs",
-              "ToolTip": "E:\\programowanie\\MotoMarket\\MotoMarket.Application\\Listings\\Queries\\GetListingDetail\\GetListingDetailQueryHandler.cs",
-              "RelativeToolTip": "MotoMarket.Application\\Listings\\Queries\\GetListingDetail\\GetListingDetailQueryHandler.cs",
-              "ViewState": "AgIAAFcAAAAAAAAAAAAowHAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-25T11:13:14.504Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ListingDetailDto.cs",
-              "DocumentMoniker": "E:\\programowanie\\MotoMarket\\MotoMarket.Application\\Listings\\Queries\\GetListingDetail\\ListingDetailDto.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Application\\Listings\\Queries\\GetListingDetail\\ListingDetailDto.cs",
-              "ToolTip": "E:\\programowanie\\MotoMarket\\MotoMarket.Application\\Listings\\Queries\\GetListingDetail\\ListingDetailDto.cs",
-              "RelativeToolTip": "MotoMarket.Application\\Listings\\Queries\\GetListingDetail\\ListingDetailDto.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAA9wB0AAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-25T10:59:19.151Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "GetListingDetailQuery.cs",
-              "DocumentMoniker": "E:\\programowanie\\MotoMarket\\MotoMarket.Application\\Listings\\Queries\\GetListingDetail\\GetListingDetailQuery.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Application\\Listings\\Queries\\GetListingDetail\\GetListingDetailQuery.cs",
-              "ToolTip": "E:\\programowanie\\MotoMarket\\MotoMarket.Application\\Listings\\Queries\\GetListingDetail\\GetListingDetailQuery.cs",
-              "RelativeToolTip": "MotoMarket.Application\\Listings\\Queries\\GetListingDetail\\GetListingDetailQuery.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-25T10:59:13.264Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ListingDto.cs",
-              "DocumentMoniker": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\Models\\Listings\\ListingDto.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Mobile\\Models\\Listings\\ListingDto.cs",
-              "ToolTip": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\Models\\Listings\\ListingDto.cs",
-              "RelativeToolTip": "MotoMarket.Mobile\\Models\\Listings\\ListingDto.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAkwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-25T10:58:48.165Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ListingDetailDto.cs",
-              "DocumentMoniker": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\Models\\Listings\\ListingDetailDto.cs",
-              "RelativeDocumentMoniker": "MotoMarket.Mobile\\Models\\Listings\\ListingDetailDto.cs",
-              "ToolTip": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\Models\\Listings\\ListingDetailDto.cs",
-              "RelativeToolTip": "MotoMarket.Mobile\\Models\\Listings\\ListingDetailDto.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAA5wBYAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-25T10:58:01.904Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "ListingDetailPage.xaml",
               "DocumentMoniker": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\Views\\ListingDetailPage.xaml",
               "RelativeDocumentMoniker": "MotoMarket.Mobile\\Views\\ListingDetailPage.xaml",
               "ToolTip": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\Views\\ListingDetailPage.xaml",
               "RelativeToolTip": "MotoMarket.Mobile\\Views\\ListingDetailPage.xaml",
-              "ViewState": "AgIAAHsAAAAAAAAAAAAAAJIAAABcAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-01-24T20:20:07.292Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ListingDto.cs",
+              "DocumentMoniker": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\Models\\Listings\\ListingDto.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Mobile\\Models\\Listings\\ListingDto.cs",
+              "ToolTip": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\Models\\Listings\\ListingDto.cs",
+              "RelativeToolTip": "MotoMarket.Mobile\\Models\\Listings\\ListingDto.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-25T10:58:48.165Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ListingDetailDto.cs",
+              "DocumentMoniker": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\Models\\Listings\\ListingDetailDto.cs",
+              "RelativeDocumentMoniker": "MotoMarket.Mobile\\Models\\Listings\\ListingDetailDto.cs",
+              "ToolTip": "E:\\programowanie\\MotoMarket\\MotoMarket.Mobile\\Models\\Listings\\ListingDetailDto.cs",
+              "RelativeToolTip": "MotoMarket.Mobile\\Models\\Listings\\ListingDetailDto.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABYAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-25T10:58:01.904Z",
               "EditorCaption": ""
             }
           ]
