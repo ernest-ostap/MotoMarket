@@ -9,6 +9,7 @@ using MotoMarket.Application.Users.Commands.ToggleUserAdminRole;
 using MotoMarket.Application.Users.Commands.ToggleUserBan;
 using MotoMarket.Application.Users.Commands.UpdateUserProfile;
 using MotoMarket.Application.Users.Queries;
+using MotoMarket.Application.Users.Queries.GetUserProfile;
 
 namespace MotoMarket.Api.Controllers
 {
@@ -35,6 +36,20 @@ namespace MotoMarket.Api.Controllers
         public async Task<ActionResult<AuthDto>> Login(LoginUserCommand command)
         {
             return await _mediator.Send(command);
+        }
+
+        [Authorize]
+        [HttpGet("profile")] // To da adres: GET /api/Users/profile
+        public async Task<ActionResult<UserProfileDto>> GetProfile()
+        {
+            var result = await _mediator.Send(new GetUserProfileQuery());
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         [Authorize]

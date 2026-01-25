@@ -7,6 +7,7 @@ namespace MotoMarket.Web.Services.Auth
         Task<string?> Login(LoginViewModel model);
         Task<bool> Register(RegisterViewModel model);
         Task Logout();
+        Task<UpdateProfileViewModel> GetUserProfile();
         Task<bool> UpdateProfile(UpdateProfileViewModel model);
         Task<bool> ChangePassword(ChangePasswordViewModel model);
 

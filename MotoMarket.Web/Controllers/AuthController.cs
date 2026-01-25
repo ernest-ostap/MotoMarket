@@ -85,6 +85,14 @@ namespace MotoMarket.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetMyData()
+        {
+            var profile = await _authService.GetUserProfile();
+            if (profile == null) return NotFound();
+            return Json(profile);
+        }
+
         // ... Reszta metod (UpdateProfile, ChangePassword) bez zmian ...
         [HttpPost]
         public async Task<IActionResult> UpdateProfile(UpdateProfileViewModel model)

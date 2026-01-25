@@ -101,6 +101,26 @@ namespace MotoMarket.Web.Services.Auth
             await _httpContextAccessor.HttpContext!.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
+        public async Task<UpdateProfileViewModel> GetUserProfile()
+        {
+            var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Users/profile");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                return JsonSerializer.Deserialize<UpdateProfileViewModel>(json, options);
+            }
+
+            return null;
+        }
+
         public async Task<bool> UpdateProfile(UpdateProfileViewModel model)
         {
             var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;

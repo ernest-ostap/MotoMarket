@@ -135,27 +135,35 @@
                 <div class="modal-body">
                     <form id="profileForm" method="post" action="/Auth/UpdateProfile">
                         @Html.AntiForgeryToken()
+
                         <div class="mb-3">
                             <label class="form-label">Imię</label>
-                            <input name="FirstName" class="form-control" required />
+                            <input id="inputFirstName" name="FirstName" class="form-control" required />
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Nazwisko</label>
-                            <input name="LastName" class="form-control" required />
+                            <input id="inputLastName" name="LastName" class="form-control" required />
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input name="Email" type="email" class="form-control" required />
+                            <input id="inputEmail" name="Email" type="email" class="form-control" required />
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Numer telefonu</label>
-                            <input name="PhoneNumber" class="form-control" placeholder="+48 123 456 789" />
+                            <input id="inputPhoneNumber" name="PhoneNumber" class="form-control" placeholder="+48 123 456 789" />
                         </div>
                     </form>
+
+                    <div id="profileLoader" class="text-center py-3" style="display:none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Ładowanie...</span>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="submit" form="profileForm" class="btn btn-primary">
+                    <button type="submit" form="profileForm" class="btn btn-primary" id="btnSaveProfile">
                         <i class="bi bi-check-lg me-1"></i>Zapisz zmiany
                     </button>
                 </div>
@@ -220,6 +228,35 @@
                 });
             }
         }
+    </script>
+    <script>
+        // Czekamy aż dokument się załaduje (jeśli używasz jQuery, które jest w standardzie MVC)
+        document.addEventListener("DOMContentLoaded", function() {
+            var profileModal = document.getElementById('profileModal');
+
+            // Zdarzenie: Kiedy modal zaczyna się otwierać
+            profileModal.addEventListener('show.bs.modal', function (event) {
+
+                // Pokaż loader, ukryj formularz (opcjonalnie)
+                // var form = document.getElementById('profileForm');
+                // var loader = document.getElementById('profileLoader');
+                // form.style.opacity = '0.5';
+
+                // Pobieramy dane z kontrolera
+                fetch('/Auth/GetMyData')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Wypełniamy inputy danymi z serwera
+                        document.getElementById('inputFirstName').value = data.firstName;
+                        document.getElementById('inputLastName').value = data.lastName;
+                        document.getElementById('inputEmail').value = data.email;
+                        document.getElementById('inputPhoneNumber').value = data.phoneNumber; // Może być null, to wstawi pusty
+
+                        // form.style.opacity = '1';
+                    })
+                    .catch(error => console.error('Błąd pobierania profilu:', error));
+            });
+        });
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -36,18 +36,18 @@ builder.Services.AddCors(options =>
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials(); // <--- TO NAPRAWIA BŁĄD W KONSOLI (signalr.min.js)
+            .AllowCredentials();
     });
 
-    // Opcjonalnie: Polityka na Produkcję (gdybyś publikował)
-    options.AddPolicy("ProductionCors", policyBuilder =>
+    // Opcjonalnie: Polityka na Produkcję 
+    /*options.AddPolicy("ProductionCors", policyBuilder =>
     {
         policyBuilder
             .WithOrigins("https://twoja-domena.pl")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
-    });
+    });*/
 });
 
 builder.Services.AddHttpContextAccessor();
@@ -70,7 +70,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// W development nie wymuszaj HTTPS (ułatwia życie emulatorowi Androida)
+// W development nie wymusza HTTPS (ułatwia życie emulatorowi Androida)
 if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
