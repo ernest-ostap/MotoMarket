@@ -25,6 +25,7 @@ namespace MotoMarket.Mobile.Models.Listings
         public IEnumerable<ListingParametersDto> Parameters { get; set; } = new List<ListingParametersDto>();
 
         public string SellerPhone { get; set; } = string.Empty;
+        public string SellerName { get; set; } = string.Empty;
     }
 
     public class ListingParametersDto

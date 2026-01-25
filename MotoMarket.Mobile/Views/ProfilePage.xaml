@@ -15,11 +15,14 @@
                     <Border StrokeShape="RoundRectangle 50"
                             StrokeThickness="3"
                             Stroke="{StaticResource Primary}"
+                            BackgroundColor="{StaticResource Gray100}"
                             HeightRequest="100"
                             WidthRequest="100"
                             HorizontalOptions="Center">
-                        <Image Source="dotnet_bot.png" 
-                               Aspect="AspectFill"/>
+                        <Label Text="👤" 
+                               FontSize="48"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
                     </Border>
                     
                     <VerticalStackLayout Spacing="4" HorizontalOptions="Center">

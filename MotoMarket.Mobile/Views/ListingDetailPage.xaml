@@ -121,6 +121,72 @@
                                LineHeight="1.4"/>
                     </VerticalStackLayout>
 
+                    <!-- Parameters Section -->
+                    <VerticalStackLayout Spacing="12"
+                                         IsVisible="{Binding HasParameters}">
+                        <Label Text="Parametry techniczne" 
+                               Style="{StaticResource SubHeadline}"/>
+                        <Frame BackgroundColor="{StaticResource BackgroundSecondary}" 
+                               BorderColor="{StaticResource BorderColor}" 
+                               CornerRadius="16" 
+                               Padding="0">
+                            <CollectionView ItemsSource="{Binding Listing.Parameters}"
+                                            SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="*, Auto" 
+                                              Padding="16,12"
+                                              BackgroundColor="Transparent">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding Name}" 
+                                                   Style="{StaticResource SecondaryLabel}"/>
+                                            <HorizontalStackLayout Grid.Column="1" Spacing="4">
+                                                <Label Text="{Binding Value}" 
+                                                       FontAttributes="Bold"/>
+                                                <Label Text="{Binding Unit}" 
+                                                       Style="{StaticResource MutedLabel}"/>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- Features/Equipment Section -->
+                    <VerticalStackLayout Spacing="12"
+                                         IsVisible="{Binding HasFeatures}">
+                        <Label Text="Wyposażenie" 
+                               Style="{StaticResource SubHeadline}"/>
+                        <Frame BackgroundColor="{StaticResource BackgroundSecondary}" 
+                               BorderColor="{StaticResource BorderColor}" 
+                               CornerRadius="16" 
+                               Padding="16">
+                            <FlexLayout BindableLayout.ItemsSource="{Binding Listing.Features}"
+                                        Wrap="Wrap"
+                                        JustifyContent="Start"
+                                        AlignItems="Start">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border StrokeShape="RoundRectangle 8"
+                                                StrokeThickness="0"
+                                                BackgroundColor="{StaticResource SuccessLight}"
+                                                Padding="12,8"
+                                                Margin="0,0,8,8">
+                                            <HorizontalStackLayout Spacing="6">
+                                                <Label Text="✓" 
+                                                       TextColor="{StaticResource Success}"
+                                                       FontAttributes="Bold"/>
+                                                <Label Text="{Binding .}" 
+                                                       TextColor="{StaticResource Success}"/>
+                                            </HorizontalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </FlexLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+
                     <!-- Seller Info -->
                     <Frame BackgroundColor="{StaticResource BackgroundSecondary}" 
                            BorderColor="{StaticResource BorderColor}" 

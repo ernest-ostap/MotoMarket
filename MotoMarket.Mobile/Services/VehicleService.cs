@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using System.Net.Http.Headers;
 using MotoMarket.Mobile.Models.Listings; 
 
@@ -343,6 +343,40 @@ namespace MotoMarket.Mobile.Services
             }
 
             return new List<DictionaryDto>();
+        }
+
+        public async Task<IEnumerable<FeatureDto>> GetFeaturesAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/Dictionaries/features");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<FeatureDto>>();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[FEATURES ERROR] {ex.Message}");
+            }
+            return new List<FeatureDto>();
+        }
+
+        public async Task<IEnumerable<ParameterTypeDto>> GetParametersAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/Dictionaries/parameters");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<ParameterTypeDto>>();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[PARAMETERS ERROR] {ex.Message}");
+            }
+            return new List<ParameterTypeDto>();
         }
         #endregion
     }

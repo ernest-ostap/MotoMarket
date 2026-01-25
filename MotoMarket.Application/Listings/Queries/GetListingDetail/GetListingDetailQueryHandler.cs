@@ -109,6 +109,8 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
                 result.SellerPhone = seller.PhoneNumber;
             }
 
+            result.SellerName = seller?.FirstName ?? "Nieznany";
+
             // Sprawdzamy czy to ogłoszenie jest w ulubionych użytkownika
             var userId = _currentUserService.UserId;
             if (!string.IsNullOrEmpty(userId))

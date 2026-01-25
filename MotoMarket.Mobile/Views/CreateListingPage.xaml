@@ -303,6 +303,73 @@
                                     BackgroundColor="Transparent"/>
                         </Border>
                     </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+            <!-- Parameters Section -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Parametry techniczne" 
+                           Style="{StaticResource SubHeadline}"/>
+                    <Label Text="Wprowadź dodatkowe parametry pojazdu (opcjonalnie)" 
+                           Style="{StaticResource MutedLabel}"/>
+
+                    <CollectionView ItemsSource="{Binding AvailableParameters}"
+                                    SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout Spacing="6" Margin="0,0,0,12">
+                                    <Label Text="{Binding Name}" 
+                                           Style="{StaticResource SecondaryLabel}"
+                                           FontAttributes="Bold"/>
+                                    <Grid ColumnDefinitions="*, Auto">
+                                        <Border Grid.Column="0"
+                                                Stroke="{StaticResource BorderColor}" 
+                                                StrokeShape="RoundRectangle 12"
+                                                Padding="12,0"
+                                                Margin="0,0,8,0">
+                                            <Entry Placeholder="{Binding Name}"
+                                                   Text="{Binding Value}"
+                                                   Keyboard="Default"
+                                                   BackgroundColor="Transparent"/>
+                                        </Border>
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Unit}" 
+                                               Style="{StaticResource MutedLabel}"
+                                               VerticalOptions="Center"/>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Features Section -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Wyposażenie" 
+                           Style="{StaticResource SubHeadline}"/>
+                    <Label Text="Zaznacz wyposażenie dostępne w pojeździe" 
+                           Style="{StaticResource MutedLabel}"/>
+
+                    <CollectionView ItemsSource="{Binding AvailableFeatures}"
+                                    SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="Auto, *" 
+                                      Padding="12,8"
+                                      Margin="0,0,0,4">
+                                    <CheckBox Grid.Column="0"
+                                              IsChecked="{Binding IsSelected}"/>
+                                    <Label Grid.Column="1"
+                                           Text="{Binding Name}" 
+                                           VerticalOptions="Center"
+                                           Margin="12,0,0,0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </VerticalStackLayout>
             </Frame>
 

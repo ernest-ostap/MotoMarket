@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MotoMarket.Mobile.Models.Listings;
 using MotoMarket.Mobile.Services;
@@ -48,6 +48,10 @@ namespace MotoMarket.Mobile.ViewModels
         public ObservableCollection<DictionaryDto> DriveTypes { get; } = new();
         public ObservableCollection<DictionaryDto> BodyTypes { get; } = new();
         public ObservableCollection<DictionaryDto> Categories { get; } = new();
+        
+        // --- Features i Parameters ---
+        public ObservableCollection<FeatureDto> AvailableFeatures { get; } = new();
+        public ObservableCollection<ParameterTypeDto> AvailableParameters { get; } = new();
 
         // --- ZDJĘCIA ---
         public ObservableCollection<ImageSource> PhotosPreview { get; } = new();
@@ -65,8 +69,10 @@ namespace MotoMarket.Mobile.ViewModels
             var t4 = _vehicleService.GetDictionaryAsync("DriveTypes");
             var t5 = _vehicleService.GetDictionaryAsync("BodyTypes");
             var t6 = _vehicleService.GetDictionaryAsync("VehicleCategories");
+            var t7 = _vehicleService.GetFeaturesAsync();
+            var t8 = _vehicleService.GetParametersAsync();
 
-            await Task.WhenAll(t1, t2, t3, t4, t5, t6);
+            await Task.WhenAll(t1, t2, t3, t4, t5, t6, t7, t8);
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
@@ -77,6 +83,9 @@ namespace MotoMarket.Mobile.ViewModels
                 DriveTypes.Clear(); foreach (var i in t4.Result) DriveTypes.Add(i);
                 BodyTypes.Clear(); foreach (var i in t5.Result) BodyTypes.Add(i);
                 Categories.Clear(); foreach (var i in t6.Result) Categories.Add(i);
+                
+                AvailableFeatures.Clear(); foreach (var i in t7.Result) AvailableFeatures.Add(i);
+                AvailableParameters.Clear(); foreach (var i in t8.Result) AvailableParameters.Add(i);
             });
             IsBusy = false;
         }
@@ -155,7 +164,16 @@ namespace MotoMarket.Mobile.ViewModels
                 BodyTypeId = SelectedBody.Id,
                 VehicleCategoryId = SelectedCategory.Id,
 
-                // TODO: FeatureIds i Parameters możesz dodać jeśli zrobisz dla nich UI w XAML
+                // Zbierz wybrane features
+                SelectedFeatureIds = AvailableFeatures
+                    .Where(f => f.IsSelected)
+                    .Select(f => f.Id)
+                    .ToList(),
+                
+                // Zbierz wypełnione parametry
+                Parameters = AvailableParameters
+                    .Where(p => !string.IsNullOrWhiteSpace(p.Value))
+                    .ToDictionary(p => p.Id, p => p.Value)
             };
 
             var success = await _vehicleService.CreateListingAsync(dto, _rawPhotos);

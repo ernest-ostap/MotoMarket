@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MotoMarket.Mobile.Models.Listings;
 using MotoMarket.Mobile.Services;
@@ -20,6 +20,8 @@ namespace MotoMarket.Mobile.ViewModels
 
         [ObservableProperty] ListingDetailDto listing;
         [ObservableProperty] bool isBusy;
+        [ObservableProperty] bool hasParameters;
+        [ObservableProperty] bool hasFeatures;
 
         // Kolekcja zdjęć do karuzeli
         public ObservableCollection<string> Photos { get; } = new();
@@ -48,6 +50,10 @@ namespace MotoMarket.Mobile.ViewModels
                 foreach (var p in fixedPhotos) Photos.Add(p);
 
                 Listing = data;
+
+                // Aktualizuj flagi widoczności sekcji
+                HasParameters = data.Parameters != null && data.Parameters.Any();
+                HasFeatures = data.Features != null && data.Features.Any();
             }
             IsBusy = false;
         }

@@ -27,6 +27,7 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
         public IEnumerable<ListingParameterDto> Parameters { get; set; } = new List<ListingParameterDto>();
 
         public string SellerPhone { get; set; } = string.Empty;
+        public string SellerName { get; set; } = string.Empty;
     }
 
     public class ListingParameterDto
