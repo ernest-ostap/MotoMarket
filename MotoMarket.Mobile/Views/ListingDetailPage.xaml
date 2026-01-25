@@ -20,7 +20,7 @@
                                        BackgroundColor="{StaticResource Gray100}"/>
                             </DataTemplate>
                         </CarouselView.ItemTemplate>
-                    </CarouselView>
+                    </CarouselView> 
 
                     <!-- Favorite Button -->
                     <Button Text="❤"
