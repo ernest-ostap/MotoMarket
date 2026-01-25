@@ -67,14 +67,27 @@
                         <Label Text="{Binding Listing.Price, StringFormat='{0:N0} PLN'}" 
                                Style="{StaticResource PriceLabel}"
                                FontSize="26"/>
+                        <!-- Brand and Model -->
+                        <HorizontalStackLayout Spacing="4">
+                            <Label Text="{Binding Listing.BrandName}" 
+                                   Style="{StaticResource SubHeadline}"
+                                   FontSize="18"/>
+                            <Label Text="{Binding Listing.ModelName}" 
+                                   Style="{StaticResource SubHeadline}"
+                                   FontSize="18"/>
+                        </HorizontalStackLayout>
                     </VerticalStackLayout>
 
                     <!-- Location -->
                     <HorizontalStackLayout Spacing="6">
                         <Label Text="📍" FontSize="16"/>
-                        <Label Text="{Binding Listing.LocationCity}" 
-                               Style="{StaticResource SecondaryLabel}"
-                               VerticalOptions="Center"/>
+                        <VerticalStackLayout Spacing="0">
+                            <Label Text="{Binding Listing.LocationCity}" 
+                                   Style="{StaticResource SecondaryLabel}"
+                                   VerticalOptions="Center"/>
+                            <Label Text="{Binding Listing.LocationRegion}" 
+                                   Style="{StaticResource MutedLabel}"/>
+                        </VerticalStackLayout>
                     </HorizontalStackLayout>
 
                     <!-- Quick Info Card -->
@@ -83,7 +96,7 @@
                            CornerRadius="16" 
                            Padding="16">
                         <Grid ColumnDefinitions="*, *" 
-                              RowDefinitions="Auto, Auto" 
+                              RowDefinitions="Auto, Auto, Auto" 
                               RowSpacing="16"
                               ColumnSpacing="16">
                             <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="8">
@@ -106,7 +119,27 @@
                                 <Label Text="⛽" FontSize="18"/>
                                 <VerticalStackLayout>
                                     <Label Text="Paliwo" Style="{StaticResource MutedLabel}"/>
-                                    <Label Text="{Binding Listing.FuelType}" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Listing.FuelTypeName}" 
+                                           FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Row="1" Grid.Column="1" Spacing="8">
+                                <Label Text="⚙️" FontSize="18"/>
+                                <VerticalStackLayout>
+                                    <Label Text="Skrzynia" Style="{StaticResource MutedLabel}"/>
+                                    <Label Text="{Binding Listing.GearboxTypeName}" 
+                                           FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Spacing="8">
+                                <Label Text="🔢" FontSize="18"/>
+                                <VerticalStackLayout>
+                                    <Label Text="VIN" Style="{StaticResource MutedLabel}"/>
+                                    <Label Text="{Binding Listing.VIN}" 
+                                           FontAttributes="Bold"
+                                           FontFamily="Courier"/>
                                 </VerticalStackLayout>
                             </HorizontalStackLayout>
                         </Grid>
