@@ -53,5 +53,10 @@ namespace MotoMarket.Web.Controllers
             var contents = await _adminService.GetAllPageContents();
             return View(contents);
         }
+
+        public IActionResult NotFound()
+        {
+            return View();
+        }
     }
 }
