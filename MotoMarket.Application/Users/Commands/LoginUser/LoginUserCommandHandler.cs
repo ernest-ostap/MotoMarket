@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using MotoMarket.Application.Common.Interfaces.Identity;
 using MotoMarket.Application.Users.Queries;
@@ -43,7 +43,8 @@ namespace MotoMarket.Application.Users.Commands.LoginUser
             {
                 Id = user.Id,
                 Email = user.Email!,
-                FirstName = user.FirstName,
+                FirstName = user.FirstName ?? string.Empty,
+                LastName = user.LastName ?? string.Empty,
                 Token = token
             };
         }

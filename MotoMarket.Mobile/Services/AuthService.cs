@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using MotoMarket.Mobile.Models.Auth;
 
 namespace MotoMarket.Mobile.Services
@@ -32,6 +32,8 @@ namespace MotoMarket.Mobile.Services
                     {
                         await SecureStorage.SetAsync("auth_token", result.Token);
                         await SecureStorage.SetAsync("user_id", result.Id);
+                        await SecureStorage.SetAsync("user_first_name", result.FirstName ?? string.Empty);
+                        await SecureStorage.SetAsync("user_last_name", result.LastName ?? string.Empty);
                         return true;
                     }
                 }
@@ -58,6 +60,9 @@ namespace MotoMarket.Mobile.Services
         public void Logout()
         {
             SecureStorage.Remove("auth_token");
+            SecureStorage.Remove("user_id");
+            SecureStorage.Remove("user_first_name");
+            SecureStorage.Remove("user_last_name");
         }
 
         #endregion
@@ -105,6 +110,24 @@ namespace MotoMarket.Mobile.Services
         {
             var token = await SecureStorage.GetAsync("auth_token");
             return !string.IsNullOrEmpty(token);
+        }
+
+        /// <summary>
+        /// Zwraca imię i nazwisko użytkownika zapisane przy logowaniu (lub pusty string).
+        /// </summary>
+        public static async Task<string> GetUserDisplayNameAsync()
+        {
+            try
+            {
+                var firstName = await SecureStorage.GetAsync("user_first_name") ?? string.Empty;
+                var lastName = await SecureStorage.GetAsync("user_last_name") ?? string.Empty;
+                var full = $"{firstName} {lastName}".Trim();
+                return string.IsNullOrEmpty(full) ? "Użytkownik" : full;
+            }
+            catch
+            {
+                return "Użytkownik";
+            }
         }
     }
 }

@@ -26,9 +26,10 @@
                     </Border>
                     
                     <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
-                        <Label Text="Zalogowany użytkownik" 
+                        <Label Text="{Binding UserDisplayName}" 
                                Style="{StaticResource SubHeadline}"
-                               HorizontalOptions="Center"/>
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
                         <Label Text="Witaj w MotoMarket!" 
                                Style="{StaticResource MutedLabel}"
                                HorizontalOptions="Center"/>

@@ -7,4 +7,13 @@ public partial class ProfilePage : ContentPage
 		InitializeComponent();
         BindingContext = new ViewModels.ProfileViewModel();
     }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is ViewModels.ProfileViewModel vm)
+        {
+            await vm.LoadUserDisplayNameAsync();
+        }
+    }
 }
