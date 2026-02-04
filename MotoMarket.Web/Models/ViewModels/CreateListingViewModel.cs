@@ -26,20 +26,23 @@ namespace MotoMarket.Web.Models.ViewModels
         [Display(Name = "VIN")]
         public string VIN { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "Rok produkcji jest wymagany")]
         [Display(Name = "Rok produkcji")]
         public int ProductionYear { get; set; }
 
+        [Required(ErrorMessage = "Przebieg jest wymagany")]
         [Display(Name = "Przebieg (km)")]
         public int Mileage { get; set; }
 
+        [Required(ErrorMessage = "Miasto jest wymagane")]
         [Display(Name = "Miasto")]
         public string LocationCity { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "Województwo jest wymagane")]
         [Display(Name = "Województwo")]
         public string LocationRegion { get; set; } = string.Empty;
 
         // --- Pola wyboru (to co user zaznaczy) ---
-        [Required]
         [Display(Name = "Marka")]
         public int BrandId { get; set; }
 

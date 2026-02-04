@@ -114,13 +114,19 @@ namespace MotoMarket.Web.Controllers
             var listing = await _vehicleService.GetListingDetail(id);
             if (listing == null) return NotFound();
 
-            // 2. SECURITY CHECK (Ważne!)
-            // Sprawdź, czy to ogłoszenie należy do zalogowanego użytkownika
-            // (Możesz tu użyć User.FindFirst(ClaimTypes.NameIdentifier) albo w serwise, 
-            // na razie załóżmy optymistycznie, że user kliknął ze swojej listy, 
-            // ale profesjonalnie trzeba to sprawdzić).
+            // 2. Security check - czy jestem właścicielem ogłoszenia lub Adminem
+            var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                     ?? User.FindFirst("sub")?.Value;
 
-            // 3. Mapowanie DTO -> ViewModel (Wypełniamy formularz danymi z bazy)
+            var isOwner = string.Equals(listing.UserId, currentUserId, StringComparison.OrdinalIgnoreCase);
+            var isAdmin = User.IsInRole("Admin");
+
+            if (!isOwner && !isAdmin)
+            {
+                return RedirectToAction("AccessDenied", "Auth");
+            }
+
+            // 3. Mapowanie DTO -> ViewModel
             var viewModel = new CreateListingViewModel
             {
                 Id = listing.Id,
@@ -136,7 +142,7 @@ namespace MotoMarket.Web.Controllers
                 // Ustawiamy wybrane wartości
                 BrandId = listing.BrandId,
                 ModelId = listing.ModelId,
-                FuelTypeId = listing.FuelTypeId, // Tu uwaga: ListingDetailDto musi mieć te IDki (BrandId, FuelTypeId)!
+                FuelTypeId = listing.FuelTypeId,
                 GearboxTypeId = listing.GearboxTypeId,
                 BodyTypeId = listing.BodyTypeId,
                 DriveTypeId = listing.DriveTypeId,
@@ -147,28 +153,43 @@ namespace MotoMarket.Web.Controllers
                 Parameters = listing.Parameters?.ToDictionary(p => p.ParameterTypeId, p => p.Value) ?? new Dictionary<int, string>()
             };
 
-            // 4. Pobierz słowniki (Brands, Fuels...) - tak jak w Create
+            // 4. Pobierz słowniki
             await PopulateDictionaries(viewModel);
 
             return View(viewModel);
         }
 
-        [Authorize] // Pamiętaj o tym!
+        [Authorize]
         [HttpPost]
-        [ValidateAntiForgeryToken] // Dobra praktyka bezpieczeństwa dla formularzy
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, CreateListingViewModel model)
         {
-            // Security check
+            // Security check ID
             if (id != model.Id) return BadRequest();
 
-            // Walidacja
+            // Security check ownership
+            var existingListing = await _vehicleService.GetListingDetail(id);
+            if (existingListing == null) return NotFound();
+
+            var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                     ?? User.FindFirst("sub")?.Value;
+
+            var isOwner = string.Equals(existingListing.UserId, currentUserId, StringComparison.OrdinalIgnoreCase);
+            var isAdmin = User.IsInRole("Admin");
+
+            if (!isOwner && !isAdmin)
+            {
+                return RedirectToAction("AccessDenied", "Auth");
+            }
+
+            // Walidacja modelu
             if (!ModelState.IsValid)
             {
                 await PopulateDictionaries(model);
-                return View(model); 
+                return View(model);
             }
 
-            // wysyłamy do API
+            // Wysyłamy do API
             try
             {
                 await _vehicleService.UpdateListing(model);
@@ -176,7 +197,6 @@ namespace MotoMarket.Web.Controllers
             }
             catch (Exception ex)
             {
-                // Opcjonalnie: obsługa błędu, np. API nie działa
                 ModelState.AddModelError("", "Wystąpił błąd podczas zapisywania zmian.");
                 await PopulateDictionaries(model);
                 return View(model);
