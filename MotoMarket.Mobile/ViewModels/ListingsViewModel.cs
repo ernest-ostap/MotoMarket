@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MotoMarket.Mobile.Models.Listings;
 using MotoMarket.Mobile.Services;
@@ -14,6 +14,7 @@ namespace MotoMarket.Mobile.ViewModels
         [ObservableProperty] string minPrice;
         [ObservableProperty] string maxPrice;
         [ObservableProperty] string yearMin;
+        [ObservableProperty] string yearMax;
 
         // Wybrana marka z listy (cały obiekt)
         [ObservableProperty] DictionaryDto selectedBrand;
@@ -63,6 +64,7 @@ namespace MotoMarket.Mobile.ViewModels
                 decimal? pMin = decimal.TryParse(MinPrice, out var d1) ? d1 : null;
                 decimal? pMax = decimal.TryParse(MaxPrice, out var d2) ? d2 : null;
                 int? yMin = int.TryParse(YearMin, out var i1) ? i1 : null;
+                int? yMax = int.TryParse(YearMax, out var i2) ? i2 : null;
 
                 var filter = new ListingsFilterDto
                 {
@@ -70,6 +72,7 @@ namespace MotoMarket.Mobile.ViewModels
                     PriceMin = pMin,
                     PriceMax = pMax,
                     YearMin = yMin,
+                    YearMax = yMax,
                     // Wyciągamy ID z wybranego obiektu Pickera
                     BrandId = SelectedBrand?.Id
                 };
@@ -100,6 +103,7 @@ namespace MotoMarket.Mobile.ViewModels
             MinPrice = string.Empty;
             MaxPrice = string.Empty;
             YearMin = string.Empty;
+            YearMax = string.Empty;
 
             // To odznaczy markę w Pickerze!
             SelectedBrand = null;

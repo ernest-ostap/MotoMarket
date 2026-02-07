@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +12,7 @@ namespace MotoMarket.Mobile.Models.Listings
         public decimal? PriceMin { get; set; }
         public decimal? PriceMax { get; set; }
         public int? YearMin { get; set; }
+        public int? YearMax { get; set; }
         public int? BrandId { get; set; }
         public int? ModelId { get; set; }
     }

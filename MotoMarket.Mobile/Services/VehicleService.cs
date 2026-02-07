@@ -49,6 +49,9 @@ namespace MotoMarket.Mobile.Services
                     if (filter.YearMin.HasValue)
                         queryParams.Add($"yearMin={filter.YearMin}");
 
+                    if (filter.YearMax.HasValue)
+                        queryParams.Add($"yearMax={filter.YearMax}");
+
                     if (queryParams.Any())
                     {
                         url += "?" + string.Join("&", queryParams);

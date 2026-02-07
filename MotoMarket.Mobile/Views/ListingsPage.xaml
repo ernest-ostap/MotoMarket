@@ -78,17 +78,29 @@
 
                 <!-- Year -->
                 <VerticalStackLayout Spacing="6">
-                    <Label Text="Rok produkcji (od)" 
+                    <Label Text="Rok produkcji" 
                            Style="{StaticResource SecondaryLabel}"
                            FontAttributes="Bold"/>
-                    <Border Stroke="{StaticResource BorderColor}" 
-                            StrokeShape="RoundRectangle 10"
-                            Padding="12,0">
-                        <Entry Placeholder="np. 2015" 
-                               Text="{Binding YearMin}" 
-                               Keyboard="Numeric"
-                               BackgroundColor="Transparent"/>
-                    </Border>
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 10"
+                                Padding="12,0"
+                                Grid.Column="0">
+                            <Entry Placeholder="Od (np. 2015)" 
+                                   Text="{Binding YearMin}" 
+                                   Keyboard="Numeric"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
+                        <Border Stroke="{StaticResource BorderColor}" 
+                                StrokeShape="RoundRectangle 10"
+                                Padding="12,0"
+                                Grid.Column="1">
+                            <Entry Placeholder="Do (np. 2024)" 
+                                   Text="{Binding YearMax}" 
+                                   Keyboard="Numeric"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
+                    </Grid>
                 </VerticalStackLayout>
 
                 <!-- Brand -->
