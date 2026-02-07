@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +12,8 @@ namespace MotoMarket.Application.Listings.Queries.GetAdminListings
         public string Title { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public DateTime CreatedAt { get; set; }
-        public string OwnerId { get; set; } = string.Empty; // Żeby ewentualnie podlinkować do Usera
+        public string OwnerId { get; set; } = string.Empty;
+        public string? OwnerEmail { get; set; }
         public string Status { get; set; } = string.Empty;
         public string? BanReason { get; set; }
         public string BrandModel { get; set; } = string.Empty;

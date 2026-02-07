@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 using System;
@@ -20,22 +20,25 @@ namespace MotoMarket.Application.Listings.Queries.GetAdminListings
 
         public async Task<IEnumerable<AdminListingDto>> Handle(GetAdminListingsQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Listings // Zmień na nazwę Twojej tabeli z ogłoszeniami (np. Vehicles lub Listings)
-                .AsNoTracking()
-                .Include(x => x.Brand).ThenInclude(m => m.VehicleModels) // Żeby pobrać nazwę auta
-                .OrderByDescending(x => x.CreatedAt) // Najnowsze na górze
-                .Select(x => new AdminListingDto
-                {
-                    Id = x.Id,
-                    Title = x.Title, 
-                    Price = x.Price,
-                    CreatedAt = x.CreatedAt,
-                    OwnerId = x.UserId, 
-                    Status= x.Status.ToString(),
-                    BanReason = x.BanReason,
-                    BrandModel = $"{x.Brand.Name} {x.Model.Name}"
-                })
-                .ToListAsync(cancellationToken);
+            var query = from l in _context.Listings.AsNoTracking()
+                        join u in _context.Users on l.UserId equals u.Id into userJoin
+                        from u in userJoin.DefaultIfEmpty()
+                        join b in _context.VehicleBrands on l.BrandId equals b.Id
+                        join m in _context.VehicleModels on l.ModelId equals m.Id
+                        orderby l.CreatedAt descending
+                        select new AdminListingDto
+                        {
+                            Id = l.Id,
+                            Title = l.Title,
+                            Price = l.Price,
+                            CreatedAt = l.CreatedAt,
+                            OwnerId = l.UserId,
+                            OwnerEmail = u != null ? u.Email : null,
+                            Status = l.Status.ToString(),
+                            BanReason = l.BanReason,
+                            BrandModel = b.Name + " " + m.Name
+                        };
+            return await query.ToListAsync(cancellationToken);
         }
     }
 }

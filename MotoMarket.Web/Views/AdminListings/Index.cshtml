@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MotoMarket.Web.Models.DTOs.AdminListingDto>
+@model IEnumerable<MotoMarket.Web.Models.DTOs.AdminListingDto>
 @{
     ViewData["Title"] = "Moderacja Ogłoszeń";
 }
@@ -14,13 +14,13 @@
 
     <div class="table-responsive shadow-sm mt-3">
         <table class="table table-hover bg-white align-middle">
-            <thead class="table-dark">
+            <thead class="table-light">
                 <tr>
                     <th>Data</th>
                     <th>Pojazd</th>
                     <th>Tytuł</th>
                     <th>Cena</th>
-                    <th>Właściciel (ID)</th>
+                    <th>Właściciel</th>
                     <th>Status</th>
                     <th>Akcje</th>
                 </tr>
@@ -37,7 +37,7 @@
                             </a>
                         </td>
                         <td class="text-success fw-bold">@item.Price.ToString("N0") PLN</td>
-                        <td class="small text-muted">@item.OwnerId</td>
+                        <td class="small text-muted">@(item.OwnerEmail ?? item.OwnerId)</td>
                         <td>
                             @if (item.Status == "Active")
                             {

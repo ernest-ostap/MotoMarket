@@ -53,6 +53,9 @@ namespace MotoMarket.Application.Listings.Queries.GetAllListings
             if (request.YearMin.HasValue)
                 query = query.Where(x => x.ProductionYear >= request.YearMin.Value);
 
+            if (request.YearMax.HasValue)
+                query = query.Where(x => x.ProductionYear <= request.YearMax.Value);
+
             // Sortowanie
             query = request.SortBy switch
             {

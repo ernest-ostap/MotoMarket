@@ -35,6 +35,7 @@ namespace MotoMarket.Web.Services.Listings
             if (filter.PriceMin.HasValue) queryParams.Add($"priceMin={filter.PriceMin}");
             if (filter.PriceMax.HasValue) queryParams.Add($"priceMax={filter.PriceMax}");
             if (filter.YearMin.HasValue) queryParams.Add($"yearMin={filter.YearMin}");
+            if (filter.YearMax.HasValue) queryParams.Add($"yearMax={filter.YearMax}");
             if (!string.IsNullOrEmpty(filter.SortBy)) queryParams.Add($"sortBy={filter.SortBy}");
 
             var queryString = queryParams.Any() ? "?" + string.Join("&", queryParams) : "";
@@ -59,14 +60,13 @@ namespace MotoMarket.Web.Services.Listings
                 {
                     if (!string.IsNullOrEmpty(item.MainPhotoUrl))
                     {
-                        // Doklejamy adres API (np. https://localhost:7072) do ścieżki (/uploads/...)
                         item.MainPhotoUrl = _apiBaseUrl + item.MainPhotoUrl;
                     }
                 }
                 return listings;
             }
 
-            return new List<ListingDto>(); // Lub obsługa błędów
+            return new List<ListingDto>(); 
         }
 
         public async Task<ListingDetailDto?> GetListingDetail(int id)
@@ -95,7 +95,7 @@ namespace MotoMarket.Web.Services.Listings
                         listing.MainPhotoUrl = _apiBaseUrl + listing.MainPhotoUrl;
                     }
 
-                    // --- POPRAWKA GALERII (Jeśli masz listę URL-i) ---
+                    // --- POPRAWKA GALERII ---
                     if (listing.PhotoUrls != null)
                     {
                         // Tworzymy nową listę z poprawionymi adresami
@@ -127,7 +127,6 @@ namespace MotoMarket.Web.Services.Listings
                 {
                     if (!string.IsNullOrEmpty(item.MainPhotoUrl))
                     {
-                        // Doklejamy adres API (np. https://localhost:7072) do ścieżki (/uploads/...)
                         item.MainPhotoUrl = _apiBaseUrl + item.MainPhotoUrl;
                     }
                 }
