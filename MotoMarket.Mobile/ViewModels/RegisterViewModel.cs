@@ -26,11 +26,11 @@ namespace MotoMarket.Mobile.ViewModels
         {
             if (IsBusy) return;
 
-            // Prosta walidacja
+            //Simple validation
             if (string.IsNullOrWhiteSpace(Email) ||
              string.IsNullOrWhiteSpace(Password) ||
-             string.IsNullOrWhiteSpace(FirstName) || // Imię wymagane
-             string.IsNullOrWhiteSpace(LastName))    // Nazwisko wymagane
+             string.IsNullOrWhiteSpace(FirstName) || 
+             string.IsNullOrWhiteSpace(LastName))    
             {
                 await Application.Current.MainPage.DisplayAlert("Błąd", "Wypełnij wszystkie pola", "OK");
                 return;
@@ -49,7 +49,7 @@ namespace MotoMarket.Mobile.ViewModels
             if (success)
             {
                 await Application.Current.MainPage.DisplayAlert("Sukces", "Konto utworzone! Zaloguj się.", "OK");
-                // Wracamy do ekranu logowania (cofamy się w nawigacji)
+                //Return after registration
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
             else

@@ -12,6 +12,6 @@ namespace MotoMarket.Mobile.Models.Chat
         public string SenderId { get; set; }
         public string Content { get; set; }
         public DateTime SentAt { get; set; }
-        public bool IsMine { get; set; } // Czy to ja wysłałem? (Przydatne dla CSS: dymek z lewej czy z prawej)
+        public bool IsMine { get; set; }
     }
 }

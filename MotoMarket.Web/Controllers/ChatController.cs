@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Web.Services.Chat;
 using System.Security.Claims;
@@ -17,11 +17,10 @@ namespace MotoMarket.Web.Controllers
             _chatService = chatService;
         }
 
-        // GET: Chat (Lista rozmów)
+        // GET [index]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            // Używamy metody z ChatService
             var conversations = await _chatService.GetMyConversations();
             return View(conversations);
         }
@@ -29,33 +28,27 @@ namespace MotoMarket.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUnreadCount()
         {
-            // Pobierz z serwisu (dodaj metodę do IChatService!)
             var count = await _chatService.GetUnreadCount();
             return Json(count);
         }
 
-        // GET: Chat/Conversation?recipientId=xyz&listingId=123
+        // GET [conversation]
         public IActionResult Conversation(string recipientId, int? listingId)
         {
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (recipientId == currentUserId)
             {
-                return RedirectToAction("Index", "Listings"); // Nie można czatować samemu ze sobą
+                return RedirectToAction("Index", "Listings");
             }
 
-            // --- NOWOŚĆ: Wyciągamy Token z Ciasteczka ---
-            // "JWT" to nazwa ciasteczka, którą ustawiłeś przy logowaniu.
-            // Jeśli nazwałeś je inaczej (np. "X-Access-Token"), zmień tutaj nazwę.
             var token = Request.Cookies["JWT"];
             ViewBag.JwtToken = token;
-            // --------------------------------------------
 
-            // Przekazujemy dane do widoku przez ViewBag
             ViewBag.RecipientId = recipientId;
             ViewBag.ListingId = listingId;
             ViewBag.CurrentUserId = currentUserId;
-            ViewBag.ApiUrl = _configuration["ApiUrl"] ?? "https://localhost:7072"; // Potrzebne dla SignalR
+            ViewBag.ApiUrl = _configuration["ApiUrl"] ?? "https://localhost:7072";
 
             return View();
         }

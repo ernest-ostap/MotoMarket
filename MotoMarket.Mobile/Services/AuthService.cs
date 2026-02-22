@@ -20,8 +20,8 @@ namespace MotoMarket.Mobile.Services
             {
                 var command = new LoginUserCommand { Email = email, Password = password };
 
-                // Logujemy co wysyłamy
-                System.Diagnostics.Debug.WriteLine($"[AUTH] Próba logowania pod: {_httpClient.BaseAddress}/api/Users/login");
+                //logs to debug api url
+                //System.Diagnostics.Debug.WriteLine($"[AUTH] Próba logowania pod: {_httpClient.BaseAddress}/api/Users/login");
 
                 var response = await _httpClient.PostAsJsonAsync("api/Users/login", command);
 
@@ -39,16 +39,14 @@ namespace MotoMarket.Mobile.Services
                 }
                 else
                 {
-                    // Zobaczysz ten błąd w okienku "Output" w Visual Studio
                     var errorContent = await response.Content.ReadAsStringAsync();
                     System.Diagnostics.Debug.WriteLine($"[AUTH BŁĄD API] Status: {response.StatusCode}, Treść: {errorContent}");
                 }
             }
             catch (Exception ex)
             {
-                // To jest najważniejsze - pokaże dlaczego Android odrzucił połączenie
-                System.Diagnostics.Debug.WriteLine($"[AUTH WYJĄTEK] {ex.GetType().Name}: {ex.Message}");
-                System.Diagnostics.Debug.WriteLine($"[AUTH WYJĄTEK] StackTrace: {ex.StackTrace}");
+                //System.Diagnostics.Debug.WriteLine($"[AUTH WYJĄTEK] {ex.GetType().Name}: {ex.Message}");
+                //System.Diagnostics.Debug.WriteLine($"[AUTH WYJĄTEK] StackTrace: {ex.StackTrace}");
                 if (ex.InnerException != null)
                 {
                     System.Diagnostics.Debug.WriteLine($"[AUTH WYJĄTEK] InnerException: {ex.InnerException.Message}");
@@ -77,7 +75,6 @@ namespace MotoMarket.Mobile.Services
                     Email = email,
                     Password = password,
                     ConfirmPassword = confirmPassword,
-                    // Mapujemy nowe pola
                     FirstName = firstName,
                     LastName = lastName,
                     PhoneNumber = phone
@@ -87,9 +84,6 @@ namespace MotoMarket.Mobile.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // Opcjonalnie: Możesz tu od razu zalogować usera (pobrać token), 
-                    // jeśli API zwraca token przy rejestracji. 
-                    // Jeśli nie, zwracamy true i user musi się zalogować.
                     return true;
                 }
                 else
@@ -112,9 +106,7 @@ namespace MotoMarket.Mobile.Services
             return !string.IsNullOrEmpty(token);
         }
 
-        /// <summary>
-        /// Zwraca imię i nazwisko użytkownika zapisane przy logowaniu (lub pusty string).
-        /// </summary>
+        // Zwraca imię i nazwisko użytkownika zapisane przy logowaniu (lub pusty string).
         public static async Task<string> GetUserDisplayNameAsync()
         {
             try

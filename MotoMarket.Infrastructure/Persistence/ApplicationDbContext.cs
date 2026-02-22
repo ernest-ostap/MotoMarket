@@ -17,7 +17,7 @@ using DriveType = MotoMarket.Domain.Entities.Vehicles.DriveType;
 namespace MotoMarket.Infrastructure.Persistence
 {
     // dziedziczymy po IdentityDbContext, żeby mieć gotowe tabele Users, Roles, Logins itp.
-    // dziedziczymy też po IApplicationDbContext, żeby wstrzykiwać kontekst przez interfejs - rozwiązanie na cykliczne zależności ;)
+    // dziedziczymy też po IApplicationDbContext, żeby wstrzykiwać kontekst przez interfejs 
     public class ApplicationDbContext : IdentityDbContext <ApplicationUser>, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -107,7 +107,6 @@ namespace MotoMarket.Infrastructure.Persistence
 
                 
             });
-            // Reszta relacji ListingFeature, ListingPhoto itp. z automatu zadziała dobrze (Cascade delete jest tam OK)
         }
     }
 }

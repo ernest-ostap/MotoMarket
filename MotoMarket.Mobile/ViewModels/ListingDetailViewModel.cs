@@ -23,7 +23,6 @@ namespace MotoMarket.Mobile.ViewModels
         [ObservableProperty] bool hasParameters;
         [ObservableProperty] bool hasFeatures;
 
-        // Kolekcja zdjęć do karuzeli
         public ObservableCollection<string> Photos { get; } = new();
 
         [RelayCommand]
@@ -34,7 +33,6 @@ namespace MotoMarket.Mobile.ViewModels
 
             if (data != null)
             {
-                // Fix URLi zdjęć (dla emulatora/tunelu)
                 var fixedPhotos = new List<string>();
                 foreach (var url in data.PhotoUrls)
                 {
@@ -45,13 +43,11 @@ namespace MotoMarket.Mobile.ViewModels
                 }
                 data.PhotoUrls = fixedPhotos;
 
-                // Wrzucamy do ObservableCollection dla karuzeli
                 Photos.Clear();
                 foreach (var p in fixedPhotos) Photos.Add(p);
 
                 Listing = data;
 
-                // Aktualizuj flagi widoczności sekcji
                 HasParameters = data.Parameters != null && data.Parameters.Any();
                 HasFeatures = data.Features != null && data.Features.Any();
             }
@@ -67,15 +63,13 @@ namespace MotoMarket.Mobile.ViewModels
                 return;
             }
 
+            //redirecting to phone dialer
             try
             {
-                // ZMIANA: Próbujemy otworzyć dialer "na siłę", nawet jak IsSupported mówi false.
-                // Na prawdziwym telefonie to zadziała, a na emulatorze otworzy aplikację "Telefon".
                 PhoneDialer.Default.Open(Listing.SellerPhone);
             }
             catch (Exception ex)
             {
-                // Dopiero jak system rzuci błędem, to wyświetlamy alert
                 Application.Current.MainPage.DisplayAlert("Błąd", "Nie udało się otworzyć telefonu: " + ex.Message, "OK");
             }
         }
@@ -100,7 +94,6 @@ namespace MotoMarket.Mobile.ViewModels
         {
             if (Listing == null) return;
 
-            // Sprawdź logowanie
             var token = await SecureStorage.GetAsync("auth_token");
             if (string.IsNullOrEmpty(token))
             {
@@ -108,7 +101,6 @@ namespace MotoMarket.Mobile.ViewModels
                 return;
             }
 
-            // Optymistyczna zmiana UI
             bool oldState = Listing.IsFavorite;
             Listing.IsFavorite = !Listing.IsFavorite;
 
@@ -120,7 +112,6 @@ namespace MotoMarket.Mobile.ViewModels
             }
             else
             {
-                // Cofnij w razie błędu
                 Listing.IsFavorite = oldState;
                 await Application.Current.MainPage.DisplayAlert("Błąd", "Nie udało się zmienić statusu ulubionych", "OK");
             }

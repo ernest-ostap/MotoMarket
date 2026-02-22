@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using MotoMarket.Web.Services.Auth; // <--- Używamy serwisu WEBOWEGO
+using MotoMarket.Web.Services.Auth;
 using System.Security.Claims;
 
 namespace MotoMarket.Web.Middleware
@@ -24,10 +24,7 @@ namespace MotoMarket.Web.Middleware
                 {
                     using (var scope = serviceProvider.CreateScope())
                     {
-                        // ZMIANA: Pobieramy IAuthService zamiast IUserManagementService
                         var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
-
-                        // Strzał do API po HTTP
                         var isBanned = await authService.IsUserBanned(userId);
 
                         if (isBanned)

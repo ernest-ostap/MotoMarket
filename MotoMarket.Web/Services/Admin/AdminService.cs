@@ -1,4 +1,4 @@
-﻿using MotoMarket.Web.Models.DTOs;
+using MotoMarket.Web.Models.DTOs;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -21,21 +21,19 @@ namespace MotoMarket.Web.Services.Admin
         #region Brands
         public async Task<bool> CreateBrand(string name)
         {
-            // 1. Pobierz token JWT (żeby API wiedziało, że jesteś Adminem)
+            // 1. Get JWT token
             var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
             if (!string.IsNullOrEmpty(token))
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
 
-            // 2. Przygotuj dane do wysyłki
-            // Tworzymy anonimowy obiekt, który pasuje do CreateBrandCommand w API
+            // 2. Prepare request data
             var command = new { Name = name };
             var json = JsonSerializer.Serialize(command);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            // 3. Wyślij POST do API
-            // Zakładam, że w BrandsController (API) masz [HttpPost] w /api/Brands
+            // 3. Send POST to API
             var response = await _httpClient.PostAsync($"{_apiBaseUrl}/api/Brands", content);
 
             return response.IsSuccessStatusCode;
@@ -60,7 +58,7 @@ namespace MotoMarket.Web.Services.Admin
 
         public async Task<bool> UpdateBrand(int id, string name)
         {
-            AddAuthHeader(); // Twoja metoda dodająca token
+            AddAuthHeader();
             var json = JsonSerializer.Serialize(new { Id = id, Name = name });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync($"{_apiBaseUrl}/api/Brands/{id}", content);
@@ -70,7 +68,6 @@ namespace MotoMarket.Web.Services.Admin
         public async Task<bool> ToggleBrandActive(int id)
         {
             AddAuthHeader();
-            // Wysyłamy pusty content, bo ID jest w URL
             var content = new StringContent("", Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/Brands/{id}/toggle-active", content);
@@ -127,7 +124,6 @@ namespace MotoMarket.Web.Services.Admin
         public async Task<bool> ToggleModelActive(int id)
         {
             AddAuthHeader();
-            // Wysyłamy pusty content, bo ID jest w URL
             var content = new StringContent("", Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/Models/{id}/toggle-active", content);
@@ -444,7 +440,6 @@ namespace MotoMarket.Web.Services.Admin
         public async Task<bool> ToggleFeatureActive(int id)
         {
             AddAuthHeader();
-            // Wysyłamy pusty content, bo ID jest w URL
             var content = new StringContent("", Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/Features/{id}/toggle-active", content);
@@ -471,11 +466,9 @@ namespace MotoMarket.Web.Services.Admin
             return new List<ParameterTypeDto>();
         }
 
-        // Implementacja Create przyjmująca DTO
         public async Task<bool> CreateParameterType(ParameterTypeDto dto)
         {
             AddAuthHeader();
-            // Serializujemy cały obiekt (Name, Unit, Category, IsRequired...)
             var json = JsonSerializer.Serialize(dto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -483,22 +476,18 @@ namespace MotoMarket.Web.Services.Admin
             return response.IsSuccessStatusCode;
         }
 
-        // Implementacja Update przyjmująca DTO
         public async Task<bool> UpdateParameterType(ParameterTypeDto dto)
         {
             AddAuthHeader();
             var json = JsonSerializer.Serialize(dto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            // WAŻNE: W URL używamy dto.Id
             var response = await _httpClient.PutAsync($"{_apiBaseUrl}/api/ParameterTypes/{dto.Id}", content);
             return response.IsSuccessStatusCode;
         }
 
-        // Implementacja Get (do edycji)
         public async Task<ParameterTypeDto?> GetParameterType(int id)
         {
-            // Wersja leniwa (pobieramy wszystkie i filtrujemy), chyba że dorobiłeś GET /api/ParameterTypes/{id}
             var all = await GetAllParameterTypes();
             return all.FirstOrDefault(p => p.Id == id);
         }
@@ -538,7 +527,6 @@ namespace MotoMarket.Web.Services.Admin
         public async Task<bool> ToggleUserBan(string userId)
         {
             AddAuthHeader();
-            // Endpoint: PATCH /api/Users/{id}/toggle-ban
             var content = new StringContent("", Encoding.UTF8, "application/json");
             var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/Users/{userId}/toggle-ban", content);
             return response.IsSuccessStatusCode;
@@ -569,7 +557,6 @@ namespace MotoMarket.Web.Services.Admin
         public async Task<bool> BanListing(int id, string reason)
         {
             AddAuthHeader();
-            // Wysyłamy powód jako JSON
             var json = JsonSerializer.Serialize(reason);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -580,7 +567,6 @@ namespace MotoMarket.Web.Services.Admin
         public async Task<bool> UnbanListing(int id)
         {
             AddAuthHeader();
-            // Wysyłamy pusty content, bo nie potrzebujemy parametrów
             var content = new StringContent("", Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PatchAsync($"{_apiBaseUrl}/api/Listings/admin/{id}/unban", content);
@@ -591,7 +577,6 @@ namespace MotoMarket.Web.Services.Admin
         #region PageContent
         public async Task<IEnumerable<PageContentDto>> GetAllPageContents()
         {
-            // Bez AuthHeader, bo endpoint GET jest publiczny
             var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Content");
             if (response.IsSuccessStatusCode)
             {

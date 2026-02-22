@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MotoMarket.Web.Models.DTOs;
 
 namespace MotoMarket.Web.Models.ViewModels
@@ -12,13 +12,11 @@ namespace MotoMarket.Web.Models.ViewModels
         public decimal? PriceMax { get; set; }
         public int? YearMin { get; set; }
         public int? YearMax { get; set; }
-        public string? SortBy { get; set; } = "newest"; // Domyślne sortowanie
+        public string? SortBy { get; set; } = "newest";
 
-        //dane do wyswietlenia listy selectListItem
         public IEnumerable<SelectListItem> Brands { get; set; } = new List<SelectListItem>();
         public IEnumerable<SelectListItem> Models { get; set; } = new List<SelectListItem>();
 
-        //wyniki wyszukiwania
         public IEnumerable<ListingDto> Listings { get; set; } = new List<ListingDto>();
     }
 }

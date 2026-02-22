@@ -128,7 +128,6 @@ namespace MotoMarket.Mobile.Services
         {
             try
             {
-                // Np. api/FuelTypes, api/GearboxTypes - dostosuj do swojego API!
                 var response = await _httpClient.GetAsync($"api/{dictionaryName}");
                 if (response.IsSuccessStatusCode)
                     return await response.Content.ReadFromJsonAsync<IEnumerable<DictionaryDto>>();
@@ -137,7 +136,6 @@ namespace MotoMarket.Mobile.Services
             return new List<DictionaryDto>();
         }
 
-        // 2. Metoda CreateListingAsync obsługująca wszystkie pola
         public async Task<bool> CreateListingAsync(CreateListingDto dto, IEnumerable<FileResult> photos)
         {
             try
@@ -149,10 +147,9 @@ namespace MotoMarket.Mobile.Services
 
                 using var content = new MultipartFormDataContent();
 
-                // Helper do dodawania stringów
+                //helper for adding string content and avoiding null issues
                 void AddString(string val, string name) => content.Add(new StringContent(val ?? ""), name);
 
-                // --- Proste pola ---
                 AddString(dto.Title, nameof(dto.Title));
                 AddString(dto.Description, nameof(dto.Description));
                 AddString(dto.VIN, nameof(dto.VIN));
@@ -163,7 +160,6 @@ namespace MotoMarket.Mobile.Services
                 AddString(dto.ProductionYear.ToString(), nameof(dto.ProductionYear));
                 AddString(dto.Mileage.ToString(), nameof(dto.Mileage));
 
-                // --- Dropdowny ID ---
                 AddString(dto.BrandId.ToString(), nameof(dto.BrandId));
                 AddString(dto.ModelId.ToString(), nameof(dto.ModelId));
                 AddString(dto.FuelTypeId.ToString(), nameof(dto.FuelTypeId));
@@ -172,7 +168,6 @@ namespace MotoMarket.Mobile.Services
                 AddString(dto.BodyTypeId.ToString(), nameof(dto.BodyTypeId));
                 AddString(dto.VehicleCategoryId.ToString(), nameof(dto.VehicleCategoryId));
 
-                // --- Lista FeatureIds (Wyposażenie) ---
                 if (dto.SelectedFeatureIds != null)
                 {
                     foreach (var id in dto.SelectedFeatureIds)
@@ -189,7 +184,6 @@ namespace MotoMarket.Mobile.Services
                     }
                 }
 
-                // --- Zdjęcia ---
                 if (photos != null)
                 {
                     foreach (var photo in photos)
@@ -285,7 +279,7 @@ namespace MotoMarket.Mobile.Services
             {
                 System.Diagnostics.Debug.WriteLine($"[FAV ERROR] {ex.Message}");
             }
-            return null; // Błąd
+            return null; 
         }
 
         public async Task<IEnumerable<ListingDto>> GetMyFavoritesAsync()
@@ -328,15 +322,13 @@ namespace MotoMarket.Mobile.Services
         {
             try
             {
-                // Swagger mówi: GET /api/Models (bez parametrów)
+                //GET /api/Models (no params)
                 var response = await _httpClient.GetAsync("api/Models");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var allModels = await response.Content.ReadFromJsonAsync<IEnumerable<DictionaryDto>>();
 
-                    // FILTROWANIE PO STRONIE TELEFONU:
-                    // Zwracamy tylko te, gdzie model.BrandId == wybrane brandId
                     return allModels.Where(x => x.BrandId == brandId).ToList();
                 }
             }

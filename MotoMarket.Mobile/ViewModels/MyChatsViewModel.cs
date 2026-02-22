@@ -28,9 +28,8 @@ namespace MotoMarket.Mobile.ViewModels
         [RelayCommand]
         async Task OpenChatAsync(ConversationDto conversation)
         {
-            // Przechodzimy do strony czatu z tym userem
             await Application.Current.MainPage.Navigation.PushAsync(
-                new Views.ChatPage(conversation.OtherUserId , null)); // null bo to czat ogólny, nie przez ogłoszenie
+                new Views.ChatPage(conversation.OtherUserId , null)); 
         }
     }
 }

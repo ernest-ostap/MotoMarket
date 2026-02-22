@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MotoMarket.Web.Models.Other;
@@ -10,7 +10,6 @@ namespace MotoMarket.Web.Controllers
 {
     public class ListingsController : Controller
     {
-        // Lokalne stałe statusów, żeby nie referencjonować warstwy domenowej
         private const int StatusActive = 1;
         private const int StatusSold = 2;
         private const int StatusArchived = 3;
@@ -27,27 +26,26 @@ namespace MotoMarket.Web.Controllers
         }
 
         #region Get
-        // GET: Listings
-        public async Task<IActionResult> Index(ListingsFilterViewModel filter) // MVC samo zmapuje parametry z URL
+        // GET [index]
+        public async Task<IActionResult> Index(ListingsFilterViewModel filter)
         {
-            // 1. Pobierz słowniki do dropdownów w filtrach
+            // 1. Load dictionaries for filter dropdowns
             var brands = await _dictionaryService.GetBrands();
             filter.Brands = brands.Select(x => new SelectListItem(x.Name, x.Id));
 
-            // Jeśli wybrano markę, załaduj modele (żeby dropdown nie był pusty po przeładowaniu)
             if (filter.BrandId.HasValue)
             {
                 var models = await _dictionaryService.GetModels(filter.BrandId.Value);
                 filter.Models = models.Select(x => new SelectListItem(x.Name, x.Id));
             }
 
-            // 2. Pobierz przefiltrowane auta
+            // 2. Load filtered listings
             filter.Listings = await _vehicleService.GetAllListings(filter);
 
             return View(filter);
         }
 
-        // GET: Listings/Details/5
+        // GET [id]
         public async Task<IActionResult> Details(int id)
         {
             var listing = await _vehicleService.GetListingDetail(id);
@@ -60,7 +58,7 @@ namespace MotoMarket.Web.Controllers
             return View(listing);
         }
 
-        // GET: Listings/MyListings
+        // GET [my-listings]
         [Authorize]
         public async Task<IActionResult> MyListings()
         {
@@ -87,7 +85,7 @@ namespace MotoMarket.Web.Controllers
             return View(viewModel);
         }
 
-        // POST: Listings/Create
+        // POST
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateListingViewModel model)
@@ -98,7 +96,6 @@ namespace MotoMarket.Web.Controllers
                 return View(model);
             }
 
-            // Jeśli walidacja OK, wysyłamy do API
             await _vehicleService.CreateListing(model);
 
             return RedirectToAction(nameof(Index));
@@ -110,11 +107,11 @@ namespace MotoMarket.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            // 1. Pobierz dane ogłoszenia
+            // 1. Load listing data
             var listing = await _vehicleService.GetListingDetail(id);
             if (listing == null) return NotFound();
 
-            // 2. Security check - czy jestem właścicielem ogłoszenia lub Adminem
+            // 2. Security check: owner or admin
             var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
                      ?? User.FindFirst("sub")?.Value;
 
@@ -126,7 +123,7 @@ namespace MotoMarket.Web.Controllers
                 return RedirectToAction("AccessDenied", "Auth");
             }
 
-            // 3. Mapowanie DTO -> ViewModel
+            // 3. Map DTO to ViewModel
             var viewModel = new CreateListingViewModel
             {
                 Id = listing.Id,
@@ -139,7 +136,6 @@ namespace MotoMarket.Web.Controllers
                 LocationCity = listing.LocationCity,
                 LocationRegion = listing.LocationRegion,
 
-                // Ustawiamy wybrane wartości
                 BrandId = listing.BrandId,
                 ModelId = listing.ModelId,
                 FuelTypeId = listing.FuelTypeId,
@@ -148,12 +144,11 @@ namespace MotoMarket.Web.Controllers
                 DriveTypeId = listing.DriveTypeId,
                 VehicleCategoryId = listing.VehicleCategoryId,
 
-                // ListingParameters / Features
                 SelectedFeatureIds = listing.FeatureIds?.ToList() ?? new List<int>(),
                 Parameters = listing.Parameters?.ToDictionary(p => p.ParameterTypeId, p => p.Value) ?? new Dictionary<int, string>()
             };
 
-            // 4. Pobierz słowniki
+            // 4. Load dictionaries
             await PopulateDictionaries(viewModel);
 
             return View(viewModel);
@@ -164,10 +159,8 @@ namespace MotoMarket.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, CreateListingViewModel model)
         {
-            // Security check ID
             if (id != model.Id) return BadRequest();
 
-            // Security check ownership
             var existingListing = await _vehicleService.GetListingDetail(id);
             if (existingListing == null) return NotFound();
 
@@ -182,14 +175,12 @@ namespace MotoMarket.Web.Controllers
                 return RedirectToAction("AccessDenied", "Auth");
             }
 
-            // Walidacja modelu
             if (!ModelState.IsValid)
             {
                 await PopulateDictionaries(model);
                 return View(model);
             }
 
-            // Wysyłamy do API
             try
             {
                 await _vehicleService.UpdateListing(model);
@@ -205,10 +196,10 @@ namespace MotoMarket.Web.Controllers
         #endregion
 
         #region ListingStatus
-        // POST: Listings/Delete/5
+        // POST [id] delete
         [HttpPost]
         [Authorize]
-        [ValidateAntiForgeryToken] // Zabezpieczenie formularza
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -221,7 +212,7 @@ namespace MotoMarket.Web.Controllers
                 TempData["Error"] = "Nie udało się zarchiwizować ogłoszenia.";
             }
 
-            return RedirectToAction(nameof(MyListings)); // Wracamy do tabelki
+            return RedirectToAction(nameof(MyListings));
         }
 
         [HttpPost]
@@ -262,16 +253,14 @@ namespace MotoMarket.Web.Controllers
         #endregion
 
         #region PdfGenerator
-        [HttpPost] // Zmieniamy na POST, bo przyjdzie formularz
+        [HttpPost]
         public async Task<IActionResult> DownloadPdf(PdfGenerationOptions options)
         {
             var listing = await _vehicleService.GetListingDetail(options.ListingId);
             if (listing == null) return NotFound();
 
-            // Przekazujemy opcje usera do serwisu
             var pdfBytes = await _pdfService.GenerateListingPdfAsync(listing, options);
 
-            // Dodajemy tytuł do nazwy pliku dla bajeru
             var safeTitle = string.IsNullOrWhiteSpace(options.CustomTitle) ? "Oferta" : options.CustomTitle.Replace(" ", "_");
             var fileName = $"{safeTitle}_{listing.BrandName}_{listing.Id}.pdf";
 
@@ -287,7 +276,6 @@ namespace MotoMarket.Web.Controllers
             try
             {
                 var isFavorite = await _vehicleService.ToggleFavorite(id);
-                // Zwracamy JSON, żeby strona się nie przeładowała
                 return Json(new { success = true, isFavorite = isFavorite });
             }
             catch
@@ -327,7 +315,6 @@ namespace MotoMarket.Web.Controllers
             model.AvailableFeatures = featuresTask.Result;
             model.AvailableParameters = paramsTask.Result;
 
-            // Dodatkowo: Modele (kaskada) - tylko jeśli BrandId > 0
             if (model.BrandId > 0)
             {
                 var models = await _dictionaryService.GetModels(model.BrandId);

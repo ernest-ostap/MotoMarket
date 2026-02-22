@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Web.Models.DTOs; // Upewnij się, że masz tu DictionaryDto
 using MotoMarket.Web.Services.Admin;
@@ -15,22 +15,22 @@ namespace MotoMarket.Web.Controllers
             _adminService = adminService;
         }
 
-        // 1. LISTA (Index)
+        // GET [index]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            // Pobiera listę marek z serwisu
             var brands = await _adminService.GetAllBrands();
             return View(brands);
         }
 
-        // 2. DODAWANIE (Create)
+        // GET [create]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        // POST
         [HttpPost]
         public async Task<IActionResult> Create(string name)
         {
@@ -44,23 +44,24 @@ namespace MotoMarket.Web.Controllers
             if (success)
             {
                 TempData["Success"] = "Marka dodana!";
-                return RedirectToAction(nameof(Index)); // Wraca do listy
+                return RedirectToAction(nameof(Index));
             }
 
             ModelState.AddModelError("", "Błąd zapisu (API)");
             return View();
         }
 
-        // 3. EDYCJA (Edit)
+        // GET [id] edit
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var brand = await _adminService.GetBrand(id);
             if (brand == null) return NotFound();
 
-            return View(brand); // Przekazujemy istniejącą markę do formularza
+            return View(brand);
         }
 
+        // POST [id]
         [HttpPost]
         public async Task<IActionResult> Edit(DictionaryDto model)
         {
@@ -77,8 +78,6 @@ namespace MotoMarket.Web.Controllers
             return View(model);
         }
 
-        // MotoMarket.Web/Controllers/BrandsController.cs
-
         [HttpPost]
         [Route("Brands/ToggleActive/{id}")] 
         public async Task<IActionResult> ToggleActive(int id)
@@ -87,8 +86,7 @@ namespace MotoMarket.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // 4. USUWANIE (Delete)
-        // Tutaj robimy od razu akcję (bez widoku potwierdzenia dla szybkości)
+        // POST [id] delete
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

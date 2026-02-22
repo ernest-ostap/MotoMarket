@@ -13,36 +13,32 @@ namespace MotoMarket.Web.Controllers
             _authService = authService;
         }
 
-        // GET: /Auth/Login
+        // GET
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
-        // POST: /Auth/Login
+        // POST
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
 
-            // ZMIANA: Oczekujemy, że serwis zwróci stringa (token) lub null/empty
-            // Uwaga: Musisz zaktualizować AuthService (patrz niżej)!
             var token = await _authService.Login(model);
 
             if (!string.IsNullOrEmpty(token))
             {
-                // --- NOWOŚĆ: Zapisujemy token w ciasteczku ---
                 var cookieOptions = new CookieOptions
                 {
-                    HttpOnly = true, // Bezpieczne (JS nie ukradnie, ale serwer odczyta)
-                    Secure = true,   // Tylko HTTPS
+                    HttpOnly = true,
+                    Secure = true,
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.UtcNow.AddDays(7)
                 };
 
                 Response.Cookies.Append("JWT", token, cookieOptions);
-                // ---------------------------------------------
 
                 return RedirectToAction("Index", "Home");
             }
@@ -51,14 +47,14 @@ namespace MotoMarket.Web.Controllers
             return View(model);
         }
 
-        // GET: /Auth/Register
+        // GET
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
-        // POST: /Auth/Register
+        // POST
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -74,13 +70,11 @@ namespace MotoMarket.Web.Controllers
             return View(model);
         }
 
+        //Logging out and clears the JWT cookie and redirects to the home page.
         public async Task<IActionResult> Logout()
         {
             await _authService.Logout();
-
-            //Czyścimy ciasteczko przy wylogowaniu
             Response.Cookies.Delete("JWT");
-
             return RedirectToAction("Index", "Home");
         }
 

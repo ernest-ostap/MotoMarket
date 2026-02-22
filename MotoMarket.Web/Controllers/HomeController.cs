@@ -21,7 +21,7 @@ namespace MotoMarket.Web.Controllers
         {
             var vm = new HomeViewModel();
 
-            // 1. Pobieramy teksty z CMS (zróbmy try-catch ¿eby b³¹d CMS nie wywali³ strony g³ównej)
+            // 1. Load CMS content
             try
             {
                 var contents = await _adminService.GetAllPageContents();
@@ -31,13 +31,12 @@ namespace MotoMarket.Web.Controllers
                 if (header != null) vm.WelcomeTitle = header.Content;
                 if (sub != null) vm.WelcomeSubtitle = sub.Content;
             }
-            catch { /* Ignorujemy, zostaj¹ domyœlne */ }
+            catch { }
 
-            // 2. Pobieramy marki do wyszukiwarki
-            // Tutaj u¿yj metody, któr¹ masz (np. _adminService.GetAllBrands() lub z DictionaryService)
+            // 2. Load brands for search
             vm.Brands = await _adminService.GetAllBrands();
 
-            // 3. Pobieramy ostatnie og³oszenia (np. 8 sztuk)
+            // 3. Load recent listings
             vm.RecentListings = await _vehicleService.GetRecentListings(8);
 
             return View(vm);

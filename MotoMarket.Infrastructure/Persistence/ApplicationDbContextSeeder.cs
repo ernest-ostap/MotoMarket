@@ -11,6 +11,8 @@ using DriveType = MotoMarket.Domain.Entities.Vehicles.DriveType;
 
 namespace MotoMarket.Infrastructure.Persistence
 {
+    //Seeder pozostawiam w projekcie, żeby ułatwić testowanie i sprawdzanie działania aplikacji,
+    //w profesjonalnej produkcji można go po prostu wyrzucić z projektu, albo nie wywoływać
     public class ApplicationDbContextSeeder
     {
         private readonly ApplicationDbContext _context;
@@ -175,7 +177,6 @@ namespace MotoMarket.Infrastructure.Persistence
             await _context.SaveChangesAsync();
         }
 
-        // Ta metoda teraz zadziała poprawnie
         public async Task SeedUsersAsync()
         {
             // 1. Tworzenie ROL (jeśli nie istnieją)

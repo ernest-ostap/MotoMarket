@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Web.Services.Admin;
 
@@ -20,7 +20,7 @@ namespace MotoMarket.Web.Controllers
             return View(listings);
         }
 
-        // GET: Wyświetl formularz z powodem
+        // GET [id] ban form
         [HttpGet]
         public async Task<IActionResult> Ban(int id)
         {
@@ -35,7 +35,7 @@ namespace MotoMarket.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: Wykonaj bana
+        // POST [id] ban confirm
         [HttpPost]
         public async Task<IActionResult> BanConfirm(int id, string reason)
         {

@@ -17,9 +17,7 @@ namespace MotoMarket.Mobile.ViewModels
             _authService = new AuthService();
         }
 
-        /// <summary>
-        /// Wywołaj przy wejściu na stronę profilu, żeby odświeżyć imię i nazwisko.
-        /// </summary>
+        // Wywołaj przy wejściu na stronę profilu, żeby odświeżyć imię i nazwisko.
         public async Task LoadUserDisplayNameAsync()
         {
             var name = await AuthService.GetUserDisplayNameAsync();
@@ -49,10 +47,7 @@ namespace MotoMarket.Mobile.ViewModels
         [RelayCommand]
         void Logout()
         {
-            _authService.Logout(); // Usuwa token
-
-            // Przekierowanie na stronę główną i wyczyszczenie stosu nawigacji
-            // Dzięki temu user nie może kliknąć "Wstecz" i wrócić do profilu
+            _authService.Logout(); //Deletes token
             Application.Current.MainPage = new NavigationPage(new ListingsPage());
         }
     }

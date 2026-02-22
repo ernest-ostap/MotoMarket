@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using System.Text.Json;
@@ -6,7 +6,6 @@ using System.Text;
 using MotoMarket.Web.Models.DTOs;
 using MotoMarket.Web.Models.ViewModels;
 using System.Net.Http.Headers;
-// DODAJ TE DWA USINGI (po zainstalowaniu paczki przestaną być szare/czerwone):
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 
@@ -27,7 +26,7 @@ namespace MotoMarket.Web.Services.Auth
 
         public async Task<string?> Login(LoginViewModel model)
         {
-            // 1. Wysyłamy login/hasło do API
+            // 1. Send login/password to API
             var loginJson = JsonSerializer.Serialize(model);
             var content = new StringContent(loginJson, Encoding.UTF8, "application/json");
 
@@ -36,7 +35,7 @@ namespace MotoMarket.Web.Services.Auth
             if (!response.IsSuccessStatusCode)
                 return null;
 
-            // 2. Odbieramy Token
+            // 2. Receive token
             var responseString = await response.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             var authResult = JsonSerializer.Deserialize<AuthDto>(responseString, options);
@@ -44,27 +43,24 @@ namespace MotoMarket.Web.Services.Auth
             if (authResult == null || string.IsNullOrEmpty(authResult.Token))
                 return null;
 
-            // --- PARSOWANIE RÓL Z TOKENA ---
+            // 3. Parse roles from JWT token
             var handler = new JwtSecurityTokenHandler();
             var jwtToken = handler.ReadJwtToken(authResult.Token);
 
-            // Wyciągamy role 
             var roleClaims = jwtToken.Claims
                 .Where(c => c.Type == "role" || c.Type == "roles" || c.Type == ClaimTypes.Role)
                 .Select(c => c.Value)
                 .ToList();
-            // -------------------------------
 
-            // 3. Budujemy listę Claims dla Ciasteczka
+            // 4. Build claims for cookie
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, authResult.Email),
                 new Claim(ClaimTypes.NameIdentifier, authResult.Id),
-                new Claim("JWT", authResult.Token), // Token do SignalR
+                new Claim("JWT", authResult.Token),
                 new Claim("FirstName", authResult.FirstName)
             };
 
-            // Dodajemy role do ciasteczka jako poprawny typ
             foreach (var role in roleClaims)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
@@ -77,13 +73,11 @@ namespace MotoMarket.Web.Services.Auth
                 ExpiresUtc = DateTime.UtcNow.AddDays(7)
             };
 
-            // Fizyczne zalogowanie w przeglądarce
             await _httpContextAccessor.HttpContext!.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
-            // 4. Zwracamy token (dla AuthController)
             return authResult.Token;
         }
 
@@ -160,12 +154,11 @@ namespace MotoMarket.Web.Services.Auth
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
-                // API zwraca true/false
                 bool.TryParse(json, out var isBanned);
                 return isBanned;
             }
 
-            return false; // Jak błąd API, to na wszelki wypadek nie banujmy (fail-open)
+            return false;
         }
     }
 }

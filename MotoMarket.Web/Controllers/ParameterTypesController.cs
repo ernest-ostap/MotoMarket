@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Web.Models.DTOs;
 using MotoMarket.Web.Services.Admin;
@@ -43,8 +43,7 @@ namespace MotoMarket.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // 4. USUWANIE (Delete)
-        // Tutaj robimy od razu akcję
+        // POST [id] delete
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Web.Models.DTOs;
 using MotoMarket.Web.Services.Admin;
@@ -21,15 +21,15 @@ namespace MotoMarket.Web.Controllers
             return View(models);
         }
 
-        // CREATE
+        // GET [create]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            // Musimy załadować marki do dropdowna
             ViewBag.Brands = await _adminService.GetAllBrands();
             return View();
         }
 
+        // POST
         [HttpPost]
         public async Task<IActionResult> Create(string name, int brandId)
         {
@@ -39,12 +39,11 @@ namespace MotoMarket.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Jak błąd, ładujemy marki ponownie
             ViewBag.Brands = await _adminService.GetAllBrands();
             return View();
         }
 
-        // EDIT
+        // GET [id] edit
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -76,8 +75,7 @@ namespace MotoMarket.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // 4. USUWANIE (Delete)
-        // Tutaj robimy od razu akcję (bez widoku potwierdzenia dla szybkości)
+        // POST [id] delete
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

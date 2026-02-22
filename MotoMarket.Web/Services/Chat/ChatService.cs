@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Headers;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using MotoMarket.Web.Models.DTOs;
 
@@ -19,15 +19,15 @@ namespace MotoMarket.Web.Services.Chat
 
         public async Task<IEnumerable<ConversationDto>> GetMyConversations()
         {
-            // 1. Pobieramy Token, żeby API wiedziało czyje rozmowy pobrać
+            // 1. Get token for API authentication
             var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
             if (!string.IsNullOrEmpty(token))
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
 
-            // 2. Strzał do API
-            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Chat"); // Ten endpoint stworzyliśmy w API (GetMyConversations)
+            // 2. Call API
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Chat");
 
             if (response.IsSuccessStatusCode)
             {
@@ -41,28 +41,24 @@ namespace MotoMarket.Web.Services.Chat
 
         public async Task<int> GetUnreadCount()
         {
-            // 1. Pobieramy token (standardowa procedura)
             var token = _httpContextAccessor.HttpContext?.User.FindFirst("JWT")?.Value;
             if (!string.IsNullOrEmpty(token))
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
 
-            // 2. Strzał do API
-            // Upewnij się, że w API masz endpoint: [HttpGet("unread-count")]
             var response = await _httpClient.GetAsync($"{_apiBaseUrl}/api/Chat/unread-count");
 
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
-                // API zwraca zwykłego inta (np. "5"), więc parsujemy
                 if (int.TryParse(json, out int count))
                 {
                     return count;
                 }
             }
 
-            return 0; // Jak błąd lub brak, zwracamy 0
+            return 0;
         }
     }
 }

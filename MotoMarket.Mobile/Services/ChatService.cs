@@ -8,24 +8,23 @@ namespace MotoMarket.Mobile.Services
     {
         private HubConnection _hubConnection;
 
-        // Zdarzenie, które poinformuje ViewModel, że przyszła nowa wiadomość
+        // event (new message received) -> ViewModel
         public event Action<string, string, int?> OnMessageReceived;
 
         public async Task ConnectAsync()
         {
             var token = await SecureStorage.GetAsync("auth_token");
 
-            // Budujemy połączenie
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl($"{Constants.ApiUrl}/chatHub", options =>
                 {
-                    // WAŻNE: Przekazujemy token, żeby [Authorize] na Hubie zadziałało
+                    // Token for authentication
                     options.AccessTokenProvider = () => Task.FromResult(token);
                 })
-                .WithAutomaticReconnect() // Jak zerwie WiFi, spróbuje połączyć ponownie
+                .WithAutomaticReconnect() //Automatic reconnection if connection drops
                 .Build();
 
-            // Nasłuchujemy metody "ReceiveMessage" (tę nazwę masz w ChatHub.cs w backendzie!)
+            // Nasłuchujemy metody "ReceiveMessage"
             _hubConnection.On<string, string, int?>("ReceiveMessage", (senderId, message, listingId) =>
             {
                 // Przekazujemy info do ViewModelu
@@ -54,7 +53,6 @@ namespace MotoMarket.Mobile.Services
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
 
-            // TWOJE API: [HttpGet("history/{otherUserId}")]
             var response = await client.GetAsync($"api/Chat/history/{otherUserId}");
 
             if (response.IsSuccessStatusCode)
@@ -75,7 +73,6 @@ namespace MotoMarket.Mobile.Services
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
 
-            // TWOJE API: [HttpGet] w ChatController
             var response = await client.GetAsync("api/Chat");
 
             if (response.IsSuccessStatusCode)
@@ -89,7 +86,6 @@ namespace MotoMarket.Mobile.Services
         {
             if (_hubConnection == null || _hubConnection.State != HubConnectionState.Connected) return;
 
-            // Wywołujemy metodę "SendMessage" na serwerze (nazwa metody w ChatHub.cs)
             await _hubConnection.InvokeAsync("SendMessage", recipientId, message, listingId);
         }
 

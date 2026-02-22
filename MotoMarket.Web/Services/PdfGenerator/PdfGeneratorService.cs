@@ -1,4 +1,4 @@
-﻿using MotoMarket.Web.Models.Other;
+using MotoMarket.Web.Models.Other;
 using MotoMarket.Web.Models.DTOs;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -17,7 +17,6 @@ namespace MotoMarket.Web.Services.PdfGenerator
 
         public async Task<byte[]> GenerateListingPdfAsync(ListingDetailDto model, PdfGenerationOptions options)
         {
-            // Pobieramy główne zdjęcie (jeśli jest) jako bajty
             byte[] mainImageBytes = null;
             if (!string.IsNullOrEmpty(model.MainPhotoUrl))
             {
@@ -26,10 +25,9 @@ namespace MotoMarket.Web.Services.PdfGenerator
                     var client = _httpClientFactory.CreateClient();
                     mainImageBytes = await client.GetByteArrayAsync(model.MainPhotoUrl);
                 }
-                catch { /* Ignorujemy błędy pobierania zdjęcia, PDF wygeneruje się bez niego */ }
+                catch { }
             }
 
-            // Tworzenie dokumentu
             var document = Document.Create(container =>
             {
                 container.Page(page =>
@@ -37,11 +35,9 @@ namespace MotoMarket.Web.Services.PdfGenerator
                     page.Size(PageSizes.A4);
                     page.Margin(2, Unit.Centimetre);
                     page.PageColor(Colors.White);
-                    page.DefaultTextStyle(x => x.FontSize(11).FontFamily("Arial")); // Ustawienie czcionki
+                    page.DefaultTextStyle(x => x.FontSize(11).FontFamily("Arial"));
 
                     page.Header().Element(c => ComposeHeader(c, model, options));
-
-                    // TUTAJ DZIEJE SIĘ MAGIA "PRZESTAWIALNYCH BLOKÓW"
                     page.Content().Element(c => ComposeContent(c, model, mainImageBytes, options));
                     page.Footer().AlignCenter().Text(x =>
                     {
@@ -56,15 +52,12 @@ namespace MotoMarket.Web.Services.PdfGenerator
             return document.GeneratePdf();
         }
 
-        // --- KOMPONENTY PDF ---
-
         void ComposeHeader(IContainer container, ListingDetailDto model, PdfGenerationOptions options)
         {
             container.Row(row =>
             {
                 row.RelativeItem().Column(column =>
                 {
-                    // WYMÓG: "Wstrzykiwanie kluczami" -> Customowy tytuł
                     if (!string.IsNullOrWhiteSpace(options.CustomTitle))
                     {
                         column.Item().Text(options.CustomTitle).FontSize(24).SemiBold().FontColor(Colors.Blue.Medium);
@@ -77,7 +70,6 @@ namespace MotoMarket.Web.Services.PdfGenerator
                     }
                 });
 
-                // WYMÓG: Ukrywanie ceny (zmiana szablonu)
                 if (options.IncludePrice)
                 {
                     row.ConstantItem(150).Column(column =>
@@ -95,10 +87,7 @@ namespace MotoMarket.Web.Services.PdfGenerator
             {
                 column.Spacing(20);
 
-                // Zawsze pokazujemy tabelkę techniczną (chyba że też chcesz checkboxa)
                 column.Item().Element(c => ComposeSpecsTable(c, model));
-
-                // WYMÓG: "Zmiana szablonu przez użytkownika" (if-y sterujące układem)
 
                 if (options.IncludePhotos && imageBytes != null)
                 {
@@ -125,14 +114,12 @@ namespace MotoMarket.Web.Services.PdfGenerator
         {
             container.Table(table =>
             {
-                // Definicja kolumn
                 table.ColumnsDefinition(columns =>
                 {
                     columns.ConstantColumn(150);
                     columns.RelativeColumn();
                 });
 
-                // Style komórek
                 static IContainer CellStyle(IContainer c) => c.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(5);
                 static IContainer HeaderStyle(IContainer c) => c.BorderBottom(1).BorderColor(Colors.Grey.Medium).PaddingVertical(5);
 
@@ -142,7 +129,6 @@ namespace MotoMarket.Web.Services.PdfGenerator
                     header.Cell().Element(HeaderStyle).Text("Wartość").SemiBold();
                 });
 
-                // Wiersze
                 void AddRow(string label, string value)
                 {
                     table.Cell().Element(CellStyle).Text(label).FontColor(Colors.Grey.Darken2);
@@ -156,7 +142,6 @@ namespace MotoMarket.Web.Services.PdfGenerator
                 AddRow("Nadwozie", model.BodyTypeName);
                 if (!string.IsNullOrEmpty(model.VIN)) AddRow("VIN", model.VIN);
 
-                // Parametry dynamiczne
                 if (model.Parameters != null)
                 {
                     foreach (var p in model.Parameters)

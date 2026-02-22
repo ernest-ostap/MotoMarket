@@ -21,7 +21,6 @@ namespace MotoMarket.Mobile.ViewModels
             Task.Run(LoadDictionariesAsync);
         }
 
-        // --- POLA FORMULARZA ---
         [ObservableProperty] string title;
         [ObservableProperty] string description;
         [ObservableProperty] string price;
@@ -31,7 +30,6 @@ namespace MotoMarket.Mobile.ViewModels
         [ObservableProperty] string city;
         [ObservableProperty] string region;
 
-        // --- DROPDOWNY (Wybrane obiekty) ---
         [ObservableProperty] DictionaryDto selectedBrand;
         [ObservableProperty] DictionaryDto selectedModel;
         [ObservableProperty] DictionaryDto selectedFuel;
@@ -40,7 +38,6 @@ namespace MotoMarket.Mobile.ViewModels
         [ObservableProperty] DictionaryDto selectedBody;
         [ObservableProperty] DictionaryDto selectedCategory;
 
-        // --- ŹRÓDŁA DANYCH (Listy do Pickerów) ---
         public ObservableCollection<DictionaryDto> Brands { get; } = new();
         public ObservableCollection<DictionaryDto> Models { get; } = new();
         public ObservableCollection<DictionaryDto> FuelTypes { get; } = new();
@@ -49,11 +46,9 @@ namespace MotoMarket.Mobile.ViewModels
         public ObservableCollection<DictionaryDto> BodyTypes { get; } = new();
         public ObservableCollection<DictionaryDto> Categories { get; } = new();
         
-        // --- Features i Parameters ---
         public ObservableCollection<FeatureDto> AvailableFeatures { get; } = new();
         public ObservableCollection<ParameterTypeDto> AvailableParameters { get; } = new();
 
-        // --- ZDJĘCIA ---
         public ObservableCollection<ImageSource> PhotosPreview { get; } = new();
         private List<FileResult> _rawPhotos = new();
 
@@ -62,7 +57,6 @@ namespace MotoMarket.Mobile.ViewModels
         async Task LoadDictionariesAsync()
         {
             IsBusy = true;
-            // UWAGA: Sprawdź nazwy endpointów w swoim API Controllerze (np. DictionariesController)
             var t1 = _vehicleService.GetBrandsAsync();
             var t2 = _vehicleService.GetDictionaryAsync("FuelTypes");
             var t3 = _vehicleService.GetDictionaryAsync("GearboxTypes");
@@ -90,7 +84,7 @@ namespace MotoMarket.Mobile.ViewModels
             IsBusy = false;
         }
 
-        // Obsługa zmiany marki -> ładowanie modeli
+        //Brand changed -> then load models for this brand
         partial void OnSelectedBrandChanged(DictionaryDto value)
         {
             Models.Clear();
@@ -127,8 +121,6 @@ namespace MotoMarket.Mobile.ViewModels
         {
             if (IsBusy) return;
 
-            // 1. ROZSZERZONA WALIDACJA
-            // Sprawdzamy czy WSZYSTKIE słowniki są wybrane
             if (SelectedBrand == null ||
                 SelectedModel == null ||
                 SelectedFuel == null ||
@@ -164,13 +156,11 @@ namespace MotoMarket.Mobile.ViewModels
                 BodyTypeId = SelectedBody.Id,
                 VehicleCategoryId = SelectedCategory.Id,
 
-                // Zbierz wybrane features
                 SelectedFeatureIds = AvailableFeatures
                     .Where(f => f.IsSelected)
                     .Select(f => f.Id)
                     .ToList(),
                 
-                // Zbierz wypełnione parametry
                 Parameters = AvailableParameters
                     .Where(p => !string.IsNullOrWhiteSpace(p.Value))
                     .ToDictionary(p => p.Id, p => p.Value)

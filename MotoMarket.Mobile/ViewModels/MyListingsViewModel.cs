@@ -54,10 +54,9 @@ namespace MotoMarket.Mobile.ViewModels
             string action = "";
             ListingStatus newStatus = ListingStatus.Active;
 
-            // Logika wyboru akcji
+            // Logic of displaying options based on current status
             if (item.Status == (int)ListingStatus.Active)
             {
-                // Jeśli aktywne -> pytamy co zrobić
                 action = await Application.Current.MainPage.DisplayActionSheet(
                     $"Zarządzaj: {item.Title}", "Anuluj", null,
                     "✅ Oznacz jako Sprzedane",
@@ -65,7 +64,6 @@ namespace MotoMarket.Mobile.ViewModels
             }
             else
             {
-                // Jeśli nieaktywne -> pytamy czy przywrócić
                 action = await Application.Current.MainPage.DisplayActionSheet(
                     $"Zarządzaj: {item.Title}", "Anuluj", null,
                     "🔄 Przywróć do Aktywnych");
@@ -73,12 +71,10 @@ namespace MotoMarket.Mobile.ViewModels
 
             if (action == "Anuluj" || action == null) return;
 
-            // Mapowanie wyboru na status
             if (action == "✅ Oznacz jako Sprzedane") newStatus = ListingStatus.Sold;
             else if (action == "📦 Archiwizuj (Ukryj)") newStatus = ListingStatus.Archived;
             else if (action == "🔄 Przywróć do Aktywnych") newStatus = ListingStatus.Active;
 
-            // Strzał do API
             IsBusy = true;
             var success = await _vehicleService.ChangeListingStatusAsync(item.Id, newStatus);
             IsBusy = false;

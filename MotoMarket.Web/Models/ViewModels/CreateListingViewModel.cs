@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering; // Do SelectListItem
+using Microsoft.AspNetCore.Mvc.Rendering; // Do SelectListItem
 using MotoMarket.Web.Models.DTOs;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -42,7 +42,6 @@ namespace MotoMarket.Web.Models.ViewModels
         [Display(Name = "Województwo")]
         public string LocationRegion { get; set; } = string.Empty;
 
-        // --- Pola wyboru (to co user zaznaczy) ---
         [Display(Name = "Marka")]
         public int BrandId { get; set; }
 
@@ -70,10 +69,8 @@ namespace MotoMarket.Web.Models.ViewModels
         [Display(Name = "Kategoria pojazdu")]
         public int VehicleCategoryId { get; set; }
 
-
-        // --- Listy do Dropdownów ---
         public IEnumerable<SelectListItem> Brands { get; set; } = new List<SelectListItem>();
-        public IEnumerable<SelectListItem> Models { get; set; } = new List<SelectListItem>(); // Na starcie puste
+        public IEnumerable<SelectListItem> Models { get; set; } = new List<SelectListItem>();
         public IEnumerable<SelectListItem> BodyTypes { get; set; } = new List<SelectListItem>();
         public IEnumerable<SelectListItem> DriveTypes { get; set; } = new List<SelectListItem>();
         public IEnumerable<SelectListItem> FuelTypes { get; set; } = new List<SelectListItem>();
@@ -83,25 +80,13 @@ namespace MotoMarket.Web.Models.ViewModels
         [Display(Name = "Zdjęcia")]
         public IEnumerable<IFormFile>? Photos { get; set; }
 
-        // Metadane zdjęć (kolejność i główne)
         public List<int> PhotoSortOrders { get; set; } = new();
         public int MainPhotoIndex { get; set; } = 0;
 
-        // --- SEKCJA PARAMETRÓW (Inputy, np. Pojemność: 1900) ---
-
-        // To co wpisał user. Klucz = ID parametru, Wartość = to co wpisał (string)
         public Dictionary<int, string> Parameters { get; set; } = new Dictionary<int, string>();
-
-        // Lista definicji pobrana z API (żeby wiedzieć jakie inputy narysować)
         public IEnumerable<ParameterTypeDto> AvailableParameters { get; set; } = new List<ParameterTypeDto>();
 
-
-        // --- SEKCJA CECH (Checkboxy, np. [x] Klimatyzacja) ---
-
-        // To co zaznaczył user (lista ID-ków)
         public List<int> SelectedFeatureIds { get; set; } = new List<int>();
-
-        // Lista definicji pobrana z API (żeby wiedzieć jakie checkboxy narysować)
         public IEnumerable<FeatureDto> AvailableFeatures { get; set; } = new List<FeatureDto>();
     }
 }

@@ -13,20 +13,18 @@ QuestPDF.Settings.License = LicenseType.Community;
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHttpContextAccessor(); // Rejestrujemy dostêp do HttpContext
-builder.Services.AddScoped<IAuthService, AuthService>(); // Rejestrujemy serwis uwierzytelniania
-//konfiguracja uwierzytelniania za pomoc¹ ciasteczek
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Auth/Login"; // Gdzie przekierowaæ niezalogowanego?
-
+        options.LoginPath = "/Auth/Login";
         options.AccessDeniedPath = "/Auth/AccessDenied";
 
         options.ExpireTimeSpan = TimeSpan.FromDays(7);
     });
 
-builder.Services.AddHttpClient(); // Rejestrujemy fabrykê klienta HTTP
+builder.Services.AddHttpClient();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IDictionaryService, DictionaryService>();
 builder.Services.AddHttpClient<IChatService, ChatService>();
@@ -50,7 +48,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); // Dodajemy middleware uwierzytelniania, musi byc przed UseAuthorization 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<MotoMarket.Web.Middleware.UserStatusMiddleware>();

@@ -5,7 +5,7 @@ using MotoMarket.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- Service registration ---
+//  Service registration 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 
@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 // SignalR (chat)
 builder.Services.AddSignalR();
 
-// --- CORS ---
+//  CORS 
 builder.Services.AddCors(options =>
 {
     // DevelopmentCors: Web, Mobile, SignalR (local dev)
@@ -24,8 +24,8 @@ builder.Services.AddCors(options =>
     {
         policyBuilder
             .WithOrigins(
-                "https://localhost:7029",  // Twój Web (HTTPS)
-                "http://localhost:7029",   // Twój Web (HTTP - na wszelki wypadek)
+                "https://localhost:7029",  // Web (HTTPS)
+                "http://localhost:7029",   // Web (HTTP)
                 "http://10.0.2.2:5180",    // Android Emulator
                 "http://localhost:5180",   // API Localhost
                 "http://127.0.0.1:5180",   // API IP
@@ -52,14 +52,15 @@ builder.Services.AddScoped<ICurrentUserService, MotoMarket.Api.Services.CurrentU
 
 var app = builder.Build();
 
-// --- Data seeder ---
+// Data seeder 
+// Seeder zostawiam dołączony do projektu w celu ułatwienia sprawdzania, w produkcji można go wyłączyć
 using (var scope = app.Services.CreateScope())
 {
     var seeder = scope.ServiceProvider.GetRequiredService<ApplicationDbContextSeeder>();
     await seeder.SeedAsync();
 }
 
-// --- Pipeline (middleware) ---
+//  Pipeline (middleware) 
 
 if (app.Environment.IsDevelopment())
 {
@@ -75,7 +76,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
-// --- CORS ---
+//  CORS 
 if (app.Environment.IsDevelopment())
 {
     app.UseCors("DevelopmentCors");

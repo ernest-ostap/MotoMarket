@@ -30,11 +30,9 @@ namespace MotoMarket.Mobile.ViewModels
             Favorites.Clear();
             foreach (var item in items)
             {
-                // Fix URLi jeśli trzeba
                 if (!string.IsNullOrEmpty(item.MainPhotoUrl) && item.MainPhotoUrl.StartsWith("/"))
                     item.MainPhotoUrl = Constants.ApiUrl + item.MainPhotoUrl;
 
-                // Skoro pobraliśmy z ulubionych, to na pewno jest IsFavorite=true
                 item.IsFavorite = true;
                 Favorites.Add(item);
             }
@@ -42,7 +40,7 @@ namespace MotoMarket.Mobile.ViewModels
             IsBusy = false;
         }
 
-        // Nawigacja do szczegółów
+        // Navigation to details
         [RelayCommand]
         async Task GoToDetailsAsync(ListingDto item)
         {
@@ -50,7 +48,7 @@ namespace MotoMarket.Mobile.ViewModels
             await Application.Current.MainPage.Navigation.PushAsync(new Views.ListingDetailPage(item.Id));
         }
 
-        // Usuwanie z ulubionych (bezpośrednio z tej listy)
+        // Delete from favorites
         [RelayCommand]
         async Task RemoveFavoriteAsync(ListingDto item)
         {
@@ -58,7 +56,6 @@ namespace MotoMarket.Mobile.ViewModels
             if (!confirm) return;
 
             var result = await _vehicleService.ToggleFavoriteAsync(item.Id);
-            // Jeśli toggle zadziałał (zwrócił false = usunięto, lub cokolwiek), usuwamy z listy lokalnej
             Favorites.Remove(item);
         }
     }

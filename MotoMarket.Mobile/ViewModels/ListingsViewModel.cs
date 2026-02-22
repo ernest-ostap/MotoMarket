@@ -16,7 +16,6 @@ namespace MotoMarket.Mobile.ViewModels
         [ObservableProperty] string yearMin;
         [ObservableProperty] string yearMax;
 
-        // Wybrana marka z listy (cały obiekt)
         [ObservableProperty] DictionaryDto selectedBrand;
 
         [ObservableProperty] bool areFiltersVisible;
@@ -60,7 +59,6 @@ namespace MotoMarket.Mobile.ViewModels
 
             try
             {
-                // Konwersja String -> Liczby
                 decimal? pMin = decimal.TryParse(MinPrice, out var d1) ? d1 : null;
                 decimal? pMax = decimal.TryParse(MaxPrice, out var d2) ? d2 : null;
                 int? yMin = int.TryParse(YearMin, out var i1) ? i1 : null;
@@ -73,7 +71,6 @@ namespace MotoMarket.Mobile.ViewModels
                     PriceMax = pMax,
                     YearMin = yMin,
                     YearMax = yMax,
-                    // Wyciągamy ID z wybranego obiektu Pickera
                     BrandId = SelectedBrand?.Id
                 };
 
@@ -94,25 +91,20 @@ namespace MotoMarket.Mobile.ViewModels
             }
         }
 
-        // --- NOWA KOMENDA DO CZYSZCZENIA ---
         [RelayCommand]
         async Task ClearFiltersAsync()
         {
-            // Resetujemy pola
             SearchText = string.Empty;
             MinPrice = string.Empty;
             MaxPrice = string.Empty;
             YearMin = string.Empty;
             YearMax = string.Empty;
 
-            // To odznaczy markę w Pickerze!
             SelectedBrand = null;
 
-            // Szukamy ponownie (bez filtrów)
             await SearchAsync();
         }
 
-        // --- NAWIGACJA I INNE ---
 
         [RelayCommand]
         async Task LoadListingsAsync() => await SearchAsync();
