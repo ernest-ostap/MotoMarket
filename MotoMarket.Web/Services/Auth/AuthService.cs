@@ -48,7 +48,7 @@ namespace MotoMarket.Web.Services.Auth
             var handler = new JwtSecurityTokenHandler();
             var jwtToken = handler.ReadJwtToken(authResult.Token);
 
-            // Wyciągamy role (szukamy pod różnymi nazwami, bo JWT bywa wredny)
+            // Wyciągamy role 
             var roleClaims = jwtToken.Claims
                 .Where(c => c.Type == "role" || c.Type == "roles" || c.Type == ClaimTypes.Role)
                 .Select(c => c.Value)

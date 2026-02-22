@@ -89,7 +89,6 @@ namespace MotoMarket.Application.Listings.Queries.GetAllListings
 
 
             // Sprawdzanie Ulubionych 
-
             var userId = _currentUserService.UserId;
 
             // Jeśli użytkownik jest zalogowany...
@@ -114,7 +113,6 @@ namespace MotoMarket.Application.Listings.Queries.GetAllListings
                     }
                 }
             }
-            // ---------------------------------------------------
 
             return listings;
         }

@@ -85,8 +85,6 @@ namespace MotoMarket.Api.Controllers
         }
 
         [HttpGet("{id}/is-banned")]
-        // [Authorize] - Możemy to zostawić otwarte lub zabezpieczone, 
-        // ale Middleware w Webie musi mieć możliwość to sprawdzić.
         public async Task<ActionResult<bool>> IsBanned(string id)
         {
             var isBanned = await _userManagementService.IsUserBanned(id); 

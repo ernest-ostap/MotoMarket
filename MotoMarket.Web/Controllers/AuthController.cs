@@ -78,9 +78,8 @@ namespace MotoMarket.Web.Controllers
         {
             await _authService.Logout();
 
-            // --- NOWOŚĆ: Czyścimy ciasteczko przy wylogowaniu ---
+            //Czyścimy ciasteczko przy wylogowaniu
             Response.Cookies.Delete("JWT");
-            // ----------------------------------------------------
 
             return RedirectToAction("Index", "Home");
         }
@@ -93,7 +92,6 @@ namespace MotoMarket.Web.Controllers
             return Json(profile);
         }
 
-        // ... Reszta metod (UpdateProfile, ChangePassword) bez zmian ...
         [HttpPost]
         public async Task<IActionResult> UpdateProfile(UpdateProfileViewModel model)
         {
