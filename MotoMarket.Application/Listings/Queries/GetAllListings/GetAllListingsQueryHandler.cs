@@ -1,6 +1,6 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MotoMarket.Application.Common.Interfaces; // Tutaj jest IApplicationDbContext
+using MotoMarket.Application.Common.Interfaces;
 using MotoMarket.Application.Common.Interfaces.Identity;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 using MotoMarket.Domain.Entities.Listings;
@@ -25,7 +25,6 @@ namespace MotoMarket.Application.Listings.Queries.GetAllListings
 
         public async Task<IEnumerable<ListingDto>> Handle(GetAllListingsQuery request, CancellationToken cancellationToken)
         {
-            // Budowanie zapytania o ogłoszenia 
             var query = _context.Listings
                 .AsNoTracking()
                 .Where(x => x.Status == Domain.Entities.Listings.ListingStatus.Active)
@@ -34,7 +33,6 @@ namespace MotoMarket.Application.Listings.Queries.GetAllListings
                 .Include(x => x.Photos)
                 .AsQueryable();
 
-            // Filtry
             if (!string.IsNullOrWhiteSpace(request.SearchCallback))
                 query = query.Where(x => x.Title.Contains(request.SearchCallback));
 
@@ -56,7 +54,6 @@ namespace MotoMarket.Application.Listings.Queries.GetAllListings
             if (request.YearMax.HasValue)
                 query = query.Where(x => x.ProductionYear <= request.YearMax.Value);
 
-            // Sortowanie
             query = request.SortBy switch
             {
                 "price_asc" => query.OrderBy(x => x.Price),
@@ -67,7 +64,6 @@ namespace MotoMarket.Application.Listings.Queries.GetAllListings
                 _ => query.OrderByDescending(x => x.CreatedAt)
             };
 
-            // Wykonanie zapytania o ogłoszenia
             var listings = await query
                 .Select(x => new ListingDto
                 {
@@ -83,25 +79,21 @@ namespace MotoMarket.Application.Listings.Queries.GetAllListings
                         .Where(p => p.IsMain)
                         .Select(p => p.Url)
                         .FirstOrDefault() ?? "",
-                    IsFavorite = false //DOMYŚLNIE FALSE
+                    IsFavorite = false
                 })
                 .ToListAsync(cancellationToken);
 
 
-            // Sprawdzanie Ulubionych 
+            // 5. Mark favorites when user is logged in
             var userId = _currentUserService.UserId;
-
-            // Jeśli użytkownik jest zalogowany...
             if (!string.IsNullOrEmpty(userId))
             {
-                // ...pobieramy ID ogłoszeń, które ma w ulubionych
                 var favoriteIds = await _context.UserFavorites
                     .AsNoTracking()
                     .Where(x => x.UserId == userId)
                     .Select(x => x.ListingId)
                     .ToListAsync(cancellationToken);
 
-                // ...i aktualizujemy flagę w liście wynikowej
                 if (favoriteIds.Any())
                 {
                     foreach (var listing in listings)

@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,6 @@ namespace MotoMarket.Application.Dictionaries.Commands.ParameterTypes
 
             if (entity != null)
             {
-                // Magia: Odwracamy wartość (jak było true to false, jak false to true)
                 entity.IsActive = !entity.IsActive;
                 await _context.SaveChangesAsync(cancellationToken);
             }

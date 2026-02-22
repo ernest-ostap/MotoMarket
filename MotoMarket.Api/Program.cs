@@ -5,9 +5,7 @@ using MotoMarket.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- REJESTRACJA SERWISÓW ---
-
-// Warstwy aplikacji i infrastruktury (tu jest też JWT Configuration)
+// --- Service registration ---
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 
@@ -15,14 +13,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// SignalR (wymagane dla czatu)
+// SignalR (chat)
 builder.Services.AddSignalR();
 
-// --- NAPRAWA CORS ---
+// --- CORS ---
 builder.Services.AddCors(options =>
 {
-    // Polityka "DevelopmentCors" - obsługuje wszystko co potrzebujesz lokalnie.
-    // Łączy w sobie Web, Mobile i SignalR.
+    // DevelopmentCors: Web, Mobile, SignalR (local dev)
     options.AddPolicy("DevelopmentCors", policyBuilder =>
     {
         policyBuilder
@@ -39,7 +36,7 @@ builder.Services.AddCors(options =>
             .AllowCredentials();
     });
 
-    // Opcjonalnie: Polityka na Produkcję 
+    // Optional: ProductionCors policy
     /*options.AddPolicy("ProductionCors", policyBuilder =>
     {
         policyBuilder
@@ -55,14 +52,14 @@ builder.Services.AddScoped<ICurrentUserService, MotoMarket.Api.Services.CurrentU
 
 var app = builder.Build();
 
-// --- SEEDER DANYCH ---
+// --- Data seeder ---
 using (var scope = app.Services.CreateScope())
 {
     var seeder = scope.ServiceProvider.GetRequiredService<ApplicationDbContextSeeder>();
     await seeder.SeedAsync();
 }
 
-// --- PIPELINE (MIDDLEWARE) ---
+// --- Pipeline (middleware) ---
 
 if (app.Environment.IsDevelopment())
 {
@@ -70,7 +67,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// W development nie wymusza HTTPS (ułatwia życie emulatorowi Androida)
+// Skip HTTPS redirect in development (for Android emulator)
 if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
@@ -78,20 +75,20 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
-// --- WŁĄCZENIE CORS (Z naszą nową polityką) ---
+// --- CORS ---
 if (app.Environment.IsDevelopment())
 {
-    app.UseCors("DevelopmentCors"); // <--- Używamy tej naprawionej polityki
+    app.UseCors("DevelopmentCors");
 }
 else
 {
     app.UseCors("ProductionCors");
 }
 
-app.UseAuthentication(); // Logowanie (musi być przed Authorization)
-app.UseAuthorization();  // Uprawnienia
+app.UseAuthentication();
+app.UseAuthorization();
 
-// Mapowanie Endpointów
+// Endpoint mapping
 app.MapHub<MotoMarket.Api.Hubs.ChatHub>("/chatHub"); // SignalR Hub
 app.MapControllers();
 

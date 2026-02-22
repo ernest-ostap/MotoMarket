@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Application.Chat.Queries;
@@ -17,7 +17,7 @@ namespace MotoMarket.Api.Controllers
             _mediator = mediator;
         }
 
-        // GET: api/Chat/history/USER_ID
+        // GET history [otherUserId]
         [HttpGet("history/{otherUserId}")]
         public async Task<ActionResult<IEnumerable<ChatMessageDto>>> GetHistory(string otherUserId)
         {

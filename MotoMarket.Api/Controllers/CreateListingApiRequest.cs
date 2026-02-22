@@ -1,4 +1,4 @@
-﻿namespace MotoMarket.Api.Controllers
+namespace MotoMarket.Api.Controllers
 {
     public class CreateListingApiRequest
     {
@@ -19,7 +19,6 @@
         public string LocationRegion { get; set; }
         public IFormFileCollection? Photos { get; set; }
 
-        // Metadane zdjęć
         public List<int>? PhotoSortOrders { get; set; }
         public int MainPhotoIndex { get; set; } = 0;
 

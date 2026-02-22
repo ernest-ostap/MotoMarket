@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Application.Dictionaries.Commands.Brands;
@@ -20,11 +20,11 @@ namespace MotoMarket.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DictionaryDto>>> GetAll()
         {
-            // true = CHCEMY też nieaktywne (dla Admina)
+            // Include inactive (admin view)
             return Ok(await _mediator.Send(new GetBrandsQuery(true)));
         }
 
-        // POST: api/Brands ()
+        // POST
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<int>> Create([FromBody] CreateBrandCommand command)

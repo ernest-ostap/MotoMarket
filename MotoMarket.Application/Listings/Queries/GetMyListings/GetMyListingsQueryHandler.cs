@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces.Identity;
 using MotoMarket.Application.Common.Interfaces.Persistence;
@@ -53,7 +53,6 @@ namespace MotoMarket.Application.Listings.Queries.GetMyListings
                     BrandName = x.Brand.Name,
                     ModelName = x.Model.Name,
                     MainPhotoUrl = x.Photos.Where(p => p.IsMain).Select(p => p.Url).FirstOrDefault() ?? string.Empty,
-                    // Reszta pól opcjonalna na liście
                 })
                 .ToListAsync(cancellationToken);
         }

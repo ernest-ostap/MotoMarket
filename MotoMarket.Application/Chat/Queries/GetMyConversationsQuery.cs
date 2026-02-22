@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces;
 using MotoMarket.Application.Common.Interfaces.Identity;
@@ -41,8 +41,7 @@ namespace MotoMarket.Application.Chat.Queries
             // 3. Pobieramy listę ID rozmówców
             var contactIds = groupedConversations.Select(g => g.Key).Distinct().ToList();
 
-            // 4. Pobieramy dane tych użytkowników (Imiona/Maile) z bazy
-            // Uwaga: Jeśli _context.Users podkreśla się na czerwono, zobacz instrukcję pod spodem
+            // 4. Load user data (display names, emails)
             var usersInfo = await _context.Users
                 .AsNoTracking()
                 .Where(u => contactIds.Contains(u.Id))
@@ -76,9 +75,9 @@ namespace MotoMarket.Application.Chat.Queries
                 return new ConversationDto
                 {
                     OtherUserId = otherUserId,
-                    OtherUserName = displayName, // <--- Tutaj wstawiamy imię
+                    OtherUserName = displayName,
                     LastMessage = lastMsg.Content,
-                    LastMessageDate = lastMsg.SentAt, // lub First().SentAt zależy jak posortowane
+                    LastMessageDate = lastMsg.SentAt,
                     ListingId = lastMsg.ListingId
                 };
             })

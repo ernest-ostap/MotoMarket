@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces;
 using MotoMarket.Application.Common.Interfaces.Identity;
@@ -8,7 +8,8 @@ using MotoMarket.Domain.Entities.Listings;
 
 namespace MotoMarket.Application.Favorites.Commands
 {
-    public record ToggleFavoriteCommand(int ListingId) : IRequest<bool>; // Zwraca true jeśli dodano, false jeśli usunięto
+    /// <summary>Returns true if added, false if removed.</summary>
+    public record ToggleFavoriteCommand(int ListingId) : IRequest<bool>;
 
     public class ToggleFavoriteCommandHandler : IRequestHandler<ToggleFavoriteCommand, bool>
     {
@@ -31,19 +32,15 @@ namespace MotoMarket.Application.Favorites.Commands
 
             if (existing != null)
             {
-                // Już jest -> Usuwamy
                 _context.UserFavorites.Remove(existing);
                 await _context.SaveChangesAsync(cancellationToken);
-                return false; // Usunięto
+                return false;
             }
-            else
-            {
-                // Nie ma -> Dodajemy
-                var favorite = new UserFavorite { UserId = userId, ListingId = request.ListingId };
-                _context.UserFavorites.Add(favorite);
-                await _context.SaveChangesAsync(cancellationToken);
-                return true; // Dodano
-            }
+
+            var favorite = new UserFavorite { UserId = userId, ListingId = request.ListingId };
+            _context.UserFavorites.Add(favorite);
+            await _context.SaveChangesAsync(cancellationToken);
+            return true;
         }
     }
 }

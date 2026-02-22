@@ -1,4 +1,4 @@
-﻿using Azure.Core;
+using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -38,7 +38,7 @@ namespace MotoMarket.Api.Controllers
             return Ok(result);
         }
 
-        //get dla admina - wszystkie ogłoszenia, także zbanowane i z innym statusem
+        // GET [admin] all listings (including banned / any status)
         [HttpGet("admin-all")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<AdminListingDto>>> GetForAdmin()
@@ -46,7 +46,7 @@ namespace MotoMarket.Api.Controllers
             return Ok(await _mediator.Send(new GetAdminListingsQuery()));
         }
 
-        // GET api/listings/id
+        // GET [id]
         [HttpGet("{id}")]
         public async Task<ActionResult<ListingDetailDto>> Get(int id)
         {
@@ -60,38 +60,31 @@ namespace MotoMarket.Api.Controllers
             return Ok(result);
         }
 
-        //POST api/listings
+        // POST
         [HttpPost]
         public async Task<ActionResult<int>> Create([FromForm] CreateListingApiRequest request) 
         {
-            // 1. Logika zapisu zdjęć
+            // 1. Save photos to disk
             var photoUrls = new List<string>();
             var photoInputs = new List<ListingPhotoInput>();
 
             if (request.Photos != null && request.Photos.Count > 0)
             {
-                // Ścieżka do folderu: wwwroot/uploads/listings
                 var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "listings");
-
-                // Upewnij się, że folder istnieje
                 if (!Directory.Exists(uploadsFolder))
                     Directory.CreateDirectory(uploadsFolder);
 
                 for (int i = 0; i < request.Photos.Count; i++)
                 {
                     var file = request.Photos[i];
-                    // Generujemy unikalną nazwę pliku (żeby nie nadpisać innego)
                     var uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
                     var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                    // Fizyczny zapis na dysk
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
                     }
 
-                    // Dodajemy URL dostępny publicznie (np. https://localhost:7072/uploads/listings/xyz.jpg)
-                    // W bazie trzymamy ścieżkę względną
                     var url = $"/uploads/listings/{uniqueFileName}";
                     photoUrls.Add(url);
 
@@ -110,7 +103,7 @@ namespace MotoMarket.Api.Controllers
                 }
             }
 
-            // 2. Tworzymy właściwą Komendę dla Mediatora
+            // 2. Build command and send to mediator
             var command = new CreateListingCommand
             {
                 Title = request.Title,
@@ -129,7 +122,6 @@ namespace MotoMarket.Api.Controllers
                 LocationCity = request.LocationCity,
                 LocationRegion = request.LocationRegion,
 
-                // Przekazujemy listę wygenerowanych URL-i
                 PhotoUrls = photoUrls,
                 Photos = photoInputs,
 
@@ -138,19 +130,15 @@ namespace MotoMarket.Api.Controllers
             };
             var id = await _mediator.Send(command);
 
-            //zwracamy z id nowo utworzonego ogłoszenia
             return Ok(id);
         }
 
-        // PUT api/listings/5
+        // PUT [id]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromForm] UpdateListingApiRequest request)
         {
-            // Security check: Czy ID w URL zgadza się z ID w ciele obiektu?
             if (id != request.Id)
-            {
                 return BadRequest();
-            }
 
             var photoUrls = new List<string>();
             var photoInputs = new List<ListingPhotoInput>();
@@ -216,15 +204,15 @@ namespace MotoMarket.Api.Controllers
 
             await _mediator.Send(command);
 
-            return NoContent(); // Standardowy kod 204 dla Update
+            return NoContent();
         }
 
-        // DELETE api/listings
+        // DELETE [id]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             await _mediator.Send(new DeleteListingCommand(id));
-            return NoContent(); // 204 No Content 
+            return NoContent();
         }
 
         [Authorize]
@@ -264,7 +252,7 @@ namespace MotoMarket.Api.Controllers
             return NoContent();
         }
 
-        [Authorize] // Tylko dla zalogowanych!
+        [Authorize]
         [HttpGet("mine")]
         public async Task<ActionResult<IEnumerable<ListingDto>>> GetMyListings()
         {

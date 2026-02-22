@@ -34,7 +34,6 @@ namespace MotoMarket.Application.Listings.Commands.UpdateListingStatus
                 throw new UnauthorizedAccessException("Brak uprawnień do zmiany statusu ogłoszenia.");
             }
 
-            // Ograniczamy możliwe statusy z poziomu UI (Active, Sold, Archived)
             if (request.Status != ListingStatus.Active &&
                 request.Status != ListingStatus.Sold &&
                 request.Status != ListingStatus.Archived)

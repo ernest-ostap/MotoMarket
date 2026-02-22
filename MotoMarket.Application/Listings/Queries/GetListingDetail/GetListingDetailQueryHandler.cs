@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 using MotoMarket.Application.Common.Interfaces.Identity;
-using MotoMarket.Application.Listings.Queries.GetAllListings; // Do podstawowego mapowania
+using MotoMarket.Application.Listings.Queries.GetAllListings;
 using Microsoft.AspNetCore.Identity;
 using MotoMarket.Domain.Entities;
 
@@ -38,19 +38,16 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
                 .Include(x => x.DriveType)
                 .Include(x => x.BodyType)
                 .Include(x => x.Photos)
-                .Include(x => x.Features) // Pobieramy relację M:N
-                    .ThenInclude(f => f.Feature) // I nazwę cechy
+                .Include(x => x.Features)
+                    .ThenInclude(f => f.Feature)
                 .Include(x => x.ListingParameters)
                     .ThenInclude(p => p.ParameterType)
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if (entity == null)
-            {
-                // Tutaj w przyszłości rzucimy wyjątek NotFoundException
                 return null;
-            }
 
-            // Mapowanie ręczne 
+            // Map entity to DTO
             var result = new ListingDetailDto
             {
                 Id = entity.Id,
@@ -75,7 +72,6 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
                 DriveTypeName = entity.DriveType.Name,
                 BodyTypeName = entity.BodyType.Name,
 
-                // ID właściwości dla edycji
                 BrandId = entity.BrandId,
                 ModelId = entity.ModelId,
                 FuelTypeId = entity.FuelTypeId,
@@ -86,7 +82,6 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
 
                 MainPhotoUrl = entity.Photos.FirstOrDefault(p => p.IsMain)?.Url ?? "",
 
-                // --- To są te nowe detale ---
                 PhotoUrls = entity.Photos.Select(p => p.Url).ToList(),
 
                 Features = entity.Features.Select(f => f.Feature.Name).ToList(),
@@ -99,7 +94,7 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
                     Value = p.Value,
                     Unit = p.ParameterType.Unit
                 }).ToList(),
-                IsFavorite = false // Domyślnie false
+                IsFavorite = false
             };
 
             // Numer telefonu sprzedającego (jeśli jest)

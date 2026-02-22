@@ -1,14 +1,12 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 
 namespace MotoMarket.Application.Dictionaries.Queries
 {
-    // Zapytanie
     public record GetParametersQuery : IRequest<IEnumerable<ParameterTypeDto>>;
 
-    // Handler
     public class GetParametersQueryHandler : IRequestHandler<GetParametersQuery, IEnumerable<ParameterTypeDto>>
     {
         private readonly IApplicationDbContext _context;

@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Application.Common.Interfaces.Identity;
@@ -68,7 +68,7 @@ namespace MotoMarket.Api.Controllers
             return NoContent();
         }
 
-        //metody dla admina
+        // [admin] GET all users
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAll()

@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 using MotoMarket.Domain.Entities.Listings;
 using System;
@@ -24,7 +24,6 @@ namespace MotoMarket.Application.Listings.Commands.BanListing
 
             if (entity != null)
             {
-                // ZMIANA STATUSU NA BANNED
                 entity.Status = ListingStatus.Banned;
                 entity.BanReason = request.Reason;
 

@@ -1,8 +1,8 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces.Identity;
 using MotoMarket.Application.Common.Interfaces.Persistence;
-using MotoMarket.Domain.Entities; // Upewnij się, że masz using do ApplicationUser
+using MotoMarket.Domain.Entities;
 
 namespace MotoMarket.Application.Users.Queries.GetUserProfile
 {
@@ -26,8 +26,7 @@ namespace MotoMarket.Application.Users.Queries.GetUserProfile
                 return null; // Lub rzuć wyjątek Unauthorized
             }
 
-            // Pobieramy usera z bazy
-            // Uwaga: Zakładam, że ApplicationUser dziedziczy po IdentityUser i ma pola FirstName/LastName
+            // Load user (ApplicationUser: FirstName, LastName)
             var user = await _context.Users
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);

@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,6 @@ namespace MotoMarket.Application.PageContent.Commands
             {
                 entity.Content = request.Content;
                 entity.LastModified = DateTime.UtcNow;
-                // Opcjonalnie: entity.ModifiedBy = ... (jeśli przekażesz usera)
                 await _context.SaveChangesAsync(token);
             }
         }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +7,9 @@ using MediatR;
 
 namespace MotoMarket.Application.Listings.Queries.GetAllListings
 {
-    // Zwracamy liste (IEnumerable) z obiektow DTO
     public class GetAllListingsQuery : IRequest<IEnumerable<ListingDto>>
     {
-        public string? SearchCallback { get; set; } // Szukanie w tytule
+        public string? SearchCallback { get; set; }
         public int? BrandId { get; set; }
         public int? ModelId { get; set; }
         public decimal? PriceMin { get; set; }
@@ -18,7 +17,7 @@ namespace MotoMarket.Application.Listings.Queries.GetAllListings
         public int? YearMin { get; set; }
         public int? YearMax { get; set; }
 
-        //sortowanie (np. "price_asc", "newest")
+        /// <summary>Sort key (e.g. price_asc, newest).</summary>
         public string? SortBy { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using MotoMarket.Application.Listings.Queries.GetAllListings;
+using MotoMarket.Application.Listings.Queries.GetAllListings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,6 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
 {
     public class ListingDetailDto : ListingDto
     {
-        // ID właściwości potrzebne do edycji
         public int BrandId { get; set; }
         public int ModelId { get; set; }
         public int FuelTypeId { get; set; }
@@ -18,11 +17,9 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
         public int DriveTypeId { get; set; }
         public int VehicleCategoryId { get; set; }
 
-        // Dodatkowe pola, których nie ma na liście
         public IEnumerable<string> PhotoUrls { get; set; } = new List<string>();
         public IEnumerable<string> Features { get; set; } = new List<string>();
 
-        // Na potrzeby edycji
         public IEnumerable<int> FeatureIds { get; set; } = new List<int>();
         public IEnumerable<ListingParameterDto> Parameters { get; set; } = new List<ListingParameterDto>();
 
@@ -35,6 +32,6 @@ namespace MotoMarket.Application.Listings.Queries.GetListingDetail
         public int ParameterTypeId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Value { get; set; } = string.Empty;
-        public string Unit { get; set; } = string.Empty;  // np. "kWh" (Warto to dodać!)
+        public string Unit { get; set; } = string.Empty;
     }
 }

@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using MotoMarket.Domain.Entities;
 using MotoMarket.Domain.Entities.Listings;
 using System;
@@ -94,7 +94,7 @@ namespace MotoMarket.Application.Listings.Commands.CreateListing
                     .ToList();
             }
 
-            // Fallback: stara ścieżka bez metadanych
+            // Fallback when no photo metadata
             return request.PhotoUrls
                 .Select((url, idx) => new ListingPhoto
                 {

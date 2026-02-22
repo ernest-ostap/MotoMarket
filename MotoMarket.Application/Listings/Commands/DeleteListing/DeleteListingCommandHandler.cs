@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using MotoMarket.Application.Common.Exceptions;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 using MotoMarket.Application.Common.Interfaces.Identity;
@@ -32,13 +32,11 @@ namespace MotoMarket.Application.Listings.Commands.DeleteListing
                 throw new NotFoundException(nameof(Listing), request.Id);
             }
 
-            // Weryfikacja właściciela
             if (string.IsNullOrEmpty(_currentUserService.UserId) || entity.UserId != _currentUserService.UserId)
             {
                 throw new UnauthorizedAccessException("Brak uprawnień do usunięcia ogłoszenia.");
             }
 
-            // Fizyczne usunięcie (na potrzeby panelu admina)
             _context.Listings.Remove(entity);
 
             await _context.SaveChangesAsync(cancellationToken);

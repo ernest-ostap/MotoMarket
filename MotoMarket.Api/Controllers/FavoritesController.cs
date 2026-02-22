@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Application.Favorites.Commands;
@@ -22,7 +22,7 @@ namespace MotoMarket.Api.Controllers
         [HttpPost("{listingId}")]
         public async Task<ActionResult<bool>> Toggle(int listingId)
         {
-            // Zwraca true (dodano) lub false (usunięto)
+            // Returns true if added, false if removed
             return Ok(await _mediator.Send(new ToggleFavoriteCommand(listingId)));
         }
 

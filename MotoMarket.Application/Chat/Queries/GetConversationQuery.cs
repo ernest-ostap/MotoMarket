@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces;
 using MotoMarket.Application.Common.Interfaces.Identity;
@@ -6,7 +6,7 @@ using MotoMarket.Application.Common.Interfaces.Persistence;
 
 namespace MotoMarket.Application.Chat.Queries
 {
-    // Pobiera rozmowę z konkretnym użytkownikiem (OtherUserId)
+    /// <summary>Get conversation with specified user (OtherUserId).</summary>
     public record GetConversationQuery(string OtherUserId) : IRequest<IEnumerable<ChatMessageDto>>;
 
     public class GetConversationQueryHandler : IRequestHandler<GetConversationQuery, IEnumerable<ChatMessageDto>>
@@ -25,13 +25,12 @@ namespace MotoMarket.Application.Chat.Queries
             var currentUserId = _currentUserService.UserId;
             if (string.IsNullOrEmpty(currentUserId)) return new List<ChatMessageDto>();
 
-            // Pobieramy wiadomości gdzie:
-            // (Ja jestem nadawcą I On jest odbiorcą) LUB (On jest nadawcą I Ja jestem odbiorcą)
+            // Messages: (me -> other) or (other -> me)
             var messages = await _context.ChatMessages
                 .AsNoTracking()
                 .Where(m => (m.SenderId == currentUserId && m.RecipientId == request.OtherUserId) ||
                             (m.SenderId == request.OtherUserId && m.RecipientId == currentUserId))
-                .OrderBy(m => m.SentAt) // Najstarsze na górze
+                .OrderBy(m => m.SentAt)
                 .Select(m => new ChatMessageDto
                 {
                     Id = m.Id,

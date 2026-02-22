@@ -20,11 +20,11 @@ namespace MotoMarket.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DictionaryDto>>> GetAll()
         {
-            // true = CHCEMY też nieaktywne (dla Admina)
+            // Include inactive (admin view)
             return Ok(await _mediator.Send(new GetBodyTypesQuery(true)));
         }
 
-        // POST: api/BodyTypes ()
+        // POST
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<int>> Create([FromBody] CreateBodyTypeCommand command)

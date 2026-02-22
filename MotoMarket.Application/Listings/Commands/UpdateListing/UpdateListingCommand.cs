@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,16 +9,14 @@ using MotoMarket.Domain.Entities;
 
 namespace MotoMarket.Application.Listings.Commands.UpdateListing
 {
-    // Zwracamy Unit (czyli nic, void), bo przy update HTTP 204 No Content jest standardem
     public class UpdateListingCommand : IRequest
     {
-        public int Id { get; set; } //id jest kluczowe, bo musimy wiedziec ktorego robic update
+        public int Id { get; set; }
 
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; }
 
-        // Możliwość zmiany parametrów technicznych
         public int BrandId { get; set; }
         public int ModelId { get; set; }
         public int VehicleCategoryId { get; set; }
@@ -33,11 +31,9 @@ namespace MotoMarket.Application.Listings.Commands.UpdateListing
         public string LocationCity { get; set; } = string.Empty;
         public string LocationRegion { get; set; } = string.Empty;
 
-        // Zdjęcia (opcjonalnie przy update)
         public List<ListingPhotoInput> Photos { get; set; } = new();
-        public List<string> PhotoUrls { get; set; } = new(); // fallback legacy
+        public List<string> PhotoUrls { get; set; } = new();
 
-        // Cechy i parametry
         public Dictionary<int, string> Parameters { get; set; } = new();
         public List<int> SelectedFeatureIds { get; set; } = new();
     }

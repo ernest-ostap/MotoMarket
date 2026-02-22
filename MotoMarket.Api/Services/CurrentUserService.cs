@@ -1,4 +1,4 @@
-﻿using MotoMarket.Application.Common.Interfaces.Identity;
+using MotoMarket.Application.Common.Interfaces.Identity;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -15,12 +15,10 @@ namespace MotoMarket.Api.Services
         {
             get
             {
-                // Wyciąganie ID usera z tokena JWT
-                // TokenService używa JwtRegisteredClaimNames.Sub, więc sprawdzamy oba
+                // User ID from JWT (Sub or NameIdentifier)
                 var user = _httpContextAccessor.HttpContext?.User;
                 if (user == null) return null;
-                
-                // Najpierw sprawdzamy Sub (jak w TokenService), potem NameIdentifier (na wypadek mapowania)
+
                 return user.FindFirstValue(JwtRegisteredClaimNames.Sub) 
                     ?? user.FindFirstValue(ClaimTypes.NameIdentifier);
             }

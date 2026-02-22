@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoMarket.Application.Dictionaries.Commands.BodyTypes;
@@ -22,7 +22,7 @@ namespace MotoMarket.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ModelDto>>> GetAll()
         {
-            // true = dla admina (pokaż też nieaktywne)
+            // Include inactive (admin view)
             return Ok(await _mediator.Send(new GetAllModelsQuery(true)));
         }
 

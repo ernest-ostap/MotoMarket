@@ -1,11 +1,11 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 using MotoMarket.Web.Models.DTOs;
 
 namespace MotoMarket.Application.Dictionaries.Queries
 {
-    // Parametr IncludeInactive steruje czy pokazywać ukryte (domyślnie false, dla admina damy true)
+    /// <summary>IncludeInactive: false = only active (default), true = admin sees all.</summary>
     public record GetAllModelsQuery(bool IncludeInactive = false) : IRequest<IEnumerable<ModelDto>>;
 
     public class GetAllModelsQueryHandler : IRequestHandler<GetAllModelsQuery, IEnumerable<ModelDto>>

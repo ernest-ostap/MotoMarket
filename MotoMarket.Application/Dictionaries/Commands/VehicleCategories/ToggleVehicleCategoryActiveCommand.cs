@@ -21,7 +21,6 @@ namespace MotoMarket.Application.Dictionaries.Commands.VehicleCategories
 
             if (entity != null)
             {
-                // Magia: Odwracamy wartość (jak było true to false, jak false to true)
                 entity.IsActive = !entity.IsActive;
                 await _context.SaveChangesAsync(cancellationToken);
             }

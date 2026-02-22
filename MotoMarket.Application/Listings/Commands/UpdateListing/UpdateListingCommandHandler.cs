@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using MotoMarket.Application.Common.Exceptions;
 using MotoMarket.Application.Common.Interfaces.Persistence;
 using MotoMarket.Domain.Entities.Listings;
@@ -23,19 +23,14 @@ namespace MotoMarket.Application.Listings.Commands.UpdateListing
 
         public async Task Handle(UpdateListingCommand request, CancellationToken cancellationToken)
         {
-            // 1. pobieranie encji z bazy
+            // 1. Get entity by id
             var entity = await _context.Listings
                 .FindAsync(new object[] { request.Id }, cancellationToken);
 
-            // 2. sprawdzanie czy istnieje, jeżeli nie to obsługa błędu
             if (entity == null)
-            {
-                //zastosowanie wyjątku NotFoundException z parametrem nameof(Listing) oraz request.Id,
-                //bardziej profesjonalne niż pusty error w api
                 throw new NotFoundException(nameof(Listing), request.Id);
-            }
 
-            // 3. Aktualizujemy pola (Mapowanie)
+            // 2. Map and update fields
             entity.Title = request.Title;
             entity.Description = request.Description;
             entity.Price = request.Price;
@@ -54,7 +49,7 @@ namespace MotoMarket.Application.Listings.Commands.UpdateListing
             entity.LocationCity = request.LocationCity;
             entity.LocationRegion = request.LocationRegion;
 
-            // Zdjęcia: jeśli dostaliśmy nowe, zastępujemy istniejące
+            // Photos: replace if provided
             if (request.Photos.Any() || request.PhotoUrls.Any())
             {
                 _context.ListingPhotos.RemoveRange(_context.ListingPhotos.Where(p => p.ListingId == entity.Id));
@@ -67,7 +62,7 @@ namespace MotoMarket.Application.Listings.Commands.UpdateListing
                 await _context.ListingPhotos.AddRangeAsync(newPhotos, cancellationToken);
             }
 
-            // Features: wyczyść i nadpisz
+            // Features: clear and replace
             _context.ListingFeatures.RemoveRange(_context.ListingFeatures.Where(f => f.ListingId == entity.Id));
             var newFeatures = request.SelectedFeatureIds
                 .Select(fid => new ListingFeature { ListingId = entity.Id, FeatureId = fid })
@@ -77,7 +72,7 @@ namespace MotoMarket.Application.Listings.Commands.UpdateListing
                 await _context.ListingFeatures.AddRangeAsync(newFeatures, cancellationToken);
             }
 
-            // ListingParameters: wyczyść i nadpisz (tylko niepuste wartości)
+            // ListingParameters: clear and replace (non-empty values only)
             _context.ListingParameters.RemoveRange(_context.ListingParameters.Where(p => p.ListingId == entity.Id));
             var newParams = request.Parameters
                 .Where(kvp => !string.IsNullOrWhiteSpace(kvp.Value))
@@ -93,10 +88,8 @@ namespace MotoMarket.Application.Listings.Commands.UpdateListing
                 await _context.ListingParameters.AddRangeAsync(newParams, cancellationToken);
             }
 
-            // aktualizacja daty modyfikacji
             entity.UpdatedAt = DateTime.UtcNow;
 
-            // 4. zapis zmian w bazie
             await _context.SaveChangesAsync(cancellationToken);
         }
 

@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +10,9 @@ namespace MotoMarket.Application
 {
     public static class DependencyInjection
     {
+        //creating mediator service
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            // tworzenie MediatR i nakazanie mu skanowania assembly w poszukiwaniu handlerów
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             return services;

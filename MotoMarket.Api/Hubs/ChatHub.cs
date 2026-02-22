@@ -1,4 +1,4 @@
-﻿using MediatR; 
+using MediatR; 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using MotoMarket.Application.Chat.Commands;
@@ -23,7 +23,6 @@ namespace MotoMarket.Api.Hubs
         {
             var userId = Context.UserIdentifier;
 
-            // Sprawdź czy zbanowany przy próbie połączenia
             if (await _userManagementService.IsUserBanned(userId))
             {
                 Context.Abort(); // Odrzuć połączenie
@@ -44,19 +43,16 @@ namespace MotoMarket.Api.Hubs
                 return;
             }
 
-            // 1. ZAPIS DO BAZY (przez Command)
+            // 1. Persist message (command)
             var command = new SendMessageCommand
             {
                 RecipientId = recipientId,
                 Content = message,
                 ListingId = listingId
             };
-
-            // Czekamy aż się zapisze, żeby mieć pewność
             await _mediator.Send(command);
 
-            // 2. WYSYŁKA REAL-TIME
-            // Wysyłamy do Odbiorcy
+            // 2. Broadcast to recipient
             await Clients.User(recipientId).SendAsync("ReceiveMessage", senderId, message, listingId);
 
             
