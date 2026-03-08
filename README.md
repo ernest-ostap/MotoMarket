@@ -41,7 +41,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 1. **Clone the repository**
    ```sh
-   git clone [https://github.com/YOUR_USERNAME/MotoMarket.git](https://github.com/YOUR_USERNAME/MotoMarket.git)
+   git clone [https://github.com/ernest-ostap/MotoMarket.git](https://github.com/ernest-ostap/MotoMarket.git)
    ```
 
 2. **Database Configuration**
@@ -70,5 +70,5 @@ The mobile application was primarily configured and tested for the **Android Emu
 ---
 
 ## 👨‍💻 Author
-**Twoje Imię i Nazwisko** * GitHub: [@ernest-ostap](https://github.com/ernest-ostap)
+**Ernest Ostap** * GitHub: [@ernest-ostap](https://github.com/ernest-ostap)
 * LinkedIn: [Ernest Ostap](https://www.linkedin.com/in/ernest-ostap)
